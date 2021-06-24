@@ -72,6 +72,19 @@ async def update_user_cave(user_id: int, cave: str):
     await conn.close()
     return result
 
+async def get_top_users(order_by: str, amount: int):
+    conn = await asyncpg.connect(PSQL_CONNECTION_URL)
+    stmt = await conn.prepare("SELECT * FROM users ORDER BY $1 DESC LIMIT $2")
+    result = await stmt.fetch(order_by, amount)
+    await conn.close()
+    user_list = []
+    for r in result:
+        user_data = {}
+        for field, value in r.items():
+            user_data[field] = value
+        user_list.append(user_data)
+    return user_list
+
 async def insert_equipment(user_id: int, equipment_id: int, location: str):
     await get_user(user_id)
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)

@@ -7,10 +7,15 @@ from data.equipment import Equipment
 from data.user import User
 from util.custom_cooldown_mapping import CustomCooldownMapping
 import util.dbutil as db
+from collections import Counter
+from data.blacklist import blacklist
+from util.menu import PageMenu
 
 class Mining(commands.Cog):
     def __init__(self, client):
         self.client = client
+
+    monster_failures = Counter()
 
     class MiningCooldown:
         def __init__(self):
@@ -34,6 +39,10 @@ class Mining(commands.Cog):
     @commands.check(MiningCooldown())
     async def mine(self, ctx):
         message_embed = discord.Embed(title = 'Mine!', color=discord.Color.dark_orange())
+        if ctx.author.id in blacklist:
+            message_embed.description = 'You are blacklisted.'
+            await ctx.send(embed = message_embed)
+            return
         user = await db.get_user(ctx.author.id)
         cave = Cave.from_cave_name(user['cave'])
         if cave.cave['current_quantity'] == 0:
@@ -69,6 +78,35 @@ class Mining(commands.Cog):
             await db.update_user_exp(ctx.author.id, exp_gained)
             message_embed.description += f'`{exp_gained} exp ({drop_value} + {int(drop_value * total_stats["exp"] / 100)})`\n'
         await ctx.send(embed = message_embed)
+        #Monster attack to prevent automation.
+        odds = random.randrange(100)
+        if odds <= 5:
+            emoji_list = ['🤡', '👹', '👽', '👾', '🤖', '👻', '💩']
+            action_list = [emoji_list.pop(random.randrange(len(emoji_list))) for i in range(3)]
+            correct_action = random.choice(action_list)
+            message_embed = discord.Embed(title = 'Monster!', color=discord.Color.red())
+            message_embed.description = f'{ctx.author.mention} has encountered a monster while mining! React with {correct_action} within a minute to prevent the monster from stealing coin!'
+            message = await ctx.send(embed = message_embed)
+            for action in action_list:
+                await message.add_reaction(action)
+            def check(reaction, user):
+                return user.id == ctx.author.id and reaction.message.id == message.id
+            try:
+                reaction, react_user = await self.client.wait_for('reaction_add', check = check, timeout = 60.0)
+                if reaction.emoji != correct_action:
+                    raise(asyncio.TimeoutError)
+            except asyncio.TimeoutError:
+                await db.update_user_gold(ctx.author.id, -int(user['gold'] / 2))
+                message_embed.description = f'Ouch! You did not react correctly. You lost {int(user["gold"] / 2)} gold!'
+                await message.edit(embed = message_embed)
+                self.monster_failures[ctx.author.id] += 1
+                if self.monster_failures[ctx.author.id] >= 5:
+                    blacklist[ctx.author.id] = True
+            else:
+                message_embed.description = f"Whew! You defended yourself against the monster!"
+                await message.edit(embed = message_embed)
+                self.monster_failures[ctx.author.id] = 0
+
 
     @commands.command(name = 'cave')
     async def cave(self, ctx, *, cave_name=''):
@@ -148,6 +186,19 @@ class Mining(commands.Cog):
         else:
             message_embed.description = '**__Inventory__**:\n' + User.get_inventory_str(equipment_list)
         await ctx.send(embed = message_embed)
+
+    @commands.command(name = 'leaderboard')
+    async def leaderboard(self, ctx):
+        user_list = await db.get_top_users('exp', 50)
+        leaderboard_str = ''
+        pages = []
+        for i in range(len(user_list)):
+            leaderboard_str += f'**{i + 1}.** `{self.client.get_user(user_list[i]["user_id"])}` **Level**: `{User.exp_to_level(user_list[i]["exp"])}` **EXP:** `{user_list[i]["exp"]}`\n'
+            if i % 10 == 0:
+                pages.append(leaderboard_str)
+                leaderboard_str = ''
+        menu = PageMenu('Leaderboard', discord.Color.blue(), pages)
+        await menu.start(ctx)
 
     @mine.error
     async def mine_error(self, ctx, error):
