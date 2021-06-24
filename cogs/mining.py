@@ -96,8 +96,10 @@ class Mining(commands.Cog):
                 if reaction.emoji != correct_action:
                     raise(asyncio.TimeoutError)
             except asyncio.TimeoutError:
-                await db.update_user_gold(ctx.author.id, -int(user['gold'] / 2))
-                message_embed.description = f'Ouch! You did not react correctly. You lost {int(user["gold"] / 2)} gold!'
+                await db.set_user_gold(ctx.author.id, int(user['gold'] / 2))
+                exp_lost = user['exp'] - User.level_to_exp(User.exp_to_level(user['exp']))
+                await db.set_user_exp(ctx.author.id, User.level_to_exp(User.exp_to_level(user['exp'])))
+                message_embed.description = f'Ouch! You did not react correctly. You lost {int(user["gold"] / 2)} gold! You also lost {exp_lost} exp!'
                 await message.edit(embed = message_embed)
                 self.monster_failures[ctx.author.id] += 1
                 if self.monster_failures[ctx.author.id] >= 5:
