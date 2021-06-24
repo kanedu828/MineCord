@@ -72,11 +72,12 @@ async def update_user_cave(user_id: int, cave: str):
     await conn.close()
     return result
 
-async def get_top_users(order_by: str, amount: int):
+async def get_top_users_for_exp(amount: int):
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
-    stmt = await conn.prepare("SELECT * FROM users ORDER BY $1 DESC LIMIT $2")
-    result = await stmt.fetch(order_by, amount)
+    stmt = await conn.prepare("SELECT * FROM users ORDER BY exp DESC LIMIT $1")
+    result = await stmt.fetch(amount)
     await conn.close()
+    print(result)
     user_list = []
     for r in result:
         user_data = {}
