@@ -189,14 +189,19 @@ class Mining(commands.Cog):
 
     @commands.command(name = 'leaderboard')
     async def leaderboard(self, ctx):
-        user_list = await db.get_top_users('exp', 50)
+        user_list = await db.get_top_users_for_exp(50)
+        print(user_list)
         leaderboard_str = ''
         pages = []
+        count = 0
         for i in range(len(user_list)):
             leaderboard_str += f'**{i + 1}.** `{self.client.get_user(user_list[i]["user_id"])}` **Level**: `{User.exp_to_level(user_list[i]["exp"])}` **EXP:** `{user_list[i]["exp"]}`\n'
-            if i % 10 == 0:
+            count += 1
+            if count >= 10:
                 pages.append(leaderboard_str)
                 leaderboard_str = ''
+        pages.append(leaderboard_str)
+        print(pages)
         menu = PageMenu('Leaderboard', discord.Color.blue(), pages)
         await menu.start(ctx)
 
