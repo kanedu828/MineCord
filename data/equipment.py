@@ -17,7 +17,7 @@ class Equipment:
             'name': 'Developer Pickaxe',
             'type': EquipmentType.PICKAXE,
             'stats': {
-                'speed|+': 100,        
+                'speed|+': 100,
             },
             'level_requirement': 0,
             'set': 'Developer',
@@ -33,7 +33,7 @@ class Equipment:
             },
             'level_requirement': 0,
             'set': None,
-            'value': 0,
+            'value': 100,
             'max_stars': 5
         },
         {
@@ -45,7 +45,7 @@ class Equipment:
             },
             'level_requirement': 3,
             'set': None,
-            'value': 100,
+            'value': 150,
             'max_stars': 7
         },
         {
@@ -62,6 +62,19 @@ class Equipment:
             'max_stars': 12
         },
         {
+            'id': 1400,
+            'name': 'Ice Pickaxe',
+            'type': EquipmentType.PICKAXE,
+            'stats': {
+                'power|+': 15,
+                'speed|+': 5,
+            },
+            'level_requirement': 20,
+            'set': 'Ice',
+            'value': 1000,
+            'max_stars': 18
+        },
+        {
             'id': 2100,
             'name': 'Dark Helmet',
             'type': EquipmentType.HELMET,
@@ -72,6 +85,19 @@ class Equipment:
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
+        },
+        {
+            'id': 2200,
+            'name': 'Absolute Helmet',
+            'type': EquipmentType.HELMET,
+            'stats': {
+                'power|+': 67,
+                'power|%': 5,
+            },
+            'level_requirement': 100,
+            'set': 'Absolute',
+            'value': 10000,
+            'max_stars': 24
         },
         {
             'id': 3100,
@@ -85,6 +111,19 @@ class Equipment:
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
+        },
+        {
+            'id': 3200,
+            'name': 'Beetle Armor Vest',
+            'type': EquipmentType.VEST,
+            'stats': {
+                'power|+': 20,
+                'exp|+': 4,
+            },
+            'level_requirement': 30,
+            'set': None,
+            'value': 400,
+            'max_stars': 18
         },
         {
             'id': 4100,
@@ -122,6 +161,17 @@ class Equipment:
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
+        },
+        {
+            'id': 6200,
+            'name': 'Pure Gloves',
+            'type': EquipmentType.GLOVES,
+            'stats': {
+            },
+            'level_requirement': 20,
+            'set': None,
+            'value': 400,
+            'max_stars': 24
         }
 
     ]

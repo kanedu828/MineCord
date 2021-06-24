@@ -100,7 +100,6 @@ async def get_top_users_for_exp(amount: int):
     stmt = await conn.prepare("SELECT * FROM users ORDER BY exp DESC LIMIT $1")
     result = await stmt.fetch(amount)
     await conn.close()
-    print(result)
     user_list = []
     for r in result:
         user_data = {}
