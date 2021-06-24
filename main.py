@@ -4,13 +4,15 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+intents = discord.Intents.default()  # All but the two privileged ones
+intents.members = True  # Subscribe to the Members intent
 PRODUCTION = os.getenv('PRODUCTION')
 if PRODUCTION == 'False':
     TOKEN = os.getenv('TOKEN_DEVELOPMENT')
-    client = commands.Bot(command_prefix='-')
+    client = commands.Bot(command_prefix='-', intents=intents)
 else:
     TOKEN = os.getenv('TOKEN')
-    client = commands.Bot(command_prefix=';')
+    client = commands.Bot(command_prefix=';', intents=intents)
 
 client.remove_command('help')
 
@@ -58,7 +60,7 @@ async def reload(ctx, extension):
 async def on_ready():
     print("Bot is ready")
 
-    game = discord.Game('Hello World!')
+    game = discord.Game('<3!')
     await client.change_presence(activity=game)
 
 if __name__ == '__main__':

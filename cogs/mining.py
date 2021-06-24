@@ -9,6 +9,7 @@ from util.custom_cooldown_mapping import CustomCooldownMapping
 import util.dbutil as db
 from collections import Counter
 from data.blacklist import blacklist
+from util.menu import PageMenu
 
 class Mining(commands.Cog):
     def __init__(self, client):
@@ -185,6 +186,19 @@ class Mining(commands.Cog):
         else:
             message_embed.description = '**__Inventory__**:\n' + User.get_inventory_str(equipment_list)
         await ctx.send(embed = message_embed)
+
+    @commands.command(name = 'leaderboard')
+    async def leaderboard(self, ctx):
+        user_list = await db.get_top_users('exp', 50)
+        leaderboard_str = ''
+        pages = []
+        for i in range(len(user_list)):
+            leaderboard_str += f'**{i + 1}.** `{self.client.get_user(user_list[i]["user_id"])}` **Level**: `{User.exp_to_level(user_list[i]["exp"])}` **EXP:** `{user_list[i]["exp"]}`\n'
+            if i % 10 == 0:
+                pages.append(leaderboard_str)
+                leaderboard_str = ''
+        menu = PageMenu('Leaderboard', discord.Color.blue(), pages)
+        await menu.start(ctx)
 
     @mine.error
     async def mine_error(self, ctx, error):

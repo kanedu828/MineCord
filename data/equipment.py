@@ -17,11 +17,7 @@ class Equipment:
             'name': 'Developer Pickaxe',
             'type': EquipmentType.PICKAXE,
             'stats': {
-                'power|+': 100,
-                'speed|+': 100,
-                'exp|+': 100,
-                'luck|+': 100,
-                'power|%': 20,
+                'speed|+': 100,        
             },
             'level_requirement': 0,
             'set': 'Developer',
