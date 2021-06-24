@@ -94,7 +94,7 @@ class Cave:
             'max_quantity': 10000,
         },
         {
-            'name': 'Ice Cave II',
+            'name': 'Ice Cave 2',
             'level_requirement': 25,
             'exp': 10,
             'drop_odds': [0.4, 0.3, 0.285, 0.01, 0.005],
