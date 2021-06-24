@@ -73,6 +73,7 @@ class Mining(commands.Cog):
                     await db.update_user_gold(ctx.author.id, base_equipment["value"])
             else:
                 await db.insert_equipment(ctx.author.id, drop_value, 'inventory')
+                message_embed.description += f'`You mined a {base_equipment["name"]}!`\n'
         elif drop_type == Drop.EXP:
             exp_gained = drop_value + int(drop_value * total_stats['exp'] / 100)
             await db.update_user_exp(ctx.author.id, exp_gained)
