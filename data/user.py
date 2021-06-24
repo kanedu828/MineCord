@@ -8,15 +8,16 @@ class User:
 
     @staticmethod
     def exp_to_level(exp: int):
-        a = 10
-        b = 10
-        c = -exp
-        level = (-b + math.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
-        return int(level)
+        # a = 10
+        # b = 10
+        # c = -exp
+        # level = (-b + math.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
+        return int(math.log((exp + 164)/165, 1.15))
 
     @staticmethod
     def level_to_exp(level:int):
-        return 10 * level + 10 * level ** 2
+        #return 10 * level + 10 * level ** 2
+        return math.ceil(165 * 1.15 ** level - 164)
 
     @staticmethod
     def get_exp_bar(exp: int):
