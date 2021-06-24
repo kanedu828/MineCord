@@ -53,9 +53,9 @@ class Mining(commands.Cog):
         equipment_list = await db.get_equipment_for_user(ctx.author.id)
         total_stats = User.get_total_stats(ctx.author.id, equipment_list)
         message_embed.description = f'**{ctx.author.mention} mined at {cave.cave["name"]} and found:**\n'
-        exp_gained = cave.cave['exp'] + int(cave.cave['exp'] * total_stats['exp'] / 100)
+        exp_gained = cave.cave['exp'] + total_stats['exp']
         await db.update_user_exp(ctx.author.id, exp_gained)
-        message_embed.description += f'`{exp_gained} exp ({cave.cave["exp"]} + {int(cave.cave["exp"] * total_stats["exp"] / 100)})`\n'
+        message_embed.description += f'`{exp_gained} exp ({cave.cave["exp"]} + {total_stats["exp"]})`\n'
         if drop_type == Drop.GOLD:
             gold = drop_value + total_stats['power']
             await db.update_user_gold(ctx.author.id, gold)
@@ -75,9 +75,9 @@ class Mining(commands.Cog):
                 await db.insert_equipment(ctx.author.id, drop_value, 'inventory')
                 message_embed.description += f'`You mined a {base_equipment["name"]}!`\n'
         elif drop_type == Drop.EXP:
-            exp_gained = drop_value + int(drop_value * total_stats['exp'] / 100)
+            exp_gained = drop_value + total_stats['exp']
             await db.update_user_exp(ctx.author.id, exp_gained)
-            message_embed.description += f'`{exp_gained} exp ({drop_value} + {int(drop_value * total_stats["exp"] / 100)})`\n'
+            message_embed.description += f'`{exp_gained} exp ({drop_value} + {total_stats["exp"]})`\n'
         await ctx.send(embed = message_embed)
         #Monster attack to prevent automation.
         odds = random.randrange(100)
