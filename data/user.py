@@ -11,7 +11,7 @@ class User:
         a = 10
         b = 10
         c = -exp
-        level = (-b + math.sqrt(b^2 - 4 * a * c)) / (2 * a)
+        level = (-b + math.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
         return int(level)
 
     @staticmethod
