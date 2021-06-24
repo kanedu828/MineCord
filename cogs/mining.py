@@ -36,7 +36,7 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title = 'Mine!', color=discord.Color.dark_orange())
         user = await db.get_user(ctx.author.id)
         cave = Cave.from_cave_name(user['cave'])
-        if cave.cave['current_quantity'] <= 0:
+        if cave.cave['current_quantity'] == 0:
             message_embed.description = f'{cave.cave["name"]} cannot be mined anymore.'
             await ctx.send(embed = message_embed)
             return
