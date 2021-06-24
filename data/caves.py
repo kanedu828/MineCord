@@ -103,7 +103,7 @@ class Cave:
         if self.cave['current_quantity'] > 0:
             self.cave['current_quantity'] -= 1
         elif self.cave['current_quantity'] == 0:
-            return None
+            return (None, None)
         drop_quality = random.choices(Cave._drops, self.cave['drop_odds'])[0]
         if drop_quality:
             drop = random.choice(self.cave[drop_quality])
