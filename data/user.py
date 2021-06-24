@@ -71,7 +71,7 @@ class User:
     @staticmethod
     def get_equipped_gear_str(equipment_list):
         equipped_gear = [Equipment.get_equipment_from_id(gear['equipment_id']) for gear in equipment_list if not gear['location'] == 'inventory']
-        gear_str = '\n'.join([f'`{gear["type"].value}:` `{gear["name"]}`' for gear in equipped_gear])
+        gear_str = '\n'.join([f'`{gear["type"].value.title()}:` `{gear["name"]}`' for gear in equipped_gear])
         return gear_str
 
     @staticmethod
