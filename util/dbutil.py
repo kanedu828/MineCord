@@ -50,6 +50,18 @@ async def update_user_exp(user_id: int, amount: int):
     await conn.close()
     return result
 
+async def set_user_exp(user_id: int, amount: int):
+    '''
+        Set amount to the user's exp. Returns a record object.
+    '''
+    await get_user(user_id)
+    conn = await asyncpg.connect(PSQL_CONNECTION_URL)
+    stmt = await conn.prepare("UPDATE users SET exp=$2 WHERE user_id=$1 RETURNING user_id, exp, cave, gold")
+    result = await stmt.fetch(user_id, amount)
+    await conn.close()
+    return result
+
+
 async def update_user_gold(user_id: int, amount: int):
     '''
         Adds amount to the user's gold. Returns a record object.
@@ -57,6 +69,17 @@ async def update_user_gold(user_id: int, amount: int):
     await get_user(user_id)
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
     stmt = await conn.prepare("UPDATE users SET gold=gold + $2 WHERE user_id=$1 RETURNING user_id, exp, cave, gold")
+    result = await stmt.fetch(user_id, amount)
+    await conn.close()
+    return result
+
+async def set_user_gold(user_id: int, amount: int):
+    '''
+        Set amount to the user's gold. Returns a record object.
+    '''
+    await get_user(user_id)
+    conn = await asyncpg.connect(PSQL_CONNECTION_URL)
+    stmt = await conn.prepare("UPDATE users SET gold=$2 WHERE user_id=$1 RETURNING user_id, exp, cave, gold")
     result = await stmt.fetch(user_id, amount)
     await conn.close()
     return result
