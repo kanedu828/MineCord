@@ -36,6 +36,10 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title = 'Mine!', color=discord.Color.dark_orange())
         user = await db.get_user(ctx.author.id)
         cave = Cave.from_cave_name(user['cave'])
+        if cave.cave['current_quantity'] <= 0:
+            message_embed.description = f'{cave.cave["name"]} cannot be mined anymore.'
+            await ctx.send(embed = message_embed)
+            return
         drop_type, drop_value = cave.mine_cave()
         equipment_list = await db.get_equipment_for_user(ctx.author.id)
         total_stats = User.get_total_stats(ctx.author.id, equipment_list)
@@ -76,7 +80,9 @@ class Mining(commands.Cog):
         if cave_quantity == -1:
             cave_quantity = 'Infinite'
         message_embed = discord.Embed(title = 'Cave', color=discord.Color.dark_orange())
-        if cave_name and Cave.verify_cave(cave_name) and user_level >= cave.cave['level_requirement']:
+        to_cave = Cave.from_cave_name(cave_name)
+        if cave_name and Cave.verify_cave(cave_name) and user_level >= to_cave.cave['level_requirement']:
+            print('reach')
             await db.update_user_cave(ctx.author.id, cave_name)
             message_embed.description = f'You have switched to {cave_name}.'
         else:

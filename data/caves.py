@@ -68,7 +68,19 @@ class Cave:
             Rarity.LEGENDARY: [(Drop.GOLD, 300), (Drop.EQUIPMENT, 1300), (Drop.EQUIPMENT, 6100), (Drop.EQUIPMENT, 3100), (Drop.EQUIPMENT, 4100)],
             'current_quantity': 10000,
             'max_quantity': 10000,
-        }
+        },
+        {
+            'name': 'Ender Cave',
+            'level_requirement': 100,
+            'exp': 1200,
+            'drop_odds': [1, 0, 0, 0, 0],
+            Rarity.COMMON: [(Drop.GOLD, 10)],
+            Rarity.RARE: [(Drop.GOLD, 100)],
+            Rarity.EPIC: [(Drop.GOLD, 150), (Drop.EQUIPMENT, 2100), (Drop.EQUIPMENT, 5100)],
+            Rarity.LEGENDARY: [(Drop.GOLD, 300), (Drop.EQUIPMENT, 1300), (Drop.EQUIPMENT, 6100), (Drop.EQUIPMENT, 3100), (Drop.EQUIPMENT, 4100)],
+            'current_quantity': 10000,
+            'max_quantity': 10000,
+        },
     ]
 
     def __init__(self, cave):
