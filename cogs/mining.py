@@ -202,6 +202,7 @@ class Mining(commands.Cog):
             if count >= 10:
                 pages.append(leaderboard_str)
                 leaderboard_str = ''
+                count = 0
         pages.append(leaderboard_str)
         menu = PageMenu('Leaderboard', discord.Color.blue(), pages)
         await menu.start(ctx)
