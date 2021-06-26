@@ -1,5 +1,6 @@
 import random
 from enum import Enum
+from copy import copy
 
 class Drop(Enum):
     GOLD = 'gold'
@@ -141,7 +142,7 @@ class Cave:
                 return cls(cave)
         return None
 
-    def mine_cave(self):
+    def mine_cave(self, luck=0):
         '''
             Returns a two tuple of the drop.
             (DropType, DropValue)
@@ -152,7 +153,10 @@ class Cave:
             self.cave['current_quantity'] -= 1
         elif self.cave['current_quantity'] == 0:
             return (None, None)
-        drop_quality = random.choices(Cave._drops, self.cave['drop_odds'])[0]
+        drop_odds = copy(self.cave['drop_odds'])
+        drop_odds[4] += luck / 10000
+        drop_odds[3] += luck / 10000
+        drop_quality = random.choices(Cave._drops, drop_odds)[0]
         if drop_quality:
             drop = random.choice(self.cave[drop_quality])
             return drop

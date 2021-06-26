@@ -147,6 +147,13 @@ async def update_equipment_stars(user_id: int, equipment_id: int, amount: int):
     await conn.close()
     return result
 
+async def update_equipment_bonus(user_id: int, equipment_id: int, bonus: str):
+    conn = await asyncpg.connect(PSQL_CONNECTION_URL)
+    stmt = await conn.prepare("UPDATE equipment SET bonus=$3 WHERE user_id=$1 AND equipment_id=$2 RETURNING *")
+    result = await stmt.fetch(user_id, equipment_id, bonus)
+    await conn.close()
+    return result
+
 
 if __name__ == '__main__':
     #print(asyncio.get_event_loop().run_until_complete(update_user_cave(124668192948748288, 'Beginner Cave')))

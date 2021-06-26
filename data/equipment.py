@@ -1,4 +1,6 @@
 from enum import Enum
+import random
+import discord
 
 class EquipmentType(Enum):
     PICKAXE = 'pickaxe'
@@ -11,6 +13,14 @@ class EquipmentType(Enum):
 
 class Equipment:
 
+    lines_to_color = {
+        0: discord.Color.light_gray(),
+        1: discord.Color.green(),
+        2: discord.Color.blue(),
+        3: discord.Color.purple(),
+        4: discord.Color.orange(),
+    }
+
     _equipment = [
         {
             'id': 1000,
@@ -22,7 +32,7 @@ class Equipment:
             'level_requirement': 0,
             'set': 'Developer',
             'value': 0,
-            'max_stars': 25
+            'max_stars': 24
         },
         {
             'id': 1100,
@@ -171,10 +181,33 @@ class Equipment:
             'level_requirement': 20,
             'set': None,
             'value': 400,
+            'max_stars': 18
+        },
+        {
+            'id': 6300,
+            'name': 'Superior Pure Gloves',
+            'type': EquipmentType.GLOVES,
+            'stats': {
+            },
+            'level_requirement': 50,
+            'set': None,
+            'value': 8000,
             'max_stars': 24
-        }
-
+        },
+        {
+            'id': 6400,
+            'name': 'Mastercrafted Pure Gloves',
+            'type': EquipmentType.GLOVES,
+            'stats': {
+            },
+            'level_requirement': 100,
+            'set': None,
+            'value': 20000,
+            'max_stars': 32
+        },
     ]
+
+    stat_types = ['power', 'speed', 'luck', 'exp']
 
     def __init__(self):
         pass
@@ -203,3 +236,31 @@ class Equipment:
             if stars % 5 == 0:
                 adder += 1
         return star_bonus
+
+    @staticmethod
+    def get_bonus_for_weapon(name: str, current_lines: int):
+        '''
+            Bonuses formatted as: stat|modifier|value,...,
+
+            Returns string representing equipment bonus.
+        '''
+        #Amount of lines in a bonus
+        upgrade_odds = {
+            1: 1,
+            2: .1,
+            3: .05,
+            4: .025,
+            5: .01
+        }
+        base_equipment = Equipment.get_equipment_from_name(name)
+        lines = random.choices([current_lines, current_lines + 1], [1 - upgrade_odds[current_lines + 1], upgrade_odds[current_lines + 1]])[0]
+        bonus = ''
+        for i in range(lines):
+            stat = random.choice(Equipment.stat_types)
+            modifier = random.choices(['+', '%'], [.65, .35])[0]
+            if modifier == '+':
+                value = random.randint(int(base_equipment['level_requirement'] / 2), base_equipment['level_requirement'])
+            else:
+                value = random.randint(int(base_equipment['level_requirement'] / 4), base_equipment['level_requirement'] / 2)
+            bonus += f'{stat}|{modifier}|{value},'
+        return bonus

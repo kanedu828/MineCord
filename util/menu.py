@@ -33,3 +33,26 @@ class PageMenu(menus.Menu):
     @menus.button('🛑')
     async def on_stop(self, payload):
         self.stop()
+
+class ConfirmationMenu(menus.Menu):
+    def __init__(self, message_embed):
+        super().__init__(timeout=30.0, delete_message_after=True)
+        self.message_embed = message_embed
+        self.result = None
+
+    async def send_initial_message(self, ctx, channel):
+        return await channel.send(embed = self.message_embed)
+
+    @menus.button('\N{WHITE HEAVY CHECK MARK}')
+    async def do_confirm(self, payload):
+        self.result = True
+        self.stop()
+
+    @menus.button('\N{CROSS MARK}')
+    async def do_deny(self, payload):
+        self.result = False
+        self.stop()
+
+    async def prompt(self, ctx):
+        await self.start(ctx, wait=True)
+        return self.result
