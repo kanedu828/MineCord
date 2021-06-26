@@ -9,7 +9,7 @@ from util.custom_cooldown_mapping import CustomCooldownMapping
 import util.dbutil as db
 from collections import Counter
 from data.blacklist import blacklist
-from util.menu import PageMenu
+from util.menu import PageMenu, ConfirmationMenu
 
 class Mining(commands.Cog):
     def __init__(self, client):
@@ -49,9 +49,9 @@ class Mining(commands.Cog):
             message_embed.description = f'{cave.cave["name"]} cannot be mined anymore.'
             await ctx.send(embed = message_embed)
             return
-        drop_type, drop_value = cave.mine_cave()
         equipment_list = await db.get_equipment_for_user(ctx.author.id)
         total_stats = User.get_total_stats(ctx.author.id, equipment_list)
+        drop_type, drop_value = cave.mine_cave(total_stats['luck'])
         message_embed.description = f'**{ctx.author.mention} mined at {cave.cave["name"]} and found:**\n'
         exp_gained = cave.cave['exp'] + total_stats['exp']
         await db.update_user_exp(ctx.author.id, exp_gained)
@@ -65,7 +65,7 @@ class Mining(commands.Cog):
             equipment = User.get_equipment_from_id(equipment_list, drop_value)
             base_equipment = Equipment.get_equipment_from_id(drop_value)
             if equipment:
-                if equipment['stars'] <= base_equipment['max_stars']:
+                if equipment['stars'] < base_equipment['max_stars']:
                     await db.update_equipment_stars(ctx.author.id, drop_value, 1)
                     message_embed.description += f'`{base_equipment["name"]}. Equipment star level increased!`\n'
                 else:
@@ -173,6 +173,7 @@ class Mining(commands.Cog):
         equipment_list = await db.get_equipment_for_user(ctx.author.id)
         gear_str = User.get_equipment_stats_str(equipment_list, equipment_name)
         if equipment_name and gear_str:
+            message_embed.color = Equipment.lines_to_color[User.get_lines_for_equipment(equipment_list, equipment_name)]
             message_embed.description = gear_str
         else:
             message_embed.description = '**__Equipped Gear__**:\n' + User.get_equipped_gear_str(equipment_list)
@@ -206,6 +207,32 @@ class Mining(commands.Cog):
         pages.append(leaderboard_str)
         menu = PageMenu('Leaderboard', discord.Color.blue(), pages)
         await menu.start(ctx)
+
+    @commands.command(name = 'bonus')
+    async def bonus(self, ctx, *, equipment_name):
+        equipment_name = equipment_name.title()
+        user = await db.get_user(ctx.author.id)
+        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        equipment = User.get_equipment_from_name(equipment_list, equipment_name)
+        message_embed = discord.Embed(title = 'Equipment Bonusing', color=discord.Color.from_rgb(245, 211, 201))
+        if equipment:
+            message_embed.description = f'Would you like to bonus your {equipment_name} for 1000 gold?'
+            result = await ConfirmationMenu(message_embed).prompt(ctx)
+            if result:
+                if user['gold'] >= 1000:
+                    await db.update_user_gold(ctx.author.id, -1000)
+                    current_lines = User.get_lines_for_equipment(equipment_list, equipment_name)
+                    bonus = Equipment.get_bonus_for_weapon(equipment_name, current_lines)
+                    await db.update_equipment_bonus(ctx.author.id, equipment['equipment_id'], bonus)
+                    equipment_list = await db.get_equipment_for_user(ctx.author.id)
+                    message_embed.description = User.get_equipment_stats_str(equipment_list, equipment_name)
+                    message_embed.color = Equipment.lines_to_color[User.get_lines_for_equipment(equipment_list, equipment_name)]
+                else:
+                    message_embed.description = 'You do not have enough gold...'
+        else:
+            message_embed.description = 'You do not own this piece of equipment...'
+        await ctx.send(embed = message_embed)
+
 
     @mine.error
     async def mine_error(self, ctx, error):

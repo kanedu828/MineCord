@@ -53,11 +53,11 @@ class User:
                     bonus_percentages[stat] += value
             for bonus in e['bonus'].split(','):
                 if bonus != '':
-                    stat, modifier, value = key.split('|')
+                    stat, modifier, value = bonus.split('|')
                     if modifier == '+':
-                        stats[stat] += value
+                        stats[stat] += int(value)
                     elif modifier == '%':
-                        bonus_percentages[stat] += value
+                        bonus_percentages[stat] += int(value)
         for key,value in bonus_percentages.items():
             stats[key] = int(stats[key] + stats[key] * (value / 100))
         return stats
@@ -99,10 +99,10 @@ class User:
                     stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"])} ({value} + {Equipment.get_star_bonus(equipment["stars"])})`\n'
                 elif modifier == '%':
                     stats_str += f'`{stat}: {value}{modifier}`\n'
-            stats_str += '----------Bonuses----------'
+            stats_str += '----------Bonuses----------\n'
             for bonus in equipment['bonus'].split(','):
                 if bonus != '':
-                    stat, modifier, value = key.split('|')
+                    stat, modifier, value = bonus.split('|')
                     if modifier == '+':
                         stats_str += f'`{modifier}{value} {stat}`\n'
                     elif modifier == '%':
@@ -126,3 +126,8 @@ class User:
             if e['equipment_id'] == equipment_id:
                 return e
         return None
+
+    @staticmethod
+    def get_lines_for_equipment(equipment_list, equipment_name):
+        equipment = User.get_equipment_from_name(equipment_list, equipment_name)
+        return len([bonus for bonus in equipment['bonus'].split(',') if not bonus == ''])
