@@ -19,7 +19,7 @@ class Equipment:
         2: discord.Color.blue(),
         3: discord.Color.purple(),
         4: discord.Color.orange(),
-        5: Discord.Color.red(),
+        5: discord.Color.red(),
     }
 
     _equipment = [
