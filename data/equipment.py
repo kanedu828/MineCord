@@ -251,7 +251,7 @@ class Equipment:
             2: .1,
             3: .05,
             4: .025,
-            5: .016,
+            5: .01,
             6: 0,
         }
         base_equipment = Equipment.get_equipment_from_name(name)
