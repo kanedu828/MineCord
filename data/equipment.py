@@ -29,7 +29,7 @@ class Equipment:
             'stats': {
                 'speed|+': 100,
             },
-            'level_requirement': 0,
+            'level': 0,
             'set': 'Developer',
             'value': 0,
             'max_stars': 24
@@ -41,7 +41,7 @@ class Equipment:
             'stats': {
                 'power|+': 1,
             },
-            'level_requirement': 0,
+            'level': 0,
             'set': None,
             'value': 100,
             'max_stars': 5
@@ -53,7 +53,7 @@ class Equipment:
             'stats': {
                 'power|+': 3
             },
-            'level_requirement': 3,
+            'level': 3,
             'set': None,
             'value': 150,
             'max_stars': 7
@@ -66,7 +66,7 @@ class Equipment:
                 'power|+': 10,
                 'exp|+': 5,
             },
-            'level_requirement': 10,
+            'level': 10,
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
@@ -79,7 +79,7 @@ class Equipment:
                 'power|+': 15,
                 'speed|+': 5,
             },
-            'level_requirement': 20,
+            'level': 20,
             'set': 'Ice',
             'value': 1000,
             'max_stars': 18
@@ -91,7 +91,7 @@ class Equipment:
             'stats': {
                 'power|+': 1,
             },
-            'level_requirement': 10,
+            'level': 10,
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
@@ -104,7 +104,7 @@ class Equipment:
                 'power|+': 67,
                 'power|%': 5,
             },
-            'level_requirement': 100,
+            'level': 100,
             'set': 'Absolute',
             'value': 10000,
             'max_stars': 24
@@ -117,7 +117,7 @@ class Equipment:
                 'power|+': 3,
                 'exp|+': 2,
             },
-            'level_requirement': 10,
+            'level': 10,
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
@@ -130,7 +130,7 @@ class Equipment:
                 'power|+': 20,
                 'exp|+': 4,
             },
-            'level_requirement': 30,
+            'level': 30,
             'set': None,
             'value': 400,
             'max_stars': 18
@@ -143,7 +143,7 @@ class Equipment:
                 'power|+': 2,
                 'exp|+': 3,
             },
-            'level_requirement': 10,
+            'level': 10,
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
@@ -155,7 +155,7 @@ class Equipment:
             'stats': {
                 'exp|+': 1,
             },
-            'level_requirement': 10,
+            'level': 10,
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
@@ -167,7 +167,7 @@ class Equipment:
             'stats': {
                 'power|%': 5,
             },
-            'level_requirement': 10,
+            'level': 10,
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
@@ -178,7 +178,7 @@ class Equipment:
             'type': EquipmentType.GLOVES,
             'stats': {
             },
-            'level_requirement': 20,
+            'level': 30,
             'set': None,
             'value': 400,
             'max_stars': 18
@@ -189,7 +189,7 @@ class Equipment:
             'type': EquipmentType.GLOVES,
             'stats': {
             },
-            'level_requirement': 50,
+            'level': 60,
             'set': None,
             'value': 8000,
             'max_stars': 24
@@ -200,7 +200,7 @@ class Equipment:
             'type': EquipmentType.GLOVES,
             'stats': {
             },
-            'level_requirement': 100,
+            'level': 100,
             'set': None,
             'value': 20000,
             'max_stars': 32
@@ -259,8 +259,8 @@ class Equipment:
             stat = random.choice(Equipment.stat_types)
             modifier = random.choices(['+', '%'], [.65, .35])[0]
             if modifier == '+':
-                value = random.randint(int(base_equipment['level_requirement'] / 2), base_equipment['level_requirement'])
+                value = random.randint(int(base_equipment['level'] / 2), base_equipment['level'])
             else:
-                value = random.randint(int(base_equipment['level_requirement'] / 4), base_equipment['level_requirement'] / 2)
+                value = random.randint(int(base_equipment['level'] / 4), base_equipment['level'] / 2)
             bonus += f'{stat}|{modifier}|{value},'
         return bonus
