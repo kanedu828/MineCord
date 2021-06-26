@@ -32,7 +32,7 @@ If you understand the cave list in that file and you would like to help out, fee
 ## Equipment
 You can find various equipment while mining. There are 6 different types of equipment: Helmet, vest, pants, gloves, pickaxe, and boots.\
 Each equipment gives you stats and it is totaled into your total stats, which you can see with ;stats.\
-There are two ways you can upgrade your equipment.\
+There are two ways you can upgrade your equipment.
 1. Star level: You gain a star for each duplicate equipment you have. Increasing your star level only increases the equipment's base stats. For example, if an equipment only has power and speed base stats, only power and speed will be upgraded. The first 5 stars give + 1 to each stat per star, the next 5 stars give +2, and so on.
 2. Bonus: You can roll for bonuses with the ;bonus <equipment name> command. You will randomly get random stats. You can recieve up to 5 bonuses for a piece of equipment. Refer to the bonus section for more information.
 
