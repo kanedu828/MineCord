@@ -158,4 +158,4 @@ async def update_equipment_bonus(user_id: int, equipment_id: int, bonus: str):
 if __name__ == '__main__':
     #print(asyncio.get_event_loop().run_until_complete(update_user_cave(124668192948748288, 'Beginner Cave')))
     #print(asyncio.get_event_loop().run_until_complete(get_equipment_for_user(124668192948748288)))
-    print(asyncio.get_event_loop().run_until_complete(insert_equipment(124668192948748288, 1300, 'inventory')))
+    print(asyncio.get_event_loop().run_until_complete(insert_equipment(124668192948748288, 6400, 'inventory')))
