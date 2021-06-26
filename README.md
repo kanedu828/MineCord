@@ -37,3 +37,18 @@ Exp: You get x amount of extra exp each time you mine exp.\
 Luck: Your chances of recieving Epic or Legendary loot is increased by luck / 10,000.\
 Your stats can be added raw (+) or added as a percentage (%).\
 For example, if you have power + 6, you will get 6 power to your total power stat. If you have ower 6%, you will get an additional 6% of your total power added to your total power.
+Your total amount of stats is determined by all of your equipped equipment.
+
+## Bonus
+You can give your equipment bonus stats through the `;bonus <equipment name>` command. This will cost 1000 gold.\
+Currently you can recieve up to 5 bonus stats. When you first bonus your equipment, you will start off with one bonus. However, if you continue to bonus your equipment, you will reroll your bonuses with the chance to recieve another bonus.\
+Here are the odds for getting extra bonuses:\
+0 -> 1 bonus stats: 100%\
+1 -> 2 bonus stats: 10%\
+2 -> 3 bonus stats: 5%\
+3 -> 4 bonus stats: 2.5%\
+4 -> 5 bonus stats: 1%\
+Additionally, the higher level your equipment, the better bonuses it will get.
+
+If you have a good understanding of mining and you don't like how things are explained, feel free to create a pull request and edit this README.
+

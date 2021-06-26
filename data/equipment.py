@@ -19,6 +19,7 @@ class Equipment:
         2: discord.Color.blue(),
         3: discord.Color.purple(),
         4: discord.Color.orange(),
+        5: Discord.Color.red(),
     }
 
     _equipment = [
@@ -250,7 +251,8 @@ class Equipment:
             2: .1,
             3: .05,
             4: .025,
-            5: .01
+            5: .016,
+            6: 0,
         }
         base_equipment = Equipment.get_equipment_from_name(name)
         lines = random.choices([current_lines, current_lines + 1], [1 - upgrade_odds[current_lines + 1], upgrade_odds[current_lines + 1]])[0]
