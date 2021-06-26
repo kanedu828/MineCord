@@ -150,6 +150,20 @@ class Equipment:
             'max_stars': 12
         },
         {
+            'id': 4200,
+            'name': 'Damian Pants',
+            'type': EquipmentType.PANTS,
+            'stats': {
+                'power|+': 32,
+                'exp|+': 5,
+                'speed|+': 5,
+            },
+            'level': 30,
+            'set': 'Damian',
+            'value': 4500,
+            'max_stars': 24
+        },
+        {
             'id': 5100,
             'name': 'Dark Boots',
             'type': EquipmentType.BOOTS,
@@ -160,6 +174,19 @@ class Equipment:
             'set': 'Dark',
             'value': 400,
             'max_stars': 12
+        },
+        {
+            'id': 5200,
+            'name': 'Damian Boots',
+            'type': EquipmentType.BOOTS,
+            'stats': {
+                'power|+': 20,
+                'exp|%': 10,
+            },
+            'level': 30,
+            'set': 'Damian',
+            'value': 4500,
+            'max_stars': 24
         },
         {
             'id': 6100,
