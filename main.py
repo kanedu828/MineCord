@@ -17,7 +17,8 @@ else:
 client.remove_command('help')
 
 extensions = [
-    'cogs.mining'
+    'cogs.mining',
+    'cogs.help'
 ]
 
 def check_if_me(ctx):
