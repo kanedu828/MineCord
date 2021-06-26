@@ -47,7 +47,9 @@ Here are the odds for getting extra bonuses:\
 1 -> 2 bonus stats: 10%\
 2 -> 3 bonus stats: 5%\
 3 -> 4 bonus stats: 2.5%\
-4 -> 5 bonus stats: 1%
+4 -> 5 bonus stats: 1%\
+\
+Additionally, the higher level your equipment, the better bonuses it will get.
 
 If you have a good understanding of mining and you don't like how things are explained, feel free to create a pull request and edit this README.
 
