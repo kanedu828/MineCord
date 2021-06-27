@@ -41,7 +41,7 @@ Current there are four different stats for a user: power, speed, exp, luck\
 Power: You get x amount of extra gold each time you mine gold.\
 Speed: Cooldown for mining reduced by speed / 100. (This stat will most likely be nerfed)\
 Exp: You get x amount of extra exp each time you mine exp.\
-Luck: Your chances of recieving Epic or Legendary loot is increased by luck / 10,000.\
+Luck: Your chances of recieving Epic or Legendary loot is increased by luck / 100 %.\
 Your stats can be added raw (+) or added as a percentage (%).\
 For example, if you have power + 6, you will get 6 power to your total power stat. If you have ower 6%, you will get an additional 6% of your total power added to your total power.
 Your total amount of stats is determined by all of your equipped equipment.
