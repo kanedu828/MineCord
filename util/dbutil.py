@@ -2,15 +2,19 @@ import asyncpg
 import asyncio
 import os
 from dotenv import load_dotenv
+
+
 load_dotenv()
 
 PSQL_CONNECTION_URL = os.getenv('PSQL_CONNECTION_URL')
 
+
 async def get_all_users():
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
     stmt = await conn.prepare("SELECT * FROM users")
-    #print(await stmt.fetch())
+    print(await stmt.fetch())
     await conn.close()
+
 
 async def insert_user(id: int):
     '''
@@ -22,6 +26,7 @@ async def insert_user(id: int):
     result = await stmt.fetch(id)
     await conn.close()
     return result
+
 
 async def get_user(id: int):
     '''
@@ -39,6 +44,7 @@ async def get_user(id: int):
         user_data[field] = value
     return user_data
 
+
 async def update_user_exp(user_id: int, amount: int):
     '''
         Adds amount to the user's exp. Returns a record object.
@@ -49,6 +55,7 @@ async def update_user_exp(user_id: int, amount: int):
     result = await stmt.fetch(user_id, amount)
     await conn.close()
     return result
+
 
 async def set_user_exp(user_id: int, amount: int):
     '''
@@ -73,6 +80,7 @@ async def update_user_gold(user_id: int, amount: int):
     await conn.close()
     return result
 
+
 async def set_user_gold(user_id: int, amount: int):
     '''
         Set amount to the user's gold. Returns a record object.
@@ -84,6 +92,7 @@ async def set_user_gold(user_id: int, amount: int):
     await conn.close()
     return result
 
+
 async def update_user_cave(user_id: int, cave: str):
     '''
         Updates an user's cave. Returns a record object.
@@ -94,6 +103,7 @@ async def update_user_cave(user_id: int, cave: str):
     result = await stmt.fetch(user_id, cave)
     await conn.close()
     return result
+
 
 async def get_top_users_for_exp(amount: int):
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
@@ -108,13 +118,18 @@ async def get_top_users_for_exp(amount: int):
         user_list.append(user_data)
     return user_list
 
+
 async def insert_equipment(user_id: int, equipment_id: int, location: str):
     await get_user(user_id)
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
-    stmt = await conn.prepare("INSERT INTO equipment(equipment_id, user_id, location) VALUES ($1, $2, $3) RETURNING equipment_instance_id, equipment_id, user_id, location, bonus, stars")
+    stmt = await conn.prepare("""
+        INSERT INTO equipment(equipment_id, user_id, location)
+        VALUES ($1, $2, $3)
+        RETURNING equipment_instance_id, equipment_id, user_id, location, bonus, stars""")
     result = await stmt.fetch(equipment_id, user_id, location)
     await conn.close()
     return result
+
 
 async def get_equipment_for_user(user_id: int):
     '''
@@ -133,6 +148,7 @@ async def get_equipment_for_user(user_id: int):
         equipment_data_list.append(equipment_data)
     return equipment_data_list
 
+
 async def update_equipment_location(user_id: int, equipment_id: int, location: str):
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
     stmt = await conn.prepare("UPDATE equipment SET location=$3 WHERE user_id=$1 AND equipment_id=$2 RETURNING *")
@@ -140,12 +156,14 @@ async def update_equipment_location(user_id: int, equipment_id: int, location: s
     await conn.close()
     return result
 
+
 async def update_equipment_stars(user_id: int, equipment_id: int, amount: int):
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
     stmt = await conn.prepare("UPDATE equipment SET stars=stars + $3 WHERE user_id=$1 AND equipment_id=$2 RETURNING *")
     result = await stmt.fetch(user_id, equipment_id, amount)
     await conn.close()
     return result
+
 
 async def update_equipment_bonus(user_id: int, equipment_id: int, bonus: str):
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
@@ -156,6 +174,6 @@ async def update_equipment_bonus(user_id: int, equipment_id: int, bonus: str):
 
 
 if __name__ == '__main__':
-    #print(asyncio.get_event_loop().run_until_complete(update_user_cave(124668192948748288, 'Beginner Cave')))
-    #print(asyncio.get_event_loop().run_until_complete(get_equipment_for_user(124668192948748288)))
+    # print(asyncio.get_event_loop().run_until_complete(update_user_cave(124668192948748288, 'Beginner Cave')))
+    # print(asyncio.get_event_loop().run_until_complete(get_equipment_for_user(124668192948748288)))
     print(asyncio.get_event_loop().run_until_complete(insert_equipment(124668192948748288, 6400, 'inventory')))

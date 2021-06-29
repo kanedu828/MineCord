@@ -2,6 +2,7 @@ import math
 from data.equipment import Equipment
 from collections import Counter
 
+
 class User:
     def __init__(self, user, equipment, items):
         pass
@@ -12,11 +13,11 @@ class User:
         # b = 10
         # c = -exp
         # level = (-b + math.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
-        return int(math.log((exp + 164)/165, 1.15))
+        return int(math.log((exp + 164) / 165, 1.15))
 
     @staticmethod
-    def level_to_exp(level:int):
-        #return 10 * level + 10 * level ** 2
+    def level_to_exp(level: int):
+        # return 10 * level + 10 * level ** 2
         return math.ceil(165 * 1.15 ** level - 164)
 
     @staticmethod
@@ -58,7 +59,7 @@ class User:
                         stats[stat] += int(value)
                     elif modifier == '%':
                         bonus_percentages[stat] += int(value)
-        for key,value in bonus_percentages.items():
+        for key, value in bonus_percentages.items():
             stats[key] = int(stats[key] + stats[key] * (value / 100))
         return stats
 
@@ -71,13 +72,21 @@ class User:
 
     @staticmethod
     def get_equipped_gear_str(equipment_list):
-        equipped_gear = [Equipment.get_equipment_from_id(gear['equipment_id']) for gear in equipment_list if not gear['location'] == 'inventory']
+        equipped_gear = [
+            Equipment.get_equipment_from_id(gear['equipment_id']) for gear
+            in equipment_list
+            if not gear['location'] == 'inventory'
+        ]
         gear_str = '\n'.join([f'`{gear["type"].value.title()}:` `{gear["name"]}`' for gear in equipped_gear])
         return gear_str
 
     @staticmethod
     def get_inventory_str(equipment_list):
-        inventory = [Equipment.get_equipment_from_id(e['equipment_id']) for e in equipment_list if e['location'] == 'inventory']
+        inventory = [
+            Equipment.get_equipment_from_id(e['equipment_id']) for e
+            in equipment_list
+            if e['location'] == 'inventory'
+        ]
         inventory_str = '\n'.join([f'`{e["type"].value}:` `{e["name"]}`' for e in inventory])
         return inventory_str
 
@@ -90,13 +99,16 @@ class User:
             stats_str += f'**__{base_equipment["name"]}__**\n'
             for i in range(equipment['stars']):
                 stats_str += '★'
-            for i in range(max(base_equipment['max_stars'] - equipment['stars'],0)):
+            for i in range(max(base_equipment['max_stars'] - equipment['stars'], 0)):
                 stats_str += '☆'
             stats_str += '\n'
             for key, value in base_equipment['stats'].items():
                 stat, modifier = key.split('|')
                 if modifier == '+':
-                    stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"])} ({value} + {Equipment.get_star_bonus(equipment["stars"])})`\n'
+                    stats_str += f'''
+                        `{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"])}
+                         ({value} + {Equipment.get_star_bonus(equipment["stars"])})`\n
+                        '''
                 elif modifier == '%':
                     stats_str += f'`{stat}: {value}{modifier}`\n'
             stats_str += '----------Bonuses----------\n'
@@ -114,7 +126,7 @@ class User:
     @staticmethod
     def get_equipment_from_name(equipment_list, equipment_name):
         equipment = Equipment.get_equipment_from_name(equipment_name)
-        if not equipment == None:
+        if equipment is not None:
             for e in equipment_list:
                 if e['equipment_id'] == equipment['id']:
                     return e
