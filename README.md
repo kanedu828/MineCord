@@ -5,6 +5,10 @@
 Isla Bot 2.0 takes its focus on the mining game. In this revamp, many more additions and mechanics were added to the mining game to give it more depth. 
 The bot is current in its beta state.
 
+## Community Contribution
+Commit into the development branch and make a PR. I'll be happy to review them.
+Feel free to fix bugs, add anything from Projects, or add more caves and equipment!
+
 ## Commands
 
 `;mine` Mine in the current cave you are in.\
