@@ -11,6 +11,13 @@ You can invite the bot to your server through here: https://discord.com/api/oaut
 Commit into the development branch and make a PR. I'll be happy to review them.
 Feel free to fix bugs, add anything from Projects, or add more caves and equipment!
 
+### Setup
+Create a virtual environment with `$python3 -m venv venv`.\
+Activate the venv with `$source venv/bin/activate`.\
+Install dependencies with `pip install -r requirements.txt`. (You may need an extra dependency not correctly listed in requirements.txt. Install here: https://github.com/Rapptz/discord-ext-menus) \
+Create a `.env` file and populate the fields with the proper values.\
+Start bot with `$python3 main.py`
+
 ## Commands
 
 `;mine` Mine in the current cave you are in.\
