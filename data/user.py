@@ -90,7 +90,7 @@ class User:
             stats_str += f'**__{base_equipment["name"]}__**\n'
             for i in range(equipment['stars']):
                 stats_str += '★'
-            for i in range(base_equipment['max_stars'] - equipment['stars']):
+            for i in range(max(base_equipment['max_stars'] - equipment['stars'],0)):
                 stats_str += '☆'
             stats_str += '\n'
             for key, value in base_equipment['stats'].items():
