@@ -5,6 +5,8 @@
 Isla Bot 2.0 takes its focus on the mining game. In this revamp, many more additions and mechanics were added to the mining game to give it more depth. 
 The bot is current in its beta state.
 
+You can invite the bot to your server through here: https://discord.com/api/oauth2/authorize?client_id=708417621334163537&permissions=0&scope=bot
+
 ## Community Contribution
 Commit into the development branch and make a PR. I'll be happy to review them.
 Feel free to fix bugs, add anything from Projects, or add more caves and equipment!
