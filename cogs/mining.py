@@ -212,10 +212,9 @@ class Mining(commands.Cog):
         pages = []
         count = 0
         for i in range(len(user_list)):
-            leaderboard_str += f'''
-                **{i + 1}.** `{self.client.get_user(user_list[i]["user_id"])}`
-                **Level**: `{User.exp_to_level(user_list[i]["exp"])}`
-                **EXP:** `{user_list[i]["exp"]}`\n'''
+            leaderboard_str += f'**{i + 1}.** `{self.client.get_user(user_list[i]["user_id"])}` '
+            leaderboard_str += f'**Level**: `{User.exp_to_level(user_list[i]["exp"])}` '
+            leaderboard_str += f'**EXP:** `{user_list[i]["exp"]}`\n'
             count += 1
             if count >= 10:
                 pages.append(leaderboard_str)

@@ -77,18 +77,22 @@ class User:
             in equipment_list
             if not gear['location'] == 'inventory'
         ]
-        gear_str = '\n'.join([f'`{gear["type"].value.title()}:` `{gear["name"]}`' for gear in equipped_gear])
+        gear_str = '\n'.join([
+            f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
+            for gear in equipped_gear])
         return gear_str
 
     @staticmethod
     def get_inventory_str(equipment_list):
-        inventory = [
-            Equipment.get_equipment_from_id(e['equipment_id']) for e
+        equipped_gear = [
+            Equipment.get_equipment_from_id(gear['equipment_id']) for gear
             in equipment_list
-            if e['location'] == 'inventory'
+            if gear['location'] == 'inventory'
         ]
-        inventory_str = '\n'.join([f'`{e["type"].value}:` `{e["name"]}`' for e in inventory])
-        return inventory_str
+        gear_str = '\n'.join([
+            f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
+            for gear in equipped_gear])
+        return gear_str
 
     @staticmethod
     def get_equipment_stats_str(equipment_list, equipment_name):
@@ -97,6 +101,7 @@ class User:
         stats_str = ''
         if equipment:
             stats_str += f'**__{base_equipment["name"]}__**\n'
+            stats_str += f'`Lv: {base_equipment["level"]}`\n'
             for i in range(equipment['stars']):
                 stats_str += '★'
             for i in range(max(base_equipment['max_stars'] - equipment['stars'], 0)):
@@ -105,10 +110,8 @@ class User:
             for key, value in base_equipment['stats'].items():
                 stat, modifier = key.split('|')
                 if modifier == '+':
-                    stats_str += f'''
-                        `{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"])}
-                         ({value} + {Equipment.get_star_bonus(equipment["stars"])})`\n
-                        '''
+                    stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"])}'
+                    stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"])})`\n'
                 elif modifier == '%':
                     stats_str += f'`{stat}: {value}{modifier}`\n'
             stats_str += '----------Bonuses----------\n'
