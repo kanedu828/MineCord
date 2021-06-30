@@ -2,11 +2,13 @@ import random
 from enum import Enum
 from copy import copy
 
+
 class Drop(Enum):
     GOLD = 'gold'
     ITEM = 'item'
     EQUIPMENT = 'equipment'
     EXP = 'exp'
+
 
 class Rarity(Enum):
     COMMON = 'common'
@@ -14,9 +16,6 @@ class Rarity(Enum):
     EPIC = 'epic'
     LEGENDARY = 'legendary'
 
-'''
-drops are formated in a two tuple of (type, id/amount)
-'''
 
 class Cave:
     _drops = [None, Rarity.COMMON, Rarity.RARE, Rarity.EPIC, Rarity.LEGENDARY]
@@ -66,7 +65,13 @@ class Cave:
             Rarity.COMMON: [(Drop.GOLD, 1), (Drop.EXP, 5)],
             Rarity.RARE: [(Drop.GOLD, 5), (Drop.EXP, 10)],
             Rarity.EPIC: [(Drop.GOLD, 150), (Drop.EQUIPMENT, 2100), (Drop.EQUIPMENT, 5100), (Drop.EQUIPMENT, 1200)],
-            Rarity.LEGENDARY: [(Drop.GOLD, 200), (Drop.EQUIPMENT, 1300), (Drop.EQUIPMENT, 6100), (Drop.EQUIPMENT, 3100), (Drop.EQUIPMENT, 4100)],
+            Rarity.LEGENDARY: [
+                (Drop.GOLD, 200),
+                (Drop.EQUIPMENT, 1300),
+                (Drop.EQUIPMENT, 6100),
+                (Drop.EQUIPMENT, 3100),
+                (Drop.EQUIPMENT, 4100)
+            ],
             'current_quantity': 10000,
             'max_quantity': 10000,
         },
@@ -199,11 +204,15 @@ class Cave:
         '''
         sorted_caves = sorted(Cave._caves, key=lambda cave: cave['level_requirement'])
         sorted_caves = filter(lambda cave: cave['level_requirement'] <= level, sorted_caves)
-        caves_str = '\n'.join([f'`{cave["name"]}` **Level Requirement:** `{cave["level_requirement"]}`' for cave in sorted_caves])
-        return caves_str
+        caves_list = [
+            f'`{cave["name"]}` **Level Requirement:** `{cave["level_requirement"]}`'
+            for cave
+            in sorted_caves
+        ]
+        return caves_list
 
     @staticmethod
-    def verify_cave(cave_name:str):
+    def verify_cave(cave_name: str):
         for cave in Cave._caves:
             if cave['name'] == cave_name:
                 return True

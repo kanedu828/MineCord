@@ -2,8 +2,9 @@ import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
-load_dotenv()
 
+
+load_dotenv()
 intents = discord.Intents.default()  # All but the two privileged ones
 intents.members = True  # Subscribe to the Members intent
 PRODUCTION = os.getenv('PRODUCTION')
@@ -21,8 +22,10 @@ extensions = [
     'cogs.help'
 ]
 
+
 def check_if_me(ctx):
     return ctx.message.author.id == 124668192948748288
+
 
 @client.command()
 @commands.check(check_if_me)
@@ -35,6 +38,7 @@ async def load(ctx, extension):
         await ctx.send(f'{extension} cannot be loaded. [{exception}]')
         print(f'{extension} cannot be loaded. [{exception}]')
 
+
 @client.command()
 @commands.check(check_if_me)
 async def unload(ctx, extension):
@@ -46,6 +50,7 @@ async def unload(ctx, extension):
         await ctx.send(f'{extension} cannot be unloaded. [{exception}]')
         print(f'{extension} cannot be unloaded. [{exception}]')
 
+
 @client.command()
 @commands.check(check_if_me)
 async def reload(ctx, extension):
@@ -56,6 +61,7 @@ async def reload(ctx, extension):
     except Exception as exception:
         await ctx.send(f'{extension} cannot be reloaded. [{exception}]')
         print(f'{extension} cannot be reloaded. [{exception}]')
+
 
 @client.event
 async def on_ready():

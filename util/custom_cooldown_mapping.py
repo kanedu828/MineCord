@@ -1,19 +1,14 @@
 from discord.ext import commands
 
+
 class CustomCooldownMapping(commands.CooldownMapping):
     def __init__(self, factory):
         super().__init__(commands.Cooldown(1, 10, commands.BucketType.user))
         self._factory = factory
 
-    def copy(self):
-        ret = DynamicCooldownMapping(self._factory, self._type)
-        ret._cache = self._cache.copy()
-        return ret
-
     @property
     def valid(self):
         return True
-
 
     async def get_bucket(self, message, current=None):
         if self._cooldown.type is commands.BucketType.default:

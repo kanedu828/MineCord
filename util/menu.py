@@ -1,6 +1,7 @@
 from discord.ext import menus
 import discord
 
+
 class PageMenu(menus.Menu):
 
     def __init__(self, title, color, pages):
@@ -34,6 +35,7 @@ class PageMenu(menus.Menu):
     async def on_stop(self, payload):
         self.stop()
 
+
 class ConfirmationMenu(menus.Menu):
     def __init__(self, message_embed):
         super().__init__(timeout=30.0, delete_message_after=True)
@@ -41,7 +43,7 @@ class ConfirmationMenu(menus.Menu):
         self.result = None
 
     async def send_initial_message(self, ctx, channel):
-        return await channel.send(embed = self.message_embed)
+        return await channel.send(embed=self.message_embed)
 
     @menus.button('\N{WHITE HEAVY CHECK MARK}')
     async def do_confirm(self, payload):

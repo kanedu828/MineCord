@@ -2,6 +2,7 @@ from enum import Enum
 import random
 import discord
 
+
 class EquipmentType(Enum):
     PICKAXE = 'pickaxe'
     HELMET = 'helmet'
@@ -272,7 +273,7 @@ class Equipment:
 
             Returns string representing equipment bonus.
         '''
-        #Amount of lines in a bonus
+        # Amount of lines in a bonus
         upgrade_odds = {
             1: 1,
             2: .1,
@@ -282,9 +283,11 @@ class Equipment:
             6: 0,
         }
         base_equipment = Equipment.get_equipment_from_name(name)
-        lines = random.choices([current_lines, current_lines + 1], [1 - upgrade_odds[current_lines + 1], upgrade_odds[current_lines + 1]])[0]
+        lines = random.choices(
+            [current_lines, current_lines + 1],
+            [1 - upgrade_odds[current_lines + 1], upgrade_odds[current_lines + 1]])
         bonus = ''
-        for i in range(lines):
+        for i in range(lines[0]):
             stat = random.choice(Equipment.stat_types)
             modifier = random.choices(['+', '%'], [.65, .35])[0]
             if modifier == '+':
