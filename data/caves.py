@@ -204,12 +204,12 @@ class Cave:
         '''
         sorted_caves = sorted(Cave._caves, key=lambda cave: cave['level_requirement'])
         sorted_caves = filter(lambda cave: cave['level_requirement'] <= level, sorted_caves)
-        caves_str = '\n'.join([
+        caves_list = [
             f'`{cave["name"]}` **Level Requirement:** `{cave["level_requirement"]}`'
             for cave
             in sorted_caves
-        ])
-        return caves_str
+        ]
+        return caves_list
 
     @staticmethod
     def verify_cave(cave_name: str):

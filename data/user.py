@@ -83,16 +83,16 @@ class User:
         return gear_str
 
     @staticmethod
-    def get_inventory_str(equipment_list):
+    def get_inventory_list(equipment_list):
         equipped_gear = [
             Equipment.get_equipment_from_id(gear['equipment_id']) for gear
             in equipment_list
             if gear['location'] == 'inventory'
         ]
-        gear_str = '\n'.join([
+        inventory_list = [
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
-            for gear in equipped_gear])
-        return gear_str
+            for gear in equipped_gear]
+        return inventory_list
 
     @staticmethod
     def get_equipment_stats_str(equipment_list, equipment_name):

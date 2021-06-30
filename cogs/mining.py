@@ -135,15 +135,19 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title='Cave', color=discord.Color.dark_orange())
         to_cave = Cave.from_cave_name(cave_name)
         if cave_name and Cave.verify_cave(cave_name) and user_level >= to_cave.cave['level_requirement']:
-            print('reach')
             await db.update_user_cave(ctx.author.id, cave_name)
             message_embed.description = f'You have switched to {cave_name}.'
+            await ctx.send(embed=message_embed)
         else:
-            message_embed.description = f'''
-                **Current Cave**: `{user["cave"]}`\n*
-                *Remaining Mines:**`{cave_quantity}`\n
-                **__Available Caves:__**\n''' + Cave.list_caves_by_level(user_level)
-        await ctx.send(embed=message_embed)
+            paginator = commands.Paginator('', '', 1800, '\n')
+            paginator.add_line(
+                f'''**Current Cave**: `{user["cave"]}`\n
+                **Remaining Mines:**`{cave_quantity}`\n
+                **__Available Caves:__**\n''')
+            for cave in Cave.list_caves_by_level(user_level):
+                paginator.add_line(cave)
+            menu = PageMenu('Caves', discord.Color.dark_orange(), paginator.pages)
+            await menu.start(ctx)
 
     @commands.command(name='stats')
     async def stats(self, ctx):
@@ -201,9 +205,14 @@ class Mining(commands.Cog):
         equipment_str = User.get_equipment_stats_str(equipment_list, equipment_name)
         if equipment_name and equipment_str:
             message_embed.description = equipment_str
+            await ctx.send(embed=message_embed)
         else:
-            message_embed.description = '**__Inventory__**:\n' + User.get_inventory_str(equipment_list)
-        await ctx.send(embed=message_embed)
+            paginator = commands.Paginator('', '', 1800, '\n')
+            paginator.add_line('**__Inventory__**:')
+            for item in User.get_inventory_list(equipment_list):
+                paginator.add_line(item)
+            menu = PageMenu('Inventory', discord.Color.from_rgb(245, 211, 201), paginator.pages)
+            await menu.start(ctx)
 
     @commands.command(name='leaderboard')
     async def leaderboard(self, ctx):
