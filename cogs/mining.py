@@ -162,6 +162,7 @@ class Mining(commands.Cog):
             `{User.get_exp_bar(user["exp"])}`\n
             `Total EXP: {user["exp"]}`\n
             `Gold: {user["gold"]}` \n
+            `Blessings: {user["blessings"]}`\n
             **__Stats:__**\n
             {user_stats}
         '''
