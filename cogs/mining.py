@@ -110,8 +110,7 @@ class Mining(commands.Cog):
                 exp_lost = user['exp'] - User.level_to_exp(User.exp_to_level(user['exp']))
                 await db.set_user_exp(ctx.author.id, User.level_to_exp(User.exp_to_level(user['exp'])))
                 message_embed.description = f'''
-                    Ouch!
-                    You did not react correctly.
+                    Ouch! You did not react correctly.
                     You lost {int(user["gold"] / 2)} gold!
                     You also lost {exp_lost} exp!'''
                 await message.edit(embed=message_embed)

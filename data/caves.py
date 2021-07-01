@@ -21,18 +21,18 @@ class Cave:
     _drops = [None, Rarity.COMMON, Rarity.RARE, Rarity.EPIC, Rarity.LEGENDARY]
 
     _caves = [
-        # {
-        #     'name': 'Developer Cave',
-        #     'level_requirement': 1,
-        #     'exp': 100,
-        #     'drop_odds': [0, 1, 0, 0, 0],
-        #     Rarity.COMMON: [(Drop.EQUIPMENT, 1000)],
-        #     Rarity.RARE: [(Drop.GOLD, 5)],
-        #     Rarity.EPIC: [(Drop.GOLD, 25)],
-        #     Rarity.LEGENDARY: [(Drop.GOLD, 100), (Drop.EQUIPMENT, 1100)],
-        #     'current_quantity': -1,
-        #     'max_quantity': -1,
-        # },
+        {
+            'name': 'Developer Cave',
+            'level_requirement': 1,
+            'exp': 100,
+            'drop_odds': [0, 1, 0, 0, 0],
+            Rarity.COMMON: [(Drop.EQUIPMENT, 1000)],
+            Rarity.RARE: [(Drop.GOLD, 5)],
+            Rarity.EPIC: [(Drop.GOLD, 25)],
+            Rarity.LEGENDARY: [(Drop.GOLD, 100), (Drop.EQUIPMENT, 1100)],
+            'current_quantity': 0,
+            'max_quantity': 0,
+        },
         {
             'name': 'Beginner Cave',
             'level_requirement': 1,
@@ -198,6 +198,15 @@ class Cave:
             cave['current_quantity'] = cave['max_quantity']
 
     @staticmethod
+    def set_cave_quantity(cave_name: str, quantity: int):
+        for cave in Cave._caves:
+            if cave['name'].lower() == cave_name.lower():
+                quantity = min(cave['max_quantity'], int(quantity))
+                cave['current_quantity'] = quantity
+                return True
+        return False
+
+    @staticmethod
     def list_caves_by_level(level=0):
         '''
             Returns a formatted string of all the caves that meet the level requirement.
@@ -208,6 +217,7 @@ class Cave:
             f'`{cave["name"]}` **Level Requirement:** `{cave["level_requirement"]}`'
             for cave
             in sorted_caves
+            if not cave['current_quantity'] == 0
         ]
         return caves_list
 
