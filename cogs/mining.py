@@ -50,7 +50,7 @@ class Mining(commands.Cog):
             await ctx.send(embed=message_embed)
             return
         equipment_list = await db.get_equipment_for_user(ctx.author.id)
-        total_stats = User.get_total_stats(ctx.author.id, equipment_list)
+        total_stats = User.get_total_stats(ctx.author.id, equipment_list, user['blessings'])
         drop_type, drop_value = cave.mine_cave(total_stats['luck'])
         message_embed.description = f'**{ctx.author.mention} mined at {cave.cave["name"]} and found:**\n'
         exp_gained = cave.cave['exp'] + total_stats['exp']
@@ -154,7 +154,9 @@ class Mining(commands.Cog):
         user = await db.get_user(ctx.author.id)
         equipment_list = await db.get_equipment_for_user(ctx.author.id)
         user_stats = '\n'.join(
-            [f'`{key}`: `{value}`' for key, value in User.get_total_stats(user, equipment_list).items()])
+            [f'`{key}`: `{value}`'
+                for key, value
+                in User.get_total_stats(user, equipment_list, user['blessings']).items()])
         stats = f'''
             `Level: {User.exp_to_level(user["exp"])}` \n
             `{User.get_exp_bar(user["exp"])}`\n
@@ -258,6 +260,19 @@ class Mining(commands.Cog):
         else:
             message_embed.description = 'You do not own this piece of equipment...'
         await ctx.send(embed=message_embed)
+
+    @commands.command(name='reset')
+    async def reset(self, ctx):
+        user = await db.get_user(ctx.author.id)
+        level = User.exp_to_level(user['exp'])
+        blessings = max(int((level - 50) / 5), 0)
+        message_embed = discord.Embed(title='Resetting', color=discord.Color.from_rgb(245, 211, 201))
+        message_embed.description = f'{ctx.author.mention}, you will recieve {blessings} blessings if you reset exp. '
+        message_embed.description += 'You gain 1% exp stat for each blessing you have.'
+        result = await ConfirmationMenu(message_embed).prompt(ctx)
+        if result:
+            db.set_user_exp(ctx.author.id, 0)
+            db.update_user_blessings(ctx.author.id, blessings)
 
     @mine.error
     async def mine_error(self, ctx, error):

@@ -93,6 +93,18 @@ async def set_user_gold(user_id: int, amount: int):
     return result
 
 
+async def update_user_blessings(user_id: int, amount: int):
+    '''
+        Adds amount to the user's gold. Returns a record object.
+    '''
+    await get_user(user_id)
+    conn = await asyncpg.connect(PSQL_CONNECTION_URL)
+    stmt = await conn.prepare("UPDATE users SET blessings=blessings + $2 WHERE user_id=$1 RETURNING *")
+    result = await stmt.fetch(user_id, amount)
+    await conn.close()
+    return result
+
+
 async def update_user_cave(user_id: int, cave: str):
     '''
         Updates an user's cave. Returns a record object.
