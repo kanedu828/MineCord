@@ -30,6 +30,7 @@ Start bot with `$python3 main.py`
 `;inventory` List your inventory.\
 `;leaderboard` View the leaderboard based off of total exp.\
 `;bonus <equipment name>` Add bonuses to your specified equipment.\
+`;reset` Reset your total exp and gain blessings.\
 
 ## Mining
 By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot.
@@ -69,6 +70,9 @@ Here are the odds for getting extra bonuses:\
 3 -> 4 bonus stats: 2.5%\
 4 -> 5 bonus stats: 1%\
 Additionally, the higher level your equipment, the better bonuses it will get.
+  
+## Blessings
+After you reach level 50, you have the opportunity to reset your exp to gain blessings. Every 5 levels after level 55 will give you 1 blessing on a reset. Each blessing will permanently give you 1% exp to your stats.
 
 If you have a good understanding of mining and you don't like how things are explained, feel free to create a pull request and edit this README.
 
