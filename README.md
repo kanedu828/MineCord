@@ -30,7 +30,7 @@ Start bot with `$python3 main.py`
 `;inventory` List your inventory.\
 `;leaderboard` View the leaderboard based off of total exp.\
 `;bonus <equipment name>` Add bonuses to your specified equipment.\
-`;reset` Reset your total exp and gain blessings.\
+`;reset` Reset your total exp and gain blessings.
 
 ## Mining
 By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot.
