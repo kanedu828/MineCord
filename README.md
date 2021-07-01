@@ -72,7 +72,8 @@ Here are the odds for getting extra bonuses:\
 Additionally, the higher level your equipment, the better bonuses it will get.
   
 ## Blessings
-After you reach level 50, you have the opportunity to reset your exp to gain blessings. Every 5 levels after level 50 will give you 1 blessing on a reset. Each blessing will permanently give you 1% exp to your stats.
+After you reach level 50, you have the opportunity to reset your exp to gain blessings. Every 5 levels after level 50 will give you 1 blessing on a reset. Each blessing will permanently give you 1% exp to your stats.\
+For example, if you have level 65, you will gain 3 blessings. If you are level 100, you will gain 10 blessings.
 
 If you have a good understanding of mining and you don't like how things are explained, feel free to create a pull request and edit this README.
 
