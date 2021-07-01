@@ -37,7 +37,7 @@ class User:
         return exp_bar
 
     @staticmethod
-    def get_total_stats(user, equipment_list):
+    def get_total_stats(user, equipment_list, blessings=0):
         '''
             Returns a dictionary of the total values of each stat.
         '''
@@ -61,6 +61,7 @@ class User:
                         bonus_percentages[stat] += int(value)
         for key, value in bonus_percentages.items():
             stats[key] = int(stats[key] + stats[key] * (value / 100))
+        stats['exp'] = int(stats['exp'] + stats['exp'] * (blessings / 100))
         return stats
 
     @staticmethod

@@ -99,6 +99,20 @@ class Equipment:
             'max_stars': 12
         },
         {
+            'id': 2150,
+            'name': 'Ancient Helmet',
+            'type': EquipmentType.HELMET,
+            'stats': {
+                'power|+': 30,
+                'power|%': 10,
+                'luck|%': 20,
+            },
+            'level': 30,
+            'set': 'Dark',
+            'value': 100000,
+            'max_stars': 18
+        },
+        {
             'id': 2200,
             'name': 'Absolute Helmet',
             'type': EquipmentType.HELMET,
