@@ -19,7 +19,8 @@ client.remove_command('help')
 
 extensions = [
     'cogs.mining',
-    'cogs.help'
+    'cogs.help',
+    'cogs.admin',
 ]
 
 
