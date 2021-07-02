@@ -87,6 +87,19 @@ class Equipment:
             'max_stars': 18
         },
         {
+            'id': 1450,
+            'name': 'Sky Pickaxe',
+            'type': EquipmentType.PICKAXE,
+            'stats': {
+                'speed|+': 30,
+                'speed|%': 7,
+            },
+            'level': 30,
+            'set': None,
+            'value': 1250,
+            'max_stars': 18
+        },
+        {
             'id': 1500,
             'name': 'Obsidian Pickaxe',
             'type': EquipmentType.PICKAXE,
