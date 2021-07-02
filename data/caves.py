@@ -142,7 +142,7 @@ class Cave:
             'drop_odds': [0.4, 0.3, 0.20, 0.08, 0.02],
             Rarity.COMMON: [(Drop.EXP, 7)],
             Rarity.RARE: [(Drop.GOLD, 15)],
-            Rarity.EPIC: [(Drop.GOLD, 100), (Drop.EQUIPMENT, 1200)],
+            Rarity.EPIC: [(Drop.GOLD, 100)],
             Rarity.LEGENDARY: [(Drop.GOLD, 600), (Drop.EXP, 300), (Drop.EQUIPMENT, 2175), (Drop.EQUIPMENT, 1450)],
             'current_quantity': 10000,
             'max_quantity': 10000,
