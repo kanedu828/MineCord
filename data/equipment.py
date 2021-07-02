@@ -121,7 +121,7 @@ class Equipment:
                 'power|+': 30,
             },
             'level': 30,
-            'set': 'Damian,
+            'set': 'Damian',
             'value': 2000,
             'max_stars': 24
         },
