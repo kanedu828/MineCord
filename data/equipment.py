@@ -114,6 +114,18 @@ class Equipment:
             'max_stars': 24
         },
         {
+            'id': 1600,
+            'name': 'Trailblazer Pickaxe',
+            'type': EquipmentType.PICKAXE,
+            'stats': {
+                'power|+': 30,
+            },
+            'level': 30,
+            'set': 'Damian,
+            'value': 2000,
+            'max_stars': 24
+        },
+        {
             'id': 2100,
             'name': 'Dark Helmet',
             'type': EquipmentType.HELMET,
@@ -165,6 +177,31 @@ class Equipment:
             'max_stars': 24
         },
         {
+            'id': 2200,
+            'name': 'Absolute Helmet',
+            'type': EquipmentType.HELMET,
+            'stats': {
+                'power|+': 67,
+                'power|%': 5,
+            },
+            'level': 100,
+            'set': 'Absolute',
+            'value': 10000,
+            'max_stars': 24
+        },{
+            'id': 2300,
+            'name': 'Damian Helmet',
+            'type': EquipmentType.HELMET,
+            'stats': {
+                'power|+': 10,
+                'power|%': 5,
+            },
+            'level': 30,
+            'set': 'Damian',
+            'value': 2000,
+            'max_stars': 24
+        },
+        {
             'id': 3100,
             'name': 'Dark Vest',
             'type': EquipmentType.VEST,
@@ -189,6 +226,18 @@ class Equipment:
             'set': None,
             'value': 400,
             'max_stars': 18
+        },
+        {
+            'id': 3300,
+            'name': 'Blazer Vest',
+            'type': EquipmentType.VEST,
+            'stats': {
+                'power|+': 25,
+            },
+            'level': 30,
+            'set': 'Damian',
+            'value': 2000,
+            'max_stars': 24
         },
         {
             'id': 4100,
@@ -286,6 +335,19 @@ class Equipment:
             'set': None,
             'value': 20000,
             'max_stars': 32
+        },
+        {
+            'id': 6500,
+            'name': 'Damian Gloves',
+            'type': EquipmentType.GLOVES,
+            'stats': {
+                'power|+': 15,
+                'speed|+': 5,
+            },
+            'level': 30,
+            'set': 'Damian,
+            'value': 2000,
+            'max_stars': 24
         },
     ]
 
