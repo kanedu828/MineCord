@@ -272,8 +272,8 @@ class Mining(commands.Cog):
         message_embed.description += 'You gain 1% exp stat for each blessing you have.'
         result = await ConfirmationMenu(message_embed).prompt(ctx)
         if result:
-            db.set_user_exp(ctx.author.id, 0)
-            db.update_user_blessings(ctx.author.id, blessings)
+            await db.set_user_exp(ctx.author.id, 0)
+            await db.update_user_blessings(ctx.author.id, blessings)
 
     @mine.error
     async def mine_error(self, ctx, error):
