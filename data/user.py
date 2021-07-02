@@ -134,7 +134,11 @@ class User:
                         stats_str += f'`{modifier}{value} {stat}`\n'
                     elif modifier == '%':
                         stats_str += f'`{value}{modifier} {stat}`\n'
-            stats_str += Equipment.get_set_bonus_str(base_equipment['set'])
+            set_count = [
+                e for e in equipment_list
+                if Equipment.get_equipment_from_id(e['equipment_id'])['set'] == base_equipment['set'] and not
+                e['location'] == 'inventory']
+            stats_str += Equipment.get_set_bonus_str(base_equipment['set'], len(set_count))
             return stats_str
         else:
             return None
