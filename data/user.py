@@ -43,6 +43,7 @@ class User:
         '''
         stats = Counter()
         bonus_percentages = Counter()
+        sets = Counter()
         equipped_gear = [e for e in equipment_list if e['location'] != 'inventory']
         for e in equipped_gear:
             base_equipment = Equipment.get_equipment_from_id(e['equipment_id'])
@@ -59,6 +60,16 @@ class User:
                         stats[stat] += int(value)
                     elif modifier == '%':
                         bonus_percentages[stat] += int(value)
+            sets[base_equipment['set']] += 1
+        for set, count in sets.items():
+            if set in Equipment.sets:
+                for i in range(count):
+                    for key, value in Equipment.sets[set][i].items():
+                        stat, modifier = key.split('|')
+                        if modifier == '+':
+                            stats[stat] += value
+                        elif modifier == '%':
+                            bonus_percentages[stat] += value
         for key, value in bonus_percentages.items():
             stats[key] = int(stats[key] + stats[key] * (value / 100))
         stats['exp'] = int(stats['exp'] + stats['exp'] * (blessings / 100))
@@ -123,6 +134,7 @@ class User:
                         stats_str += f'`{modifier}{value} {stat}`\n'
                     elif modifier == '%':
                         stats_str += f'`{value}{modifier} {stat}`\n'
+            stats_str += Equipment.get_set_bonus_str(base_equipment['set'])
             return stats_str
         else:
             return None
