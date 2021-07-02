@@ -25,8 +25,8 @@ class Mining(commands.Cog):
             async def mining_cooldown(message):
                 equipment_list = await db.get_equipment_for_user(message.author.id)
                 total_stats = User.get_total_stats(message.author.id, equipment_list)
-                speed = min(total_stats['speed'], 95)
-                cooldown = 10 - 10 * (speed / 500)
+                speed = total_stats['speed']
+                cooldown = max(10 - 10 * (speed / 500), 3)
                 return commands.Cooldown(1, cooldown, commands.BucketType.user)
             self.mapping = CustomCooldownMapping(mining_cooldown)
 
