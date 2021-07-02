@@ -388,14 +388,17 @@ class Equipment:
         pass
 
     @staticmethod
-    def get_set_bonus_str(set_name: str):
+    def get_set_bonus_str(set_name: str, set_count: int):
         if set_name not in Equipment.sets:
             return ''
         set = Equipment.sets[set_name]
         set_str = f'-----{set_name} Set Bonuses-----\n'
         for i in range(len(set)):
             if set[i].items():
-                set_str += f'**{i + 1}**\n'
+                if i < set_count:
+                    set_str += f'** - {i + 1} - **\n'
+                else:
+                    set_str += f'**{i + 1}**\n'
                 for key, value in set[i].items():
                     stat, modifier = key.split('|')
                     if modifier == '+':

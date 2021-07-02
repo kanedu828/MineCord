@@ -3,6 +3,7 @@ from discord.ext import commands
 import util.dbutil as db
 from data.equipment import Equipment
 from data.caves import Cave
+from data.user import User
 from data.blacklist import blacklist as bl
 
 
@@ -21,13 +22,19 @@ class Admin(commands.Cog):
     @commands.command(name='give')
     @commands.check(check_if_me)
     async def give(self, ctx, user: discord.Member, type: str, value: int):
-        await ctx.send(user)
         if type.lower() == 'gold':
-            db.update_user_gold(user.id, value)
+            await db.update_user_gold(user.id, value)
         elif type.lower() == 'equipment':
-            equipment = Equipment.get_equipment_from_id(value)
-            if equipment:
-                db.insert_equipment(user.id, value, 'inventory')
+            base_equipment = Equipment.get_equipment_from_id(value)
+            if base_equipment:
+                equipment_list = await db.get_equipment_for_user(ctx.author.id)
+                equipment = User.get_equipment_from_id(equipment_list, value)
+                if equipment:
+                    if equipment['stars'] < base_equipment['max_stars']:
+                        await db.update_equipment_stars(ctx.author.id, value, 1)
+                else:
+                    await db.insert_equipment(user.id, value, 'inventory')
+                    await ctx.send('Given.')
             else:
                 await ctx.send('Invalid equipment.')
 
