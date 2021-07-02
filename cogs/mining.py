@@ -76,8 +76,8 @@ class Mining(commands.Cog):
                     await db.update_equipment_stars(ctx.author.id, drop_value, 1)
                     message_embed.description += f'`{base_equipment["name"]}. Equipment star level increased!`\n'
                 else:
-                    message_embed.description += f'`{base_equipment["name"]}.Equipment is already at max star level.`'
-                    message_embed.description += '`Gold recieved instead.`'
+                    message_embed.description += f'`{base_equipment["name"]}. Equipment is already at max star level.'
+                    message_embed.description += 'Gold recieved instead.`'
                     message_embed.description += f'\n`{base_equipment["value"]} gold`'
                     await db.update_user_gold(ctx.author.id, base_equipment["value"])
             else:
