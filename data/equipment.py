@@ -32,7 +32,7 @@ class Equipment:
                 'speed|+': 100,
             },
             'level': 0,
-            'set': 'Developer',
+            'set': None,
             'value': 0,
             'max_stars': 24
         },
@@ -82,7 +82,7 @@ class Equipment:
                 'speed|+': 5,
             },
             'level': 20,
-            'set': 'Ice',
+            'set': None,
             'value': 1000,
             'max_stars': 18
         },
@@ -289,10 +289,49 @@ class Equipment:
         },
     ]
 
+    sets = {
+        'Dark': [
+            {
+            },
+            {
+                'exp|+': 5,
+            },
+            {
+                'exp|+': 5,
+            },
+            {
+                'exp|+': 10,
+            },
+            {
+                'exp|+': 10,
+            },
+            {
+                'exp|%': 10,
+            }
+        ],
+    }
+
     stat_types = ['power', 'speed', 'luck', 'exp']
 
     def __init__(self):
         pass
+
+    @staticmethod
+    def get_set_bonus_str(set_name: str):
+        if set_name not in Equipment.sets:
+            return ''
+        set = Equipment.sets[set_name]
+        set_str = f'-----{set_name} Set Bonuses-----\n'
+        for i in range(len(set)):
+            if set[i].items():
+                set_str += f'**{i + 1}**\n'
+                for key, value in set[i].items():
+                    stat, modifier = key.split('|')
+                    if modifier == '+':
+                        set_str += f'`{modifier}{value} {stat}`\n'
+                    elif modifier == '%':
+                        set_str += f'`{value}{modifier} {stat}`\n'
+        return set_str
 
     @staticmethod
     def get_equipment_from_id(id: int):
