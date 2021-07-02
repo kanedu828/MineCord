@@ -50,6 +50,7 @@ There are two ways you can upgrade your equipment.
 1. Star level: You gain a star for each duplicate equipment you have. Increasing your star level only increases the equipment's base stats. For example, if an equipment only has power and speed base stats, only power and speed will be upgraded. The first 5 stars give + 1 to each stat per star, the next 5 stars give +2, and so on.
 2. Bonus: You can roll for bonuses with the ;bonus <equipment name> command. You will randomly get random stats. You can recieve up to 5 bonuses for a piece of equipment. Refer to the bonus section for more information.
 
+
 ## Stats
 Current there are four different stats for a user: power, speed, exp, luck\
 Power: You get x amount of extra gold each time you mine gold.\
@@ -58,7 +59,8 @@ Exp: You get x amount of extra exp each time you mine exp.\
 Luck: Your chances of recieving Epic or Legendary loot is increased.\
 Your stats can be added raw (+) or added as a percentage (%).\
 For example, if you have power + 6, you will get 6 power to your total power stat. If you have ower 6%, you will get an additional 6% of your total power added to your total power.
-Your total amount of stats is determined by all of your equipped equipment.
+Your total amount of stats is determined by all of your equipped equipment.\
+Some equipment also have set bonuses. If you have a certain amount of equipment equipped from that set, you will gain bonuses.\
 
 ## Bonus
 You can give your equipment bonus stats through the `;bonus <equipment name>` command. This will cost 1000 gold.\
