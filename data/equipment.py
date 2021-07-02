@@ -177,18 +177,6 @@ class Equipment:
             'max_stars': 24
         },
         {
-            'id': 2200,
-            'name': 'Absolute Helmet',
-            'type': EquipmentType.HELMET,
-            'stats': {
-                'power|+': 67,
-                'power|%': 5,
-            },
-            'level': 100,
-            'set': 'Absolute',
-            'value': 10000,
-            'max_stars': 24
-        },{
             'id': 2300,
             'name': 'Damian Helmet',
             'type': EquipmentType.HELMET,
