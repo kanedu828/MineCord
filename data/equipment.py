@@ -290,6 +290,27 @@ class Equipment:
     ]
 
     sets = {
+        'Damian': [
+            {
+            },
+            {
+                'power|%': 5,
+            },
+            {
+                'power|%': 5,
+            },
+            {
+                'power|%': 5,
+            },
+            {
+                'exp|+': 10,
+                'power|%': 5,
+            },
+            {
+                'power|%': 10,
+                'exp|%': 10,
+            }
+        ],
         'Dark': [
             {
             },
