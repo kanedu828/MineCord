@@ -160,6 +160,18 @@ class Cave:
             'max_quantity': 10000,
         },
         {
+            'name': 'Trailblazer Cave',
+            'level_requirement': 55,
+            'exp': 30,
+            'drop_odds': [0.4, 0.3, 0.20, 0.09, 0.01],
+            Rarity.COMMON: [(Drop.EXP, 7)],
+            Rarity.RARE: [(Drop.GOLD, 14)],
+            Rarity.EPIC: [(Drop.GOLD, 75)],
+            Rarity.LEGENDARY: [(Drop.GOLD, 605), (Drop.EQUIPMENT, 1600), (Drop.EQUIPMENT, 2300), (Drop.EQUIPMENT, 3300), (Drop.EQUIPMENT, 6500)],
+            'current_quantity': 1000,
+            'max_quantity': 1000,
+        },
+        {
             'name': 'Volcanic Cave',
             'level_requirement': 60,
             'exp': 100,
