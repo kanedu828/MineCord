@@ -10,6 +10,8 @@ import util.dbutil as db
 from collections import Counter
 from data.blacklist import blacklist
 from util.menu import PageMenu, ConfirmationMenu
+from datetime import datetime
+import pytz
 
 
 class Mining(commands.Cog):
@@ -53,9 +55,14 @@ class Mining(commands.Cog):
         total_stats = User.get_total_stats(ctx.author.id, equipment_list, user['blessings'])
         drop_type, drop_value = cave.mine_cave(total_stats['luck'])
         message_embed.description = f'**{ctx.author.mention} mined at {cave.cave["name"]} and found:**\n'
+        m = 1  # multiplier
+        if datetime.now(pytz.utc).hour == 1:
+            m = 2
+            message_embed.title = 'Happy Hour Mining!'
         exp_gained = cave.cave['exp'] + total_stats['exp']
+        exp_gained *= m
         await db.update_user_exp(ctx.author.id, exp_gained)
-        message_embed.description += f'`{exp_gained} exp ({cave.cave["exp"]} + {total_stats["exp"]})`\n'
+        message_embed.description += f'`{exp_gained} exp ({cave.cave["exp"] * m} + {total_stats["exp"] * m})`\n'
         if drop_type == Drop.GOLD:
             gold = drop_value + total_stats['power']
             await db.update_user_gold(ctx.author.id, gold)
@@ -69,19 +76,18 @@ class Mining(commands.Cog):
                     await db.update_equipment_stars(ctx.author.id, drop_value, 1)
                     message_embed.description += f'`{base_equipment["name"]}. Equipment star level increased!`\n'
                 else:
-                    message_embed.description += f'''
-                        `{base_equipment["name"]}.
-                        Equipment is already at max star level.
-                        Gold recieved instead.`
-                        \n`{base_equipment["value"]} gold`'''
+                    message_embed.description += f'`{base_equipment["name"]}.Equipment is already at max star level.`'
+                    message_embed.description += '`Gold recieved instead.`'
+                    message_embed.description += f'\n`{base_equipment["value"]} gold`'
                     await db.update_user_gold(ctx.author.id, base_equipment["value"])
             else:
                 await db.insert_equipment(ctx.author.id, drop_value, 'inventory')
                 message_embed.description += f'`You mined a {base_equipment["name"]}!`\n'
         elif drop_type == Drop.EXP:
             exp_gained = drop_value + total_stats['exp']
+            exp_gained *= m
             await db.update_user_exp(ctx.author.id, exp_gained)
-            message_embed.description += f'`{exp_gained} exp ({drop_value} + {total_stats["exp"]})`\n'
+            message_embed.description += f'`{exp_gained} exp ({drop_value * m} + {total_stats["exp"] * m})`\n'
         await ctx.send(embed=message_embed)
         # Monster attack to prevent automation.
         odds = random.randrange(100)
