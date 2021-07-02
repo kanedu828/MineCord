@@ -87,6 +87,20 @@ class Equipment:
             'max_stars': 18
         },
         {
+            'id': 1500,
+            'name': 'Obsidian Pickaxe',
+            'type': EquipmentType.PICKAXE,
+            'stats': {
+                'exp|+': 60,
+                'power|+': 45,
+                'exp|%': 5,
+            },
+            'level': 40,
+            'set': None,
+            'value': 1500,
+            'max_stars': 24
+        },
+        {
             'id': 2100,
             'name': 'Dark Helmet',
             'type': EquipmentType.HELMET,
@@ -108,8 +122,20 @@ class Equipment:
                 'luck|%': 20,
             },
             'level': 30,
-            'set': 'Dark',
+            'set': None,
             'value': 100000,
+            'max_stars': 18
+        },
+        {
+            'id': 2175,
+            'name': 'Brave Helmet',
+            'type': EquipmentType.HELMET,
+            'stats': {
+                'power|+': 30,
+            },
+            'level': 30,
+            'set': None,
+            'value': 1000,
             'max_stars': 18
         },
         {
