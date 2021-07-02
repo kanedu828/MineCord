@@ -56,7 +56,7 @@ class Mining(commands.Cog):
         drop_type, drop_value = cave.mine_cave(total_stats['luck'])
         message_embed.description = f'**{ctx.author.mention} mined at {cave.cave["name"]} and found:**\n'
         m = 1  # multiplier
-        if datetime.now(pytz.utc).hour == 1:
+        if datetime.now(pytz.utc).hour == 23:
             m = 2
             message_embed.title = 'Happy Hour Mining!'
         exp_gained = cave.cave['exp'] + total_stats['exp']
