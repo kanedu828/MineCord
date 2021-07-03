@@ -280,7 +280,7 @@ class Mining(commands.Cog):
         if result:
             await db.set_user_exp(ctx.author.id, 0)
             await db.update_user_blessings(ctx.author.id, blessings)
-            await db.update_user_cave('Beginner Cave')
+            await db.update_user_cave(ctx.author.id, 'Beginner Cave')
 
     @mine.error
     async def mine_error(self, ctx, error):
