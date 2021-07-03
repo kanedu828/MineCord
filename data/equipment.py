@@ -29,7 +29,8 @@ class Equipment:
             'name': 'Developer Pickaxe',
             'type': EquipmentType.PICKAXE,
             'stats': {
-                'speed|+': 100,
+                'speed|+': 350,
+                'crit|+': 50,
             },
             'level': 0,
             'set': None,
@@ -67,6 +68,7 @@ class Equipment:
             'stats': {
                 'power|+': 10,
                 'exp|+': 5,
+                'crit|+': 5,
             },
             'level': 10,
             'set': 'Dark',
@@ -285,6 +287,7 @@ class Equipment:
             'type': EquipmentType.GLOVES,
             'stats': {
                 'power|%': 5,
+                'crit|+': 5,
             },
             'level': 10,
             'set': 'Dark',
@@ -378,11 +381,13 @@ class Equipment:
             },
             {
                 'exp|%': 10,
+                'crit|+': 10,
             }
         ],
     }
 
-    stat_types = ['power', 'speed', 'luck', 'exp']
+    # Rollable stat types from bonuses. Does not represent all available stats in game.
+    stat_types = ['power', 'speed', 'luck', 'exp', 'crit']
 
     def __init__(self):
         pass

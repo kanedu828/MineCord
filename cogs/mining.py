@@ -56,13 +56,19 @@ class Mining(commands.Cog):
         drop_type, drop_value = cave.mine_cave(total_stats['luck'])
         message_embed.description = f'**{ctx.author.mention} mined at {cave.cave["name"]} and found:**\n'
         m = 1  # multiplier
+        odds = random.randrange(100)
+        if odds <= total_stats['crit'] * 0.25:
+            m *= 2
+            message_embed.description += 'Critical mine! Extra exp gained.\n'
         if datetime.now(pytz.utc).hour == 23:
-            m = 2
+            m *= 2
             message_embed.title = 'Happy Hour Mining!'
         exp_gained = cave.cave['exp'] + total_stats['exp']
         exp_gained *= m
+        exp_gained = int(exp_gained)
         await db.update_user_exp(ctx.author.id, exp_gained)
-        message_embed.description += f'`{exp_gained} exp ({cave.cave["exp"] * m} + {total_stats["exp"] * m})`\n'
+        message_embed.description += f'`{exp_gained} exp ({int(cave.cave["exp"] * m)} + {int(total_stats["exp"] * m)})`'
+        message_embed.description += '\n'
         if drop_type == Drop.GOLD:
             gold = drop_value + total_stats['power']
             await db.update_user_gold(ctx.author.id, gold)
@@ -86,8 +92,9 @@ class Mining(commands.Cog):
         elif drop_type == Drop.EXP:
             exp_gained = drop_value + total_stats['exp']
             exp_gained *= m
+            exp_gained = int(exp_gained)
             await db.update_user_exp(ctx.author.id, exp_gained)
-            message_embed.description += f'`{exp_gained} exp ({drop_value * m} + {total_stats["exp"] * m})`\n'
+            message_embed.description += f'`{exp_gained} exp ({int(drop_value * m)} + {int(total_stats["exp"] * m)})`\n'
         await ctx.send(embed=message_embed)
         # Monster attack to prevent automation.
         odds = random.randrange(100)
