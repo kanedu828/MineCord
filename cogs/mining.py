@@ -162,10 +162,12 @@ class Mining(commands.Cog):
             await menu.start(ctx)
 
     @commands.command(name='stats')
-    async def stats(self, ctx):
-        message_embed = discord.Embed(title=f'{ctx.author}\'s Stats', color=discord.Color.dark_teal())
-        user = await db.get_user(ctx.author.id)
-        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+    async def stats(self, ctx, member: discord.Member=None):
+        if not member:
+            member = ctx.author
+        message_embed = discord.Embed(title=f'{member}\'s Stats', color=discord.Color.dark_teal())
+        user = await db.get_user(member.id)
+        equipment_list = await db.get_equipment_for_user(member.id)
         user_stats = '\n'.join(
             [f'`{key}`: `{value}`'
                 for key, value
@@ -296,6 +298,17 @@ class Mining(commands.Cog):
                 color=discord.Color.dark_orange(),
                 title='Mine',
                 description=f'You are too tired to mine. {error}')
+            await ctx.send(embed=message_embed)
+        else:
+            print(error)
+
+    @stats.error
+    async def stats_error(self, ctx, error):
+        if isinstance(error, commands.errors.MemberNotFound):
+            message_embed = discord.Embed(
+                color=discord.Color.dark_teal(),
+                title='Stats',
+                description=f'Cannot find member!')
             await ctx.send(embed=message_embed)
         else:
             print(error)
