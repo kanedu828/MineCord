@@ -33,7 +33,7 @@ Start bot with `$python3 main.py`
 `;reset` Reset your total exp and gain blessings.
 
 ## Mining
-By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot.
+By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot. Happy hour is 7 pm EST every day. During happy hour, players gain 2x exp for mining
 
 ## Caves
 Each cave has a level requirement that is needed for someone to enter it. Every cave drops a set amount of exp. For example, the Beginner cave drops 1 exp per mine while the Dark Cave drops 10 exp per mine.\
@@ -58,6 +58,7 @@ Power: You get x amount of extra gold each time you mine gold.\
 Speed: Cooldown for mining reduced. Max cooldown is 3 seconds, which is around 350 speed. (This stat will most likely be nerfed)\
 Exp: You get x amount of extra exp each time you mine exp.\
 Luck: Your chances of recieving Epic or Legendary loot is increased.\
+Crit: Increase chance to crit while mining, which provides 2x exp.\
 Your stats can be added raw (+) or added as a percentage (%).\
 For example, if you have power + 6, you will get 6 power to your total power stat. If you have ower 6%, you will get an additional 6% of your total power added to your total power.
 Your total amount of stats is determined by all of your equipped equipment.\
