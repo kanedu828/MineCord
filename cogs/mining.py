@@ -162,7 +162,7 @@ class Mining(commands.Cog):
             await menu.start(ctx)
 
     @commands.command(name='stats')
-    async def stats(self, ctx, member: discord.Member=None):
+    async def stats(self, ctx, member: discord.Member = None):
         if not member:
             member = ctx.author
         message_embed = discord.Embed(title=f'{member}\'s Stats', color=discord.Color.dark_teal())
@@ -225,7 +225,6 @@ class Mining(commands.Cog):
             await ctx.send(embed=message_embed)
         else:
             paginator = commands.Paginator('', '', 1800, '\n')
-            paginator.add_line('**__Inventory__**:')
             for item in User.get_inventory_list(equipment_list):
                 paginator.add_line(item)
             menu = PageMenu('Inventory', discord.Color.from_rgb(245, 211, 201), paginator.pages)
@@ -308,7 +307,7 @@ class Mining(commands.Cog):
             message_embed = discord.Embed(
                 color=discord.Color.dark_teal(),
                 title='Stats',
-                description=f'Cannot find member!')
+                description='Cannot find member!')
             await ctx.send(embed=message_embed)
         else:
             print(error)
