@@ -137,7 +137,7 @@ class Equipment:
             },
             'level': 30,
             'set': 'Ancient',
-            'value': 10000,
+            'value': 25000,
             'max_stars': 18
         },
         {
@@ -165,7 +165,7 @@ class Equipment:
             },
             'level': 30,
             'set': 'Ancient',
-            'value': 10000,
+            'value': 25000,
             'max_stars': 18
         },
         {
@@ -255,7 +255,7 @@ class Equipment:
             },
             'level': 30,
             'set': 'Ancient',
-            'value': 10000,
+            'value': 25000,
             'max_stars': 18
         },
         {
@@ -296,7 +296,7 @@ class Equipment:
             },
             'level': 30,
             'set': 'Ancient',
-            'value': 10000,
+            'value': 25000,
             'max_stars': 18
         },
         {
@@ -336,7 +336,7 @@ class Equipment:
             },
             'level': 30,
             'set': 'Ancient',
-            'value': 10000,
+            'value': 25000,
             'max_stars': 18
         },
         {
@@ -408,7 +408,7 @@ class Equipment:
             },
             'level': 30,
             'set': 'Ancient',
-            'value': 10000,
+            'value': 25000,
             'max_stars': 18
         },
     ]
