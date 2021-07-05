@@ -128,6 +128,19 @@ class Equipment:
             'max_stars': 24
         },
         {
+            'id': 1700,
+            'name': 'Ancient Pickaxe',
+            'type': EquipmentType.PICKAXE,
+            'stats': {
+                'power|+': 90,
+                'exp|+': 30,
+            },
+            'level': 30,
+            'set': 'Ancient',
+            'value': 10000,
+            'max_stars': 18
+        },
+        {
             'id': 2100,
             'name': 'Dark Helmet',
             'type': EquipmentType.HELMET,
@@ -145,12 +158,14 @@ class Equipment:
             'type': EquipmentType.HELMET,
             'stats': {
                 'power|+': 30,
-                'power|%': 10,
+                'exp|+': 30,
+                'crit|+': 30,
+                'luck|+': 30,
                 'luck|%': 20,
             },
             'level': 30,
-            'set': None,
-            'value': 100000,
+            'set': 'Ancient',
+            'value': 10000,
             'max_stars': 18
         },
         {
@@ -230,6 +245,20 @@ class Equipment:
             'max_stars': 24
         },
         {
+            'id': 3400,
+            'name': 'Ancient Vest',
+            'type': EquipmentType.VEST,
+            'stats': {
+                'power|+': 50,
+                'exp|+': 50,
+
+            },
+            'level': 30,
+            'set': 'Ancient',
+            'value': 10000,
+            'max_stars': 18
+        },
+        {
             'id': 4100,
             'name': 'Dark Pants',
             'type': EquipmentType.PANTS,
@@ -257,6 +286,20 @@ class Equipment:
             'max_stars': 24
         },
         {
+            'id': 4300,
+            'name': 'Ancient Pants',
+            'type': EquipmentType.PANTS,
+            'stats': {
+                'power|+': 50,
+                'luck|+': 30,
+                'power|%': 10,
+            },
+            'level': 30,
+            'set': 'Ancient',
+            'value': 10000,
+            'max_stars': 18
+        },
+        {
             'id': 5100,
             'name': 'Dark Boots',
             'type': EquipmentType.BOOTS,
@@ -280,6 +323,21 @@ class Equipment:
             'set': 'Damian',
             'value': 4500,
             'max_stars': 24
+        },
+        {
+            'id': 5300,
+            'name': 'Ancient Boots',
+            'type': EquipmentType.BOOTS,
+            'stats': {
+                'power|+': 10,
+                'exp|+': 10,
+                'power|%': 10,
+                'exp|+': 10,
+            },
+            'level': 30,
+            'set': 'Ancient',
+            'value': 10000,
+            'max_stars': 18
         },
         {
             'id': 6100,
@@ -340,9 +398,42 @@ class Equipment:
             'value': 2000,
             'max_stars': 24
         },
+        {
+            'id': 6600,
+            'name': 'Ancient Gloves',
+            'type': EquipmentType.GLOVES,
+            'stats': {
+                'power|+': 50,
+                'exp|+': 50,
+            },
+            'level': 30,
+            'set': 'Ancient',
+            'value': 10000,
+            'max_stars': 18
+        },
     ]
 
     sets = {
+        'Ancient': [
+            {
+            },
+            {
+                'power|+': 20,
+            },
+            {
+                'power|+': 20,
+            },
+            {
+                'power|%': 5,
+            },
+            {
+                'luck|+': 5,
+            },
+            {
+                'power|%': 10,
+                'luck|+': 50,
+            }
+        ],
         'Damian': [
             {
             },
@@ -411,6 +502,22 @@ class Equipment:
                     elif modifier == '%':
                         set_str += f'`{value}{modifier} {stat}`\n'
         return set_str
+
+    @staticmethod
+    def get_base_equipment_stats_str(equipment_name: str):
+        base_equipment = Equipment.get_equipment_from_name(equipment_name)
+        stats_str = f'**__{base_equipment["name"]}__**\n'
+        stats_str += f'`Lv: {base_equipment["level"]}`\n'
+        for i in range(base_equipment['max_stars']):
+            stats_str += '☆'
+        stats_str += '\n'
+        for key, value in base_equipment['stats'].items():
+            stat, modifier = key.split('|')
+            if modifier == '+':
+                stats_str += f'`{stat}: {modifier}{value}`\n'
+            elif modifier == '%':
+                stats_str += f'`{stat}: {value}{modifier}`\n'
+        return stats_str
 
     @staticmethod
     def get_equipment_from_id(id: int):

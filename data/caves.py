@@ -179,7 +179,13 @@ class Cave:
             Rarity.COMMON: [(Drop.EXP, 7)],
             Rarity.RARE: [(Drop.GOLD, 14)],
             Rarity.EPIC: [(Drop.GOLD, 75)],
-            Rarity.LEGENDARY: [(Drop.GOLD, 605), (Drop.EQUIPMENT, 1600), (Drop.EQUIPMENT, 2300), (Drop.EQUIPMENT, 3300), (Drop.EQUIPMENT, 6500)],
+            Rarity.LEGENDARY: [
+                (Drop.GOLD, 605),
+                (Drop.EQUIPMENT, 1600),
+                (Drop.EQUIPMENT, 2300),
+                (Drop.EQUIPMENT, 3300),
+                (Drop.EQUIPMENT, 6500)
+            ],
             'current_quantity': 1000,
             'max_quantity': 1000,
         },
