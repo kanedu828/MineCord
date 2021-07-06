@@ -221,6 +221,21 @@ class Cave:
             'max_quantity': 10000,
         },
         {
+            'name': 'Null Cave',
+            'level_requirement': 80,
+            'exp': 0,
+            'drop_odds': [0, 0, 0, 0.9999, 0.0001],
+            Rarity.COMMON: [],
+            Rarity.RARE: [],
+            Rarity.EPIC: [],
+            Rarity.LEGENDARY: [
+                (Drop.EXP, 100000),
+                (Drop.EQUIPMENT, 5400),
+            ],
+            'current_quantity': 10000,
+            'max_quantity': 10000,
+        },
+        {
             'name': 'Ender Cave',
             'level_requirement': 100,
             'exp': 1200,
