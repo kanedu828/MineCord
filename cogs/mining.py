@@ -63,12 +63,14 @@ class Mining(commands.Cog):
         if datetime.now(pytz.utc).hour == 23:
             m *= 2
             message_embed.title = 'Happy Hour Mining!'
-        exp_gained = cave.cave['exp'] + total_stats['exp']
-        exp_gained *= m
-        exp_gained = int(exp_gained)
-        await db.update_user_exp(ctx.author.id, exp_gained)
-        message_embed.description += f'`{exp_gained} exp ({int(cave.cave["exp"] * m)} + {int(total_stats["exp"] * m)})`'
-        message_embed.description += '\n'
+        if cave.cave['exp'] > 0:
+            exp_gained = cave.cave['exp'] + total_stats['exp']
+            exp_gained *= m
+            exp_gained = int(exp_gained)
+            await db.update_user_exp(ctx.author.id, exp_gained)
+            message_embed.description += f'`{exp_gained} exp '
+            message_embed.description += f'({int(cave.cave["exp"] * m)} + {int(total_stats["exp"] * m)})`'
+            message_embed.description += '\n'
         if drop_type == Drop.GOLD:
             gold = drop_value + total_stats['power']
             await db.update_user_gold(ctx.author.id, gold)

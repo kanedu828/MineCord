@@ -382,6 +382,19 @@ class Equipment:
             'max_stars': 18
         },
         {
+            'id': 5400,
+            'name': 'Void Walker Boots',
+            'type': EquipmentType.BOOTS,
+            'stats': {
+                'exp|+': 200,
+                'exp|%': 25,
+            },
+            'level': 100,
+            'set': None,
+            'value': 50000,
+            'max_stars': 12
+        },
+        {
             'id': 6100,
             'name': 'Dark Gloves',
             'type': EquipmentType.GLOVES,
