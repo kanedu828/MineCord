@@ -204,12 +204,19 @@ class Cave:
         {
             'name': 'Royal Cave',
             'level_requirement': 70,
-            'exp': 200,
-            'drop_odds': [0, 0, 0.9, 0.0999, 0.0001],
+            'exp': 500,
+            'drop_odds': [0, 0, 0.9, 0.0989, 0.0011],
             Rarity.COMMON: [],
             Rarity.RARE: [],
             Rarity.EPIC: [(Drop.GOLD, 100), (Drop.GOLD, 150), (Drop.GOLD, 75)],
-            Rarity.LEGENDARY: [(Drop.GOLD, 7500), (Drop.GOLD, 7000), (Drop.EQUIPMENT, 6300)],
+            Rarity.LEGENDARY: [
+                (Drop.GOLD, 7500),
+                (Drop.GOLD, 7000),
+                (Drop.EQUIPMENT, 6300),
+                (Drop.EQUIPMENT, 2400),
+                (Drop.EQUIPMENT, 4400),
+                (Drop.EQUIPMENT, 3500)
+            ],
             'current_quantity': 10000,
             'max_quantity': 10000,
         },

@@ -207,6 +207,20 @@ class Equipment:
             'max_stars': 24
         },
         {
+            'id': 2400,
+            'name': 'Royal Crown Helmet',
+            'type': EquipmentType.HELMET,
+            'stats': {
+                'power|+': 50,
+                'luck|+': 50,
+                'power|%': 20,
+            },
+            'level': 60,
+            'set': 'Royal',
+            'value': 10000,
+            'max_stars': 32
+        },
+        {
             'id': 3100,
             'name': 'Dark Vest',
             'type': EquipmentType.VEST,
@@ -259,6 +273,20 @@ class Equipment:
             'max_stars': 18
         },
         {
+            'id': 3500,
+            'name': 'Royal Vest',
+            'type': EquipmentType.VEST,
+            'stats': {
+                'power|+': 100,
+                'luck|+': 20,
+                'power|%': 10
+            },
+            'level': 60,
+            'set': 'Royal',
+            'value': 10000,
+            'max_stars': 32
+        },
+        {
             'id': 4100,
             'name': 'Dark Pants',
             'type': EquipmentType.PANTS,
@@ -298,6 +326,20 @@ class Equipment:
             'set': 'Ancient',
             'value': 25000,
             'max_stars': 18
+        },
+        {
+            'id': 4400,
+            'name': 'Royal Pants',
+            'type': EquipmentType.PANTS,
+            'stats': {
+                'power|+': 80,
+                'luck|+': 40,
+                'luck|%': 10
+            },
+            'level': 60,
+            'set': 'Royal',
+            'value': 10000,
+            'max_stars': 32
         },
         {
             'id': 5100,
@@ -474,6 +516,16 @@ class Equipment:
                 'exp|%': 10,
                 'crit|+': 10,
             }
+        ],
+        'Royal': [
+            {
+            },
+            {
+                'power|+': 100,
+            },
+            {
+                'power|%': 50,
+            },
         ],
     }
 
