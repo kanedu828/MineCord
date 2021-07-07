@@ -19,9 +19,17 @@ class Shop(commands.Cog):
             item_name = item_name.title()
             shop_item = SD.get_shop_item_from_name(item_name)
             if shop_item:
-                message_embed.description = Equipment.get_base_equipment_stats_str(item_name)
-                message_embed.description += f'**Cost:** `{shop_item["cost"][1]} {shop_item["cost"][0].value}`'
-                await ctx.send(embed=message_embed)
+                if shop_item['type'] == Drop.EQUIPMENT:
+                    file_name = item_name.replace(' ', '_') + '.png'
+                    try:
+                        image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+                    except:
+                        file_name = 'Default.png'
+                        image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+                    message_embed.set_thumbnail(url=f'attachment://{file_name}')
+                    message_embed.description = Equipment.get_base_equipment_stats_str(item_name)
+                    message_embed.description += f'**Cost:** `{shop_item["cost"][1]} {shop_item["cost"][0].value}`'
+                await ctx.send(file=image_file, embed=message_embed)
         else:
             paginator = commands.Paginator('', '', 1800, '\n')
             for item in SD.get_shop_str_list():
