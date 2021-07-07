@@ -274,7 +274,7 @@ class Cave:
         drop_odds[4] += (luck / 350) * drop_odds[4]
         drop_odds[3] += (luck / 350) * drop_odds[3]
         drop_quality = random.choices(Cave._drops, drop_odds)[0]
-        if drop_quality:
+        if drop_quality and self.cave[drop_quality]:
             drop = random.choice(self.cave[drop_quality])
             return drop
         else:
