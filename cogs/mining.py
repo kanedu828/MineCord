@@ -212,9 +212,17 @@ class Mining(commands.Cog):
         if equipment_name and gear_str:
             message_embed.color = Equipment.lines_to_color[User.get_lines_for_equipment(equipment_list, equipment_name)]
             message_embed.description = gear_str
+            file_name = equipment_name.replace(' ', '_') + '.png'
+            try:
+                image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+            except:
+                file_name = 'Default.png'
+                image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+            message_embed.set_thumbnail(url=f'attachment://{file_name}')
+            await ctx.send(file=image_file, embed=message_embed)
         else:
             message_embed.description = '**__Equipped Gear__**:\n' + User.get_equipped_gear_str(equipment_list)
-        await ctx.send(embed=message_embed)
+            await ctx.send(embed=message_embed)
 
     @commands.command(name='inventory')
     async def inventory(self, ctx, *, equipment_name=''):
