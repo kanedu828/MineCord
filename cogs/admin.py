@@ -24,6 +24,10 @@ class Admin(commands.Cog):
     async def give(self, ctx, user: discord.Member, type: str, value: int):
         if type.lower() == 'gold':
             await db.update_user_gold(user.id, value)
+            await ctx.send('Given.')
+        elif type.lower() == 'exp':
+            await db.update_user_exp(user.id, value)
+            await ctx.send('Given.')
         elif type.lower() == 'equipment':
             base_equipment = Equipment.get_equipment_from_id(value)
             if base_equipment:
