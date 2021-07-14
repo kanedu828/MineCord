@@ -221,6 +221,24 @@ class Cave:
             'max_quantity': 10000,
         },
         {
+            'name': 'Origin Cave',
+            'level_requirement': 70,
+            'exp': 500,
+            'drop_odds': [0.4, 0.3, 0.25, 0.04, 0.01],
+            Rarity.COMMON: [(Drop.EXP, 10)],
+            Rarity.RARE: [(Drop.EXP, 100)],
+            Rarity.EPIC: [(Drop.EXP, 250)],
+            Rarity.LEGENDARY: [
+                (Drop.EQUIPMENT, 1800),
+                (Drop.EQUIPMENT, 3600),
+                (Drop.EQUIPMENT, 4500),
+                (Drop.EQUIPMENT, 5500),
+                (Drop.EQUIPMENT, 6300)
+            ],
+            'current_quantity': 10000,
+            'max_quantity': 10000,
+        },
+        {
             'name': 'Null Cave',
             'level_requirement': 80,
             'exp': 0,

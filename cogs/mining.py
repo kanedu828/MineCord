@@ -280,6 +280,15 @@ class Mining(commands.Cog):
                     message_embed.color = Equipment.lines_to_color[User.get_lines_for_equipment(
                         equipment_list,
                         equipment_name)]
+                    file_name = equipment_name.replace(' ', '_') + '.png'
+                    try:
+                        image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+                    except:
+                        file_name = 'Default.png'
+                        image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+                    message_embed.set_thumbnail(url=f'attachment://{file_name}')
+                    await ctx.send(file=image_file, embed=message_embed)
+                    return
                 else:
                     message_embed.description = 'You do not have enough gold...'
         else:
