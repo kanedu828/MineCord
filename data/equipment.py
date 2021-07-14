@@ -141,6 +141,19 @@ class Equipment:
             'max_stars': 18
         },
         {
+            'id': 1800,
+            'name': 'Origin Pickaxe',
+            'type': EquipmentType.PICKAXE,
+            'stats': {
+                'exp|+': 120,
+                'speed|+': 20,
+            },
+            'level': 60,
+            'set': 'Origin',
+            'value': 40000,
+            'max_stars': 32
+        },
+        {
             'id': 2100,
             'name': 'Dark Helmet',
             'type': EquipmentType.HELMET,
@@ -211,7 +224,7 @@ class Equipment:
             'name': 'Royal Crown Helmet',
             'type': EquipmentType.HELMET,
             'stats': {
-                'power|+': 50,
+                'power|+': 150,
                 'luck|+': 50,
                 'power|%': 20,
             },
@@ -277,13 +290,25 @@ class Equipment:
             'name': 'Royal Vest',
             'type': EquipmentType.VEST,
             'stats': {
-                'power|+': 100,
+                'power|+': 150,
                 'luck|+': 20,
                 'power|%': 10
             },
             'level': 60,
             'set': 'Royal',
             'value': 10000,
+            'max_stars': 32
+        },
+        {
+            'id': 3600,
+            'name': 'Origin Vest',
+            'type': EquipmentType.VEST,
+            'stats': {
+                'exp|+': 75,
+            },
+            'level': 50,
+            'set': 'Origin',
+            'value': 40000,
             'max_stars': 32
         },
         {
@@ -332,13 +357,26 @@ class Equipment:
             'name': 'Royal Pants',
             'type': EquipmentType.PANTS,
             'stats': {
-                'power|+': 80,
+                'power|+': 100,
                 'luck|+': 40,
                 'luck|%': 10
             },
             'level': 60,
             'set': 'Royal',
             'value': 10000,
+            'max_stars': 32
+        },
+        {
+            'id': 4500,
+            'name': 'Origin Pants',
+            'type': EquipmentType.PANTS,
+            'stats': {
+                'exp|+': 50,
+                'speed|+': 25,
+            },
+            'level': 50,
+            'set': 'Origin',
+            'value': 40000,
             'max_stars': 32
         },
         {
@@ -393,6 +431,19 @@ class Equipment:
             'set': None,
             'value': 50000,
             'max_stars': 12
+        },
+        {
+            'id': 5500,
+            'name': 'Origin Boots',
+            'type': EquipmentType.BOOTS,
+            'stats': {
+                'exp|+': 75,
+                'exp|%': 10,
+            },
+            'level': 50,
+            'set': 'Origin',
+            'value': 40000,
+            'max_stars': 32
         },
         {
             'id': 6100,
@@ -469,6 +520,20 @@ class Equipment:
     ]
 
     sets = {
+        'Origin': [
+            {
+                'exp|%': 5
+            },
+            {
+                'exp|%': 10
+            },
+            {
+                'exp|%': 15
+            },
+            {
+                'exp|+': 200
+            }
+        ],
         'Ancient': [
             {
             },
@@ -534,7 +599,7 @@ class Equipment:
             {
             },
             {
-                'power|+': 100,
+                'power|+': 250,
             },
             {
                 'power|%': 50,
