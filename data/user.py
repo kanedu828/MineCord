@@ -114,10 +114,19 @@ class User:
         if equipment:
             stats_str += f'**__{base_equipment["name"]}__**\n'
             stats_str += f'`Lv: {base_equipment["level"]}`\n'
+            space_count = 0
             for i in range(equipment['stars']):
                 stats_str += '★'
+                space_count += 1
+                if space_count % 5 == 0:
+                    space_count = 0
+                    stats_str += ' '
             for i in range(max(base_equipment['max_stars'] - equipment['stars'], 0)):
                 stats_str += '☆'
+                space_count += 1
+                if space_count % 5 == 0:
+                    space_count = 0
+                    stats_str += ' '
             stats_str += '\n'
             for key, value in base_equipment['stats'].items():
                 stat, modifier = key.split('|')
