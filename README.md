@@ -82,7 +82,10 @@ Here are the odds for getting extra bonuses:\
 2 -> 3 bonus stats: 5%\
 3 -> 4 bonus stats: 2.5%\
 4 -> 5 bonus stats: 1%\
-Additionally, the higher level your equipment, the better bonuses it will get.
+Additionally, the higher level your equipment, the better bonuses it will get.\
+  
+## Stars
+You can also manually add stars to your equipment with `;star`. This typically costs a hefty amount of gold and there is no guarantee that your equipment will be starred. It gets more expensive the higher star level it is.
   
 ## Blessings
 After you reach level 50, you have the opportunity to reset your exp to gain blessings. Every 5 levels after level 50 will give you 1 blessing on a reset. Each blessing will permanently give you 1% exp to your stats.\
