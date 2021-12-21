@@ -295,6 +295,53 @@ class Mining(commands.Cog):
             message_embed.description = 'You do not own this piece of equipment...'
         await ctx.send(embed=message_embed)
 
+    @commands.command(name='star')
+    async def star(self, ctx, *, equipment_name):
+        equipment_name = equipment_name.title()
+        user = await db.get_user(ctx.author.id)
+        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        equipment = User.get_equipment_from_name(equipment_list, equipment_name)
+        message_embed = discord.Embed(title='Equipment Bonusing', color=discord.Color.from_rgb(245, 211, 201))
+        if equipment:
+            base_equipment = Equipment.get_equipment_from_name(equipment_name)
+            if equipment['stars'] >= base_equipment['max_stars']:
+                message_embed.description = 'This equipment already has max stars!'
+            else:
+                gold_cost = base_equipment['level'] * 100 * (equipment['stars'] // 5)
+                odds = round(100 / (equipment['stars'] // 5 + 1), 2)
+                message_embed.description = (
+                    f'Would you like to star your {equipment_name} for {gold_cost} gold?\n'
+                    f'There is a `{odds}% chance to upgrade stars.`'
+                )
+                result = await ConfirmationMenu(message_embed).prompt(ctx)
+                if result:
+                    if user['gold'] >= gold_cost:
+                        await db.update_user_gold(ctx.author.id, -gold_cost)
+                        if random.choices([True, False], [odds, 100 - odds])[0]:
+                            await db.update_equipment_stars(ctx.author.id, equipment['equipment_id'], 1)
+                            message_embed.description = '**SUCCESS!**\n'
+                        else:
+                            message_embed.description = '**FAILURE!**\n'
+                        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+                        message_embed.description += User.get_equipment_stats_str(equipment_list, equipment_name)
+                        message_embed.color = Equipment.lines_to_color[User.get_lines_for_equipment(
+                            equipment_list,
+                            equipment_name)]
+                        file_name = equipment_name.replace(' ', '_') + '.png'
+                        try:
+                            image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+                        except:
+                            file_name = 'Default.png'
+                            image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+                        message_embed.set_thumbnail(url=f'attachment://{file_name}')
+                        await ctx.send(file=image_file, embed=message_embed)
+                        return
+                    else:
+                        message_embed.description = 'You do not have enough gold...'
+        else:
+            message_embed.description = 'You do not own this piece of equipment...'
+        await ctx.send(embed=message_embed)
+
     @commands.command(name='reset')
     async def reset(self, ctx):
         user = await db.get_user(ctx.author.id)
