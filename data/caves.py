@@ -36,7 +36,7 @@ class Cave:
         {
             'name': 'Beginner Cave',
             'level_requirement': 0,
-            'exp': 1,
+            'exp': 3,
             'drop_odds': [0.4, 0.3, 0.20, 0.08, 0.02],
             Rarity.COMMON: [(Drop.GOLD, 1)],
             Rarity.RARE: [(Drop.GOLD, 5)],
@@ -48,7 +48,7 @@ class Cave:
         {
             'name': 'Amateur Cave',
             'level_requirement': 2,
-            'exp': 4,
+            'exp': 5,
             'drop_odds': [0.2, 0.4, 0.3, 0.09, 0.01],
             Rarity.COMMON: [(Drop.GOLD, 1)],
             Rarity.RARE: [(Drop.GOLD, 5)],
