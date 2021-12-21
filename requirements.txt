@@ -3,7 +3,7 @@ async-timeout==3.0.1
 asyncpg==0.22.0
 attrs==20.3.0
 chardet==3.0.4
-discord-ext-menus==1.0.0a30+g309c702
+discord-ext-menus==1.0.0a31+gfbb8803
 discord.py==1.7.3
 flake8==3.9.2
 idna==3.1

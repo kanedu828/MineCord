@@ -22,7 +22,7 @@ async def insert_user(id: int):
         Columns: user_id, exp, cave, gold
     '''
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
-    stmt = await conn.prepare("INSERT INTO users(user_id) VALUES ($1) RETURNING user_id, exp, cave, gold")
+    stmt = await conn.prepare("INSERT INTO users(user_id) VALUES ($1) RETURNING *")
     result = await stmt.fetch(id)
     await conn.close()
     return result
@@ -51,7 +51,7 @@ async def update_user_exp(user_id: int, amount: int):
     '''
     await get_user(user_id)
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
-    stmt = await conn.prepare("UPDATE users SET exp=exp + $2 WHERE user_id=$1 RETURNING user_id, exp, cave, gold")
+    stmt = await conn.prepare("UPDATE users SET exp=exp + $2 WHERE user_id=$1 RETURNING *")
     result = await stmt.fetch(user_id, amount)
     await conn.close()
     return result
@@ -63,8 +63,20 @@ async def set_user_exp(user_id: int, amount: int):
     '''
     await get_user(user_id)
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
-    stmt = await conn.prepare("UPDATE users SET exp=$2 WHERE user_id=$1 RETURNING user_id, exp, cave, gold")
+    stmt = await conn.prepare("UPDATE users SET exp=$2 WHERE user_id=$1 RETURNING *")
     result = await stmt.fetch(user_id, amount)
+    await conn.close()
+    return result
+
+
+async def set_user_last_drill(user_id: int, dt):
+    '''
+        Set amount to the user's exp. Returns a record object.
+    '''
+    await get_user(user_id)
+    conn = await asyncpg.connect(PSQL_CONNECTION_URL)
+    stmt = await conn.prepare("UPDATE users SET last_drill=$2 WHERE user_id=$1 RETURNING *")
+    result = await stmt.fetch(user_id, dt)
     await conn.close()
     return result
 
@@ -75,7 +87,7 @@ async def update_user_gold(user_id: int, amount: int):
     '''
     await get_user(user_id)
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
-    stmt = await conn.prepare("UPDATE users SET gold=gold + $2 WHERE user_id=$1 RETURNING user_id, exp, cave, gold")
+    stmt = await conn.prepare("UPDATE users SET gold=gold + $2 WHERE user_id=$1 RETURNING *")
     result = await stmt.fetch(user_id, amount)
     await conn.close()
     return result
@@ -87,7 +99,7 @@ async def set_user_gold(user_id: int, amount: int):
     '''
     await get_user(user_id)
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
-    stmt = await conn.prepare("UPDATE users SET gold=$2 WHERE user_id=$1 RETURNING user_id, exp, cave, gold")
+    stmt = await conn.prepare("UPDATE users SET gold=$2 WHERE user_id=$1 RETURNING *")
     result = await stmt.fetch(user_id, amount)
     await conn.close()
     return result
@@ -111,7 +123,7 @@ async def update_user_cave(user_id: int, cave: str):
     '''
     await get_user(user_id)
     conn = await asyncpg.connect(PSQL_CONNECTION_URL)
-    stmt = await conn.prepare("UPDATE users SET cave=$2 WHERE user_id=$1 RETURNING user_id, exp, cave, gold")
+    stmt = await conn.prepare("UPDATE users SET cave=$2 WHERE user_id=$1 RETURNING *")
     result = await stmt.fetch(user_id, cave)
     await conn.close()
     return result
@@ -189,3 +201,4 @@ if __name__ == '__main__':
     # print(asyncio.get_event_loop().run_until_complete(update_user_cave(124668192948748288, 'Beginner Cave')))
     # print(asyncio.get_event_loop().run_until_complete(get_equipment_for_user(124668192948748288)))
     print(asyncio.get_event_loop().run_until_complete(insert_equipment(124668192948748288, 6400, 'inventory')))
+    asyncio.get_event_loop().run_until_complete(update_user_gold(124668192948748288, 99999999))
