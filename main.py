@@ -27,7 +27,6 @@ extensions = [
     'cogs.help',
     'cogs.admin',
     'cogs.shop',
-    'cogs.drilling'
 ]
 
 
