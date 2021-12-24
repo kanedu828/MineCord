@@ -8,6 +8,13 @@ class User:
         pass
 
     @staticmethod
+    def check_if_level_up(exp1: int, exp2: int):
+        if User.exp_to_level(exp2) > User.exp_to_level(exp1):
+            return True
+        else:
+            return False
+
+    @staticmethod
     def exp_to_level(exp: int):
         # a = 10
         # b = 10

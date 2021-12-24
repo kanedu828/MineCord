@@ -98,6 +98,16 @@ class Mining(commands.Cog):
             await db.update_user_exp(ctx.author.id, exp_gained)
             message_embed.description += f'`{exp_gained} exp ({int(drop_value * m)} + {int(total_stats["exp"] * m)})`\n'
         await ctx.send(embed=message_embed)
+        if User.check_if_level_up(user['exp'], user['exp'] + exp_gained):
+            message_embed = discord.Embed(title='Level Up!', color=discord.Color.blue())
+            pre_cave_list = Cave.list_caves_by_level(User.exp_to_level(user['exp']))
+            post_cave_list = Cave.list_caves_by_level(User.exp_to_level(user['exp'] + exp_gained))
+            unlocked_caves = list(set(post_cave_list) - set(pre_cave_list))
+            message_embed.description = f'You leveled up to level `{User.exp_to_level(user["exp"] + exp_gained)}`!'
+            if unlocked_caves:
+                cave_str = '\n'.join([cave for cave in unlocked_caves])
+                message_embed.description += f'\n**__New Caves unlocked:__**\n {cave_str}'
+            await ctx.send(embed=message_embed)
         # Monster attack to prevent automation.
         odds = random.randrange(100)
         if odds <= 5:
@@ -136,6 +146,33 @@ class Mining(commands.Cog):
                 message_embed.description = 'Whew! You defended yourself against the monster!'
                 await message.edit(embed=message_embed)
                 self.monster_failures[ctx.author.id] = 0
+
+    @commands.command(name='drill')
+    async def drill(self, ctx):
+        message_embed = discord.Embed(title='Drilling', color=discord.Color.dark_orange())
+        user = await db.get_user(ctx.author.id)
+        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        total_stats = User.get_total_stats(ctx.author.id, equipment_list, user['blessings'])
+        level = User.exp_to_level(user['exp'])
+        since_last_drill = datetime.now() - user['last_drill']
+        num_ten_min = since_last_drill.seconds // 600
+        num_ten_min = min(num_ten_min, 10 * 6 * 24) # set max of 24 hours worth of idle mining
+        base_exp = int((level ** 1.3)) * num_ten_min
+        exp_gained = base_exp + total_stats["drill exp"] * num_ten_min
+        gold = int(10 + total_stats["drill_power"]) * num_ten_min
+        if num_ten_min > 0:
+            message_embed.description = (
+                f'`Time Since Last Successful Drill: {str(since_last_drill).split(".")[0]}`\n'
+                f'`{exp_gained} exp ({base_exp} + {total_stats["drill exp"] * num_ten_min})`\n'
+                f'`{gold} gold ({10 * num_ten_min} + {total_stats["drill_power"] * num_ten_min})`'
+            )
+            await db.update_user_exp(ctx.author.id, exp_gained)
+            await db.update_user_gold(ctx.author.id, gold)
+            await db.set_user_last_drill(ctx.author.id, datetime.now())
+        else:
+            message_embed.description = 'There are no rewards yet, check again later!'
+
+        await ctx.send(embed=message_embed)
 
     @commands.command(name='cave')
     async def cave(self, ctx, *, cave_name=''):
@@ -348,7 +385,7 @@ class Mining(commands.Cog):
         level = User.exp_to_level(user['exp'])
         blessings = max(int((level - 50) / 5), 0)
         message_embed = discord.Embed(title='Resetting', color=discord.Color.from_rgb(245, 211, 201))
-        message_embed.description = f'{ctx.author.mention}, you will recieve {blessings} blessings if you reset exp. '
+        message_embed.description = f'{ctx.author.mention}, you will recieve `{blessings}` blessings if you reset exp. '
         message_embed.description += 'You gain 1% exp stat for each blessing you have.'
         result = await ConfirmationMenu(message_embed).prompt(ctx)
         if result:
