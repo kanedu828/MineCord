@@ -171,8 +171,17 @@ class Mining(commands.Cog):
             await db.set_user_last_drill(ctx.author.id, datetime.now())
         else:
             message_embed.description = 'There are no rewards yet, check again later!'
-
         await ctx.send(embed=message_embed)
+        if User.check_if_level_up(user['exp'], user['exp'] + exp_gained):
+            message_embed = discord.Embed(title='Level Up!', color=discord.Color.blue())
+            pre_cave_list = Cave.list_caves_by_level(User.exp_to_level(user['exp']))
+            post_cave_list = Cave.list_caves_by_level(User.exp_to_level(user['exp'] + exp_gained))
+            unlocked_caves = list(set(post_cave_list) - set(pre_cave_list))
+            message_embed.description = f'You leveled up to level `{User.exp_to_level(user["exp"] + exp_gained)}`!'
+            if unlocked_caves:
+                cave_str = '\n'.join([cave for cave in unlocked_caves])
+                message_embed.description += f'\n**__New Caves unlocked:__**\n {cave_str}'
+            await ctx.send(embed=message_embed)
 
     @commands.command(name='cave')
     async def cave(self, ctx, *, cave_name=''):
