@@ -37,6 +37,20 @@ class Mining(commands.Cog):
                 raise commands.CommandOnCooldown(bucket, retry_after)
             return True
 
+    async def indicate_level_up(ctx, exp1: int, exp2: int):
+        level1 = User.exp_to_level(exp1)
+        level2 = User.exp_to_level(exp2)
+        if User.check_if_level_up(exp1, exp2):
+            message_embed = discord.Embed(title='Level Up!', color=discord.Color.blue())
+            pre_cave_list = Cave.list_caves_by_level(level1)
+            post_cave_list = Cave.list_caves_by_level(level2)
+            unlocked_caves = list(set(post_cave_list) - set(pre_cave_list))
+            message_embed.description = f'You leveled up to level `{level2}`!'
+            if unlocked_caves:
+                cave_str = '\n'.join([cave for cave in unlocked_caves])
+                message_embed.description += f'\n**__New Caves unlocked:__**\n {cave_str}'
+            await ctx.send(embed=message_embed)
+
     @commands.command(name='mine')
     @commands.check(MiningCooldown())
     async def mine(self, ctx):
@@ -98,16 +112,7 @@ class Mining(commands.Cog):
             await db.update_user_exp(ctx.author.id, exp_gained)
             message_embed.description += f'`{exp_gained} exp ({int(drop_value * m)} + {int(total_stats["exp"] * m)})`\n'
         await ctx.send(embed=message_embed)
-        if User.check_if_level_up(user['exp'], user['exp'] + exp_gained):
-            message_embed = discord.Embed(title='Level Up!', color=discord.Color.blue())
-            pre_cave_list = Cave.list_caves_by_level(User.exp_to_level(user['exp']))
-            post_cave_list = Cave.list_caves_by_level(User.exp_to_level(user['exp'] + exp_gained))
-            unlocked_caves = list(set(post_cave_list) - set(pre_cave_list))
-            message_embed.description = f'You leveled up to level `{User.exp_to_level(user["exp"] + exp_gained)}`!'
-            if unlocked_caves:
-                cave_str = '\n'.join([cave for cave in unlocked_caves])
-                message_embed.description += f'\n**__New Caves unlocked:__**\n {cave_str}'
-            await ctx.send(embed=message_embed)
+        await Mining.indicate_level_up(ctx, user['exp'], user['exp'] + exp_gained)
         # Monster attack to prevent automation.
         odds = random.randrange(100)
         if odds <= 5:
@@ -172,16 +177,7 @@ class Mining(commands.Cog):
         else:
             message_embed.description = 'There are no rewards yet, check again later!'
         await ctx.send(embed=message_embed)
-        if User.check_if_level_up(user['exp'], user['exp'] + exp_gained):
-            message_embed = discord.Embed(title='Level Up!', color=discord.Color.blue())
-            pre_cave_list = Cave.list_caves_by_level(User.exp_to_level(user['exp']))
-            post_cave_list = Cave.list_caves_by_level(User.exp_to_level(user['exp'] + exp_gained))
-            unlocked_caves = list(set(post_cave_list) - set(pre_cave_list))
-            message_embed.description = f'You leveled up to level `{User.exp_to_level(user["exp"] + exp_gained)}`!'
-            if unlocked_caves:
-                cave_str = '\n'.join([cave for cave in unlocked_caves])
-                message_embed.description += f'\n**__New Caves unlocked:__**\n {cave_str}'
-            await ctx.send(embed=message_embed)
+        await Mining.indicate_level_up(ctx, user['exp'], user['exp'] + exp_gained)
 
     @commands.command(name='cave')
     async def cave(self, ctx, *, cave_name=''):
