@@ -141,8 +141,12 @@ class User:
             for key, value in base_equipment['stats'].items():
                 stat, modifier = key.split('|')
                 if modifier == '+':
-                    stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"])}'
-                    stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"])})`\n'
+                    if stat == 'speed' or stat == 'crit' or stat == 'luck':
+                        stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"]) // 4}'
+                        stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"]) // 4})`\n'
+                    else:
+                        stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"])}'
+                        stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"])})`\n'
                 elif modifier == '%':
                     stats_str += f'`{stat}: {value}{modifier}`\n'
             stats_str += '----------Bonuses----------\n'
