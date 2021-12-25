@@ -57,7 +57,10 @@ class User:
             for key, value in base_equipment['stats'].items():
                 stat, modifier = key.split('|')
                 if modifier == '+':
-                    stats[stat] += value + Equipment.get_star_bonus(e['stars'])
+                    if stat == 'speed' or stat == 'crit' or stat == 'luck':
+                        stats[stat] += value + Equipment.get_star_bonus(e['stars']) // 4
+                    else:
+                        stats[stat] += value + Equipment.get_star_bonus(e['stars'])
                 elif modifier == '%':
                     bonus_percentages[stat] += value
             for bonus in e['bonus'].split(','):
