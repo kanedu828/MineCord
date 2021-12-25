@@ -87,7 +87,7 @@ class Mining(commands.Cog):
             message_embed.description += f'({int(cave.cave["exp"] * m)} + {int(total_stats["exp"] * m)})`'
             message_embed.description += '\n'
         if drop_type == Drop.GOLD:
-            gold = drop_value + total_stats['power']
+            gold = drop_value + min(drop_value * 10, total_stats['power'])
             await db.update_user_gold(ctx.author.id, gold)
             message_embed.description += f'`{gold} gold ({drop_value} + {total_stats["power"]})`\n'
         elif drop_type == Drop.EQUIPMENT:
