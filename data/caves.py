@@ -72,8 +72,8 @@ class Cave:
         {
             'name': 'Dark Cave',
             'level_requirement': 10,
-            'exp': 10,
-            'drop_odds': [0.85, 0.10, 0.03, 0.01, 0.01],
+            'exp': 15,
+            'drop_odds': [0.75, 0.10, 0.08, 0.05, 0.02],
             Rarity.COMMON: [(Drop.GOLD, 1), (Drop.EXP, 5)],
             Rarity.RARE: [(Drop.GOLD, 5), (Drop.EXP, 10)],
             Rarity.EPIC: [(Drop.GOLD, 150), (Drop.EQUIPMENT, 2100), (Drop.EQUIPMENT, 5100), (Drop.EQUIPMENT, 1200)],
@@ -114,7 +114,7 @@ class Cave:
         {
             'name': 'Ice Cave',
             'level_requirement': 20,
-            'exp': 8,
+            'exp': 20,
             'drop_odds': [0.4, 0.3, 0.20, 0.095, 0.005],
             Rarity.COMMON: [(Drop.GOLD, 5)],
             Rarity.RARE: [(Drop.GOLD, 13)],
@@ -126,7 +126,7 @@ class Cave:
         {
             'name': 'Ice Cave 2',
             'level_requirement': 25,
-            'exp': 10,
+            'exp': 25,
             'drop_odds': [0.4, 0.3, 0.285, 0.01, 0.005],
             Rarity.COMMON: [(Drop.GOLD, 5)],
             Rarity.RARE: [(Drop.GOLD, 13)],
@@ -138,7 +138,7 @@ class Cave:
         {
             'name': 'Beetle Cave',
             'level_requirement': 30,
-            'exp': 15,
+            'exp': 30,
             'drop_odds': [0.4, 0.3, 0.20, 0.08, 0.02],
             Rarity.COMMON: [(Drop.EXP, 5)],
             Rarity.RARE: [(Drop.GOLD, 12)],
@@ -150,7 +150,7 @@ class Cave:
         {
             'name': 'Falcon Cave',
             'level_requirement': 40,
-            'exp': 20,
+            'exp': 45,
             'drop_odds': [0.4, 0.3, 0.20, 0.08, 0.02],
             Rarity.COMMON: [(Drop.EXP, 7)],
             Rarity.RARE: [(Drop.GOLD, 15)],
@@ -162,9 +162,9 @@ class Cave:
         {
             'name': 'Lillard Cave',
             'level_requirement': 50,
-            'exp': 30,
+            'exp': 55,
             'drop_odds': [0.4, 0.3, 0.20, 0.08, 0.02],
-            Rarity.COMMON: [(Drop.EXP, 7)],
+            Rarity.COMMON: [(Drop.EXP, 10)],
             Rarity.RARE: [(Drop.GOLD, 14)],
             Rarity.EPIC: [(Drop.GOLD, 75)],
             Rarity.LEGENDARY: [(Drop.GOLD, 605), (Drop.EQUIPMENT, 5200), (Drop.EQUIPMENT, 4200)],
@@ -174,9 +174,9 @@ class Cave:
         {
             'name': 'Trailblazer Cave',
             'level_requirement': 55,
-            'exp': 30,
+            'exp': 60,
             'drop_odds': [0.4, 0.3, 0.20, 0.09, 0.01],
-            Rarity.COMMON: [(Drop.EXP, 7)],
+            Rarity.COMMON: [(Drop.EXP, 10)],
             Rarity.RARE: [(Drop.GOLD, 14)],
             Rarity.EPIC: [(Drop.GOLD, 75)],
             Rarity.LEGENDARY: [
@@ -202,9 +202,21 @@ class Cave:
             'max_quantity': 10000,
         },
         {
+            'name': 'Molten Cave',
+            'level_requirement': 65,
+            'exp': 120,
+            'drop_odds': [0.4, 0.3, 0.20, 0.099, 0.001],
+            Rarity.COMMON: [(Drop.EXP, 30)],
+            Rarity.RARE: [(Drop.GOLD, 15), (Drop.EXP, 50)],
+            Rarity.EPIC: [(Drop.GOLD, 50), (Drop.EXP, 100)],
+            Rarity.LEGENDARY: [(Drop.GOLD, 5000), (Drop.EXP, 2500), (Drop.EQUIPMENT, 1500)],
+            'current_quantity': 10000,
+            'max_quantity': 10000,
+        },
+        {
             'name': 'Royal Cave',
             'level_requirement': 70,
-            'exp': 500,
+            'exp': 250,
             'drop_odds': [0, 0, 0.9, 0.0989, 0.0011],
             Rarity.COMMON: [],
             Rarity.RARE: [],
@@ -223,7 +235,7 @@ class Cave:
         {
             'name': 'Origin Cave',
             'level_requirement': 70,
-            'exp': 500,
+            'exp': 250,
             'drop_odds': [0.4, 0.3, 0.25, 0.04, 0.01],
             Rarity.COMMON: [(Drop.EXP, 10)],
             Rarity.RARE: [(Drop.EXP, 100)],

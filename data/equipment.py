@@ -29,7 +29,7 @@ class Equipment:
             'name': 'Developer Pickaxe',
             'type': EquipmentType.PICKAXE,
             'stats': {
-                'speed|+': 350,
+                'speed|+': 70,
                 'crit|+': 50,
             },
             'level': 0,
