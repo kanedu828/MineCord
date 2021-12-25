@@ -72,7 +72,7 @@ class Mining(commands.Cog):
         m = 1  # multiplier
         odds = random.randrange(100)
         if odds <= total_stats['crit']:
-            overflow = total_stats['crit'] - 100
+            overflow = max(total_stats['crit'] - 100, 0)
             m *= 2 + (overflow / 100)
             message_embed.description += 'Critical mine! Extra exp gained.\n'
         if datetime.now(pytz.utc).hour == 23:
