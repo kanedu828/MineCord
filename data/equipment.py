@@ -699,7 +699,10 @@ class Equipment:
             stat = random.choice(Equipment.stat_types)
             modifier = random.choices(['+', '%'], [.65, .35])[0]
             if modifier == '+':
-                value = random.randint(int(base_equipment['level'] / 2), int(base_equipment['level']))
+                if stat == 'crit' or stat == 'speed' or stat == 'luck':
+                    value = random.randint(max(int(base_equipment['level'] / 8), 1), max(int(base_equipment['level'] / 4), 1))
+                else:
+                    value = random.randint(int(base_equipment['level'] / 2), int(base_equipment['level']))
             else:
                 value = random.randint(int(base_equipment['level'] / 4), int(base_equipment['level'] / 2))
             bonus += f'{stat}|{modifier}|{value},'

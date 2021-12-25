@@ -26,7 +26,7 @@ class Mining(commands.Cog):
                 equipment_list = await db.get_equipment_for_user(message.author.id)
                 total_stats = User.get_total_stats(message.author.id, equipment_list)
                 speed = total_stats['speed']
-                cooldown = max(10 - 10 * (speed / 500), 3)
+                cooldown = max(10 - 10 * (speed / 100), 3)
                 return commands.Cooldown(1, cooldown, commands.BucketType.user)
             self.mapping = CustomCooldownMapping(mining_cooldown)
 
@@ -71,8 +71,9 @@ class Mining(commands.Cog):
         message_embed.description = f'**{ctx.author.mention} mined at {cave.cave["name"]} and found:**\n'
         m = 1  # multiplier
         odds = random.randrange(100)
-        if odds <= total_stats['crit'] * 0.25:
-            m *= 2
+        if odds <= total_stats['crit']:
+            overflow = total_stats['crit'] - 100
+            m *= 2 + (overflow / 100)
             message_embed.description += 'Critical mine! Extra exp gained.\n'
         if datetime.now(pytz.utc).hour == 23:
             m *= 2
