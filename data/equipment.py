@@ -110,7 +110,7 @@ class Equipment:
                 'power|+': 45,
                 'exp|%': 5,
             },
-            'level': 40,
+            'level': 50,
             'set': None,
             'value': 1500,
             'max_stars': 24
@@ -122,7 +122,7 @@ class Equipment:
             'stats': {
                 'power|+': 30,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Damian',
             'value': 2000,
             'max_stars': 24
@@ -135,7 +135,7 @@ class Equipment:
                 'power|+': 90,
                 'exp|+': 30,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Ancient',
             'value': 25000,
             'max_stars': 18
@@ -176,7 +176,7 @@ class Equipment:
                 'luck|+': 30,
                 'luck|%': 20,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Ancient',
             'value': 25000,
             'max_stars': 18
@@ -214,7 +214,7 @@ class Equipment:
                 'power|+': 10,
                 'power|%': 5,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Damian',
             'value': 2000,
             'max_stars': 24
@@ -266,7 +266,7 @@ class Equipment:
             'stats': {
                 'power|+': 25,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Damian',
             'value': 2000,
             'max_stars': 24
@@ -280,7 +280,7 @@ class Equipment:
                 'exp|+': 50,
 
             },
-            'level': 30,
+            'level': 40,
             'set': 'Ancient',
             'value': 25000,
             'max_stars': 18
@@ -333,7 +333,7 @@ class Equipment:
                 'exp|+': 5,
                 'speed|+': 5,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Damian',
             'value': 4500,
             'max_stars': 24
@@ -347,7 +347,7 @@ class Equipment:
                 'luck|+': 30,
                 'power|%': 10,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Ancient',
             'value': 25000,
             'max_stars': 18
@@ -399,7 +399,7 @@ class Equipment:
                 'power|+': 20,
                 'exp|%': 10,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Damian',
             'value': 4500,
             'max_stars': 24
@@ -414,7 +414,7 @@ class Equipment:
                 'power|%': 10,
                 'exp|+': 10,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Ancient',
             'value': 25000,
             'max_stars': 18
@@ -499,7 +499,7 @@ class Equipment:
                 'power|+': 15,
                 'speed|+': 5,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Damian',
             'value': 2000,
             'max_stars': 24
@@ -512,7 +512,7 @@ class Equipment:
                 'power|+': 50,
                 'exp|+': 50,
             },
-            'level': 30,
+            'level': 40,
             'set': 'Ancient',
             'value': 25000,
             'max_stars': 18

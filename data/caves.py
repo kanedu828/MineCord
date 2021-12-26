@@ -160,6 +160,18 @@ class Cave:
             'max_quantity': 10000,
         },
         {
+            'name': 'Hawk Cave',
+            'level_requirement': 45,
+            'exp': 50,
+            'drop_odds': [0.4, 0.3, 0.19, 0.08, 0.03],
+            Rarity.COMMON: [(Drop.EXP, 15)],
+            Rarity.RARE: [(Drop.GOLD, 30)],
+            Rarity.EPIC: [(Drop.GOLD, 100)],
+            Rarity.LEGENDARY: [(Drop.GOLD, 600), (Drop.EQUIPMENT, 2175), (Drop.EQUIPMENT, 1450)],
+            'current_quantity': 10000,
+            'max_quantity': 10000,
+        },
+        {
             'name': 'Lillard Cave',
             'level_requirement': 50,
             'exp': 55,
