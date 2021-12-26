@@ -639,7 +639,9 @@ class Equipment:
         stats_str = f'**__{base_equipment["name"]}__**\n'
         stats_str += f'`Lv: {base_equipment["level"]}`\n'
         for i in range(base_equipment['max_stars']):
-            stats_str += '☆'
+            if i % 5 == 0:
+                stats_str += ' '
+            stats_str += '☆'    
         stats_str += '\n'
         for key, value in base_equipment['stats'].items():
             stat, modifier = key.split('|')
