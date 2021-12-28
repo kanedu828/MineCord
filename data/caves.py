@@ -205,7 +205,7 @@ class Cave:
             'name': 'Volcanic Cave',
             'level_requirement': 60,
             'exp': 100,
-            'drop_odds': [0.4, 0.3, 0.20, 0.0999, 0.0001],
+            'drop_odds': [0.4, 0.3, 0.20, 0.095, 0.005],
             Rarity.COMMON: [(Drop.EXP, 30)],
             Rarity.RARE: [(Drop.GOLD, 15), (Drop.EXP, 50)],
             Rarity.EPIC: [(Drop.GOLD, 50), (Drop.EXP, 100)],
