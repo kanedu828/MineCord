@@ -217,7 +217,7 @@ class Cave:
             'name': 'Molten Cave',
             'level_requirement': 65,
             'exp': 120,
-            'drop_odds': [0.4, 0.3, 0.20, 0.099, 0.001],
+            'drop_odds': [0.4, 0.3, 0.20, 0.092, 0.008],
             Rarity.COMMON: [(Drop.EXP, 30)],
             Rarity.RARE: [(Drop.GOLD, 15), (Drop.EXP, 50)],
             Rarity.EPIC: [(Drop.GOLD, 50), (Drop.EXP, 100)],
