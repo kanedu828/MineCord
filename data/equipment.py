@@ -641,7 +641,7 @@ class Equipment:
         for i in range(base_equipment['max_stars']):
             if i % 5 == 0:
                 stats_str += ' '
-            stats_str += '☆'    
+            stats_str += '☆'
         stats_str += '\n'
         for key, value in base_equipment['stats'].items():
             stat, modifier = key.split('|')
@@ -667,13 +667,12 @@ class Equipment:
 
     @staticmethod
     def get_star_bonus(stars: int):
-        adder = 1
+        adder = 0
         star_bonus = 0
-        while stars > 0:
-            stars -= 1
+        for i in range(stars):
+            if i % 5 == 0:
+                adder += 1 * (i // 10 + 1)
             star_bonus += adder
-            if stars % 5 == 0:
-                adder += 1
         return star_bonus
 
     @staticmethod
