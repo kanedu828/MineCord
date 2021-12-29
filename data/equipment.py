@@ -145,7 +145,7 @@ class Equipment:
             'name': 'Origin Pickaxe',
             'type': EquipmentType.PICKAXE,
             'stats': {
-                'exp|+': 120,
+                'exp|+': 150,
                 'speed|+': 20,
             },
             'level': 60,
@@ -198,12 +198,13 @@ class Equipment:
             'name': 'Absolute Helmet',
             'type': EquipmentType.HELMET,
             'stats': {
-                'power|+': 67,
+                'power|+': 200,
+                'exp|+': 500,
                 'power|%': 5,
             },
             'level': 100,
             'set': 'Absolute',
-            'value': 10000,
+            'value': 25000,
             'max_stars': 24
         },
         {
@@ -424,13 +425,13 @@ class Equipment:
             'name': 'Void Walker Boots',
             'type': EquipmentType.BOOTS,
             'stats': {
-                'exp|+': 200,
+                'exp|+': 300,
                 'exp|%': 25,
             },
             'level': 100,
             'set': None,
             'value': 50000,
-            'max_stars': 12
+            'max_stars': 32
         },
         {
             'id': 5500,
@@ -522,13 +523,13 @@ class Equipment:
     sets = {
         'Origin': [
             {
-                'exp|%': 5
+                'exp|+': 50
             },
             {
-                'exp|%': 10
+                'exp|+': 75
             },
             {
-                'exp|%': 15
+                'exp|%': 20
             },
             {
                 'exp|+': 200
@@ -671,7 +672,10 @@ class Equipment:
         star_bonus = 0
         for i in range(stars):
             if i % 5 == 0:
-                adder += 1 * (i // 10 + 1)
+                if i >= 20:
+                    adder += 4 * (i // 10 + 1)
+                else:
+                    adder += 1 * (i // 10 + 1)
             star_bonus += adder
         return star_bonus
 
@@ -698,7 +702,7 @@ class Equipment:
         bonus = ''
         for i in range(lines[0]):
             stat = random.choice(Equipment.stat_types)
-            modifier = random.choices(['+', '%'], [.65, .35])[0]
+            modifier = random.choices(['+', '%'], [.75, .25])[0]
             if modifier == '+':
                 if stat == 'crit' or stat == 'speed' or stat == 'luck':
                     value = random.randint(max(int(base_equipment['level'] / 8), 1), max(int(base_equipment['level'] / 4), 1))
