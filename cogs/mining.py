@@ -351,6 +351,8 @@ class Mining(commands.Cog):
                 message_embed.description = 'This equipment already has max stars!'
             else:
                 gold_cost = base_equipment['level'] * 5 * (equipment['stars'] // 5 + 1)
+                if equipment['stars'] >= 20:
+                    gold_cost *= 4
                 odds = round(100 / (equipment['stars'] // 5 + 1), 2)
                 message_embed.description = (
                     f'Would you like to star your {equipment_name} for {gold_cost} gold?\n'
