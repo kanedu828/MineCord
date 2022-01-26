@@ -1,8 +1,11 @@
+import asyncpg
+import asyncio
 import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import logging
+
 
 load_dotenv()
 logger = logging.getLogger('discord')
@@ -12,15 +15,7 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 intents = discord.Intents.default()  # All but the two privileged ones
 intents.members = True  # Subscribe to the Members intent
-PRODUCTION = os.getenv('PRODUCTION')
-if PRODUCTION == 'False':
-    TOKEN = os.getenv('TOKEN_DEVELOPMENT')
-    client = commands.Bot(command_prefix='-', intents=intents)
-else:
-    TOKEN = os.getenv('TOKEN')
-    client = commands.Bot(command_prefix=';', intents=intents)
 
-client.remove_command('help')
 
 extensions = [
     'cogs.mining',
@@ -34,54 +29,32 @@ def check_if_me(ctx):
     return ctx.message.author.id == 124668192948748288
 
 
-@client.command()
-@commands.check(check_if_me)
-async def load(ctx, extension):
-    try:
-        client.load_extension(extension)
-        await ctx.send(f'{extension} successfully loaded')
-        print(f'{extension} successfully loaded')
-    except Exception as exception:
-        await ctx.send(f'{extension} cannot be loaded. [{exception}]')
-        print(f'{extension} cannot be loaded. [{exception}]')
-
-
-@client.command()
-@commands.check(check_if_me)
-async def unload(ctx, extension):
-    try:
-        client.unload_extension(extension)
-        await ctx.send(f'{extension} successfully unloaded')
-        print(f'{extension} successfully unloaded')
-    except Exception as exception:
-        await ctx.send(f'{extension} cannot be unloaded. [{exception}]')
-        print(f'{extension} cannot be unloaded. [{exception}]')
-
-
-@client.command()
-@commands.check(check_if_me)
-async def reload(ctx, extension):
-    try:
-        client.reload_extension(extension)
-        await ctx.send(f'{extension} successfully reloaded')
-        print(f'{extension} successfully reloaded')
-    except Exception as exception:
-        await ctx.send(f'{extension} cannot be reloaded. [{exception}]')
-        print(f'{extension} cannot be reloaded. [{exception}]')
-
-
-@client.event
-async def on_ready():
-    print("Bot is ready")
-
-    game = discord.Game('<3!')
-    await client.change_presence(activity=game)
-
-if __name__ == '__main__':
+def load_extensions(client):
     for extension in extensions:
         try:
             client.load_extension(extension)
             print(f'{extension} successfully loaded')
         except Exception as exception:
             print(f'{extension} cannot be loaded. [{exception}]')
-    client.run(TOKEN)
+
+
+async def start():
+    PRODUCTION = os.getenv('PRODUCTION')
+    if PRODUCTION == 'False':
+        TOKEN = os.getenv('TOKEN_DEVELOPMENT')
+        game = discord.Game('<3!')
+        client = commands.Bot(command_prefix='-', intents=intents, activity=game)
+    else:
+        TOKEN = os.getenv('TOKEN')
+        client = commands.Bot(command_prefix=';', intents=intents)
+
+    client.remove_command('help')
+    PSQL_CONNECTION_URL = os.getenv('PSQL_CONNECTION_URL')
+    async with asyncpg.create_pool(dsn=PSQL_CONNECTION_URL) as pool:
+        client.pool = pool
+        load_extensions(client)
+        await client.start(TOKEN)
+        
+
+if __name__ == '__main__':
+    asyncio.run(start())

@@ -1,49 +1,87 @@
 import discord
 from discord.ext import commands
-import util.dbutil as db
 from data.equipment import Equipment
 from data.caves import Cave
 from data.user import User
 from data.blacklist import blacklist as bl
+from util.dbutil import DBUtil
 
 
 class Admin(commands.Cog):
+
     def __init__(self, client):
         self.client = client
+        self.db = DBUtil(client.pool)
 
-    def check_if_me(ctx):
-        return ctx.message.author.id == 124668192948748288
+    # @commands.Cog.listener()
+    # async def on_ready():
+    #     print("Bot is ready")
+
+    @commands.command()
+    @commands.check(commands.is_owner)
+    async def load(ctx, extension):
+        try:
+            client.load_extension(extension)
+            await ctx.send(f'{extension} successfully loaded')
+            print(f'{extension} successfully loaded')
+        except Exception as exception:
+            await ctx.send(f'{extension} cannot be loaded. [{exception}]')
+            print(f'{extension} cannot be loaded. [{exception}]')
+
+
+    @commands.command()
+    @commands.check(commands.is_owner)
+    async def unload(ctx, extension):
+        try:
+            client.unload_extension(extension)
+            await ctx.send(f'{extension} successfully unloaded')
+            print(f'{extension} successfully unloaded')
+        except Exception as exception:
+            await ctx.send(f'{extension} cannot be unloaded. [{exception}]')
+            print(f'{extension} cannot be unloaded. [{exception}]')
+
+
+    @commands.command()
+    @commands.check(commands.is_owner)
+    async def reload(ctx, extension):
+        try:
+            client.reload_extension(extension)
+            await ctx.send(f'{extension} successfully reloaded')
+            print(f'{extension} successfully reloaded')
+        except Exception as exception:
+            await ctx.send(f'{extension} cannot be reloaded. [{exception}]')
+            print(f'{extension} cannot be reloaded. [{exception}]')
 
     @commands.command(name='ping')
-    @commands.check(check_if_me)
+    @commands.check(commands.is_owner)
     async def ping(self, ctx):
         await ctx.send(':ping_pong: Pong! {0} ms'.format(round(self.client.latency * 1000)))
 
     @commands.command(name='give')
-    @commands.check(check_if_me)
+    @commands.check(commands.is_owner)
     async def give(self, ctx, user: discord.Member, type: str, value: int):
         if type.lower() == 'gold':
-            await db.update_user_gold(user.id, value)
+            await self.db.update_user_gold(user.id, value)
             await ctx.send('Given.')
         elif type.lower() == 'exp':
-            await db.update_user_exp(user.id, value)
+            await self.db.update_user_exp(user.id, value)
             await ctx.send('Given.')
         elif type.lower() == 'equipment':
             base_equipment = Equipment.get_equipment_from_id(value)
             if base_equipment:
-                equipment_list = await db.get_equipment_for_user(ctx.author.id)
+                equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
                 equipment = User.get_equipment_from_id(equipment_list, value)
                 if equipment:
                     if equipment['stars'] < base_equipment['max_stars']:
-                        await db.update_equipment_stars(ctx.author.id, value, 1)
+                        await self.db.update_equipment_stars(ctx.author.id, value, 1)
                 else:
-                    await db.insert_equipment(user.id, value, 'inventory')
+                    await self.db.insert_equipment(user.id, value, 'inventory')
                     await ctx.send('Given.')
             else:
                 await ctx.send('Invalid equipment.')
 
     @commands.command(name='blacklist')
-    @commands.check(check_if_me)
+    @commands.check(commands.is_owner)
     async def blacklist(self, ctx, user: discord.Member):
         if user.id in bl:
             bl.pop(user.id)
@@ -53,13 +91,13 @@ class Admin(commands.Cog):
             await ctx.send(f'Added {user.name} from blacklist.')
 
     @commands.command(name='set-cave')
-    @commands.check(check_if_me)
+    @commands.check(commands.is_owner)
     async def set_cave(self, ctx, cave_name: str, quantity):
         is_set = Cave.set_cave_quantity(cave_name, quantity)
         await ctx.send(f'Set cave status: {is_set}')
 
     @commands.command(name='reset-caves')
-    @commands.check(check_if_me)
+    @commands.check(commands.is_owner)
     async def reset_caves(self, ctx):
         Cave.populate_caves()
         await ctx.send('Caves reset.')
