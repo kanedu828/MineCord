@@ -225,7 +225,7 @@ class Equipment:
             'name': 'Royal Crown Helmet',
             'type': EquipmentType.HELMET,
             'stats': {
-                'power|+': 150,
+                'power|+': 250,
                 'luck|+': 50,
                 'power|%': 20,
             },
@@ -291,7 +291,7 @@ class Equipment:
             'name': 'Royal Vest',
             'type': EquipmentType.VEST,
             'stats': {
-                'power|+': 150,
+                'power|+': 300,
                 'luck|+': 20,
                 'power|%': 10
             },

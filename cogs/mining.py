@@ -6,7 +6,7 @@ from data.caves import Cave, Drop
 from data.equipment import Equipment
 from data.user import User
 from util.custom_cooldown_mapping import CustomCooldownMapping
-import util.dbutil as db
+from util.dbutil import DBUtil
 from collections import Counter
 from data.blacklist import blacklist
 from util.menu import PageMenu, ConfirmationMenu
@@ -14,28 +14,32 @@ from datetime import datetime
 import pytz
 
 
+class MiningCooldown:
+    def __init__(self, db):
+        self.db = db
+        async def mining_cooldown(message):
+            equipment_list = await self.db.get_equipment_for_user(message.author.id)
+            total_stats = User.get_total_stats(message.author.id, equipment_list)
+            speed = total_stats['speed']
+            cooldown = max(10 - 10 * (speed / 100), 3)
+            return commands.Cooldown(1, cooldown, commands.BucketType.user)
+        self.mapping = CustomCooldownMapping(mining_cooldown)
+
+    async def __call__(self, ctx: commands.Context):
+        bucket = await self.mapping.get_bucket(ctx.message)
+        retry_after = bucket.update_rate_limit()
+        if retry_after:
+            raise commands.CommandOnCooldown(bucket, retry_after)
+        return True
+
+
 class Mining(commands.Cog):
+
     def __init__(self, client):
         self.client = client
+        self.db = DBUtil(client.pool)
 
     monster_failures = Counter()
-
-    class MiningCooldown:
-        def __init__(self):
-            async def mining_cooldown(message):
-                equipment_list = await db.get_equipment_for_user(message.author.id)
-                total_stats = User.get_total_stats(message.author.id, equipment_list)
-                speed = total_stats['speed']
-                cooldown = max(10 - 10 * (speed / 100), 3)
-                return commands.Cooldown(1, cooldown, commands.BucketType.user)
-            self.mapping = CustomCooldownMapping(mining_cooldown)
-
-        async def __call__(self, ctx: commands.Context):
-            bucket = await self.mapping.get_bucket(ctx.message)
-            retry_after = bucket.update_rate_limit()
-            if retry_after:
-                raise commands.CommandOnCooldown(bucket, retry_after)
-            return True
 
     async def indicate_level_up(ctx, exp1: int, exp2: int):
         level1 = User.exp_to_level(exp1)
@@ -51,21 +55,28 @@ class Mining(commands.Cog):
                 message_embed.description += f'\n**__New Caves unlocked:__**\n {cave_str}'
             await ctx.send(embed=message_embed)
 
-    @commands.command(name='mine')
-    @commands.check(MiningCooldown())
+    async def mining_cooldown(message):
+        equipment_list = await self.db.get_equipment_for_user(message.author.id)
+        total_stats = User.get_total_stats(message.author.id, equipment_list)
+        speed = total_stats['speed']
+        cooldown = max(10 - 10 * (speed / 100), 3)
+        return commands.Cooldown(1, cooldown, commands.BucketType.user)
+
+    @commands.command(name='mine', aliases=['m'])
+    @commands.dynamic_cooldown(mining_cooldown)
     async def mine(self, ctx):
         message_embed = discord.Embed(title='Mine!', color=discord.Color.dark_orange())
         if ctx.author.id in blacklist:
             message_embed.description = 'You are blacklisted.'
             await ctx.send(embed=message_embed)
             return
-        user = await db.get_user(ctx.author.id)
+        user = await self.db.get_user(ctx.author.id)
         cave = Cave.from_cave_name(user['cave'])
         if cave.cave['current_quantity'] == 0:
             message_embed.description = f'{cave.cave["name"]} cannot be mined anymore.'
             await ctx.send(embed=message_embed)
             return
-        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         total_stats = User.get_total_stats(ctx.author.id, equipment_list, user['blessings'])
         drop_type, drop_value = cave.mine_cave(total_stats['luck'])
         message_embed.description = f'**{ctx.author.mention} mined at {cave.cave["name"]} and found:**\n'
@@ -82,35 +93,35 @@ class Mining(commands.Cog):
             exp_gained = cave.cave['exp'] + total_stats['exp']
             exp_gained *= m
             exp_gained = int(exp_gained)
-            await db.update_user_exp(ctx.author.id, exp_gained)
+            await self.db.update_user_exp(ctx.author.id, exp_gained)
             message_embed.description += f'`{exp_gained} exp '
             message_embed.description += f'({int(cave.cave["exp"] * m)} + {int(total_stats["exp"] * m)})`'
             message_embed.description += '\n'
         if drop_type == Drop.GOLD:
             gold = drop_value + min(drop_value * 10, total_stats['power'])
-            await db.update_user_gold(ctx.author.id, gold)
+            await self.db.update_user_gold(ctx.author.id, gold)
             message_embed.description += f'`{gold} gold ({drop_value} + {min(drop_value * 10, total_stats["power"])})`\n'
         elif drop_type == Drop.EQUIPMENT:
-            equipment_list = await db.get_equipment_for_user(ctx.author.id)
+            equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
             equipment = User.get_equipment_from_id(equipment_list, drop_value)
             base_equipment = Equipment.get_equipment_from_id(drop_value)
             if equipment:
                 if equipment['stars'] < base_equipment['max_stars']:
-                    await db.update_equipment_stars(ctx.author.id, drop_value, 1)
+                    await self.db.update_equipment_stars(ctx.author.id, drop_value, 1)
                     message_embed.description += f'`{base_equipment["name"]}. Equipment star level increased!`\n'
                 else:
                     message_embed.description += f'`{base_equipment["name"]}. Equipment is already at max star level.'
                     message_embed.description += 'Gold recieved instead.`'
                     message_embed.description += f'\n`{base_equipment["value"]} gold`'
-                    await db.update_user_gold(ctx.author.id, base_equipment["value"])
+                    await self.db.update_user_gold(ctx.author.id, base_equipment["value"])
             else:
-                await db.insert_equipment(ctx.author.id, drop_value, 'inventory')
+                await self.db.insert_equipment(ctx.author.id, drop_value, 'inventory')
                 message_embed.description += f'`You mined a {base_equipment["name"]}!`\n'
         elif drop_type == Drop.EXP:
             exp_gained = drop_value + total_stats['exp']
             exp_gained *= m
             exp_gained = int(exp_gained)
-            await db.update_user_exp(ctx.author.id, exp_gained)
+            await self.db.update_user_exp(ctx.author.id, exp_gained)
             message_embed.description += f'`{exp_gained} exp ({int(drop_value * m)} + {int(total_stats["exp"] * m)})`\n'
         await ctx.send(embed=message_embed)
         await Mining.indicate_level_up(ctx, user['exp'], user['exp'] + exp_gained)
@@ -137,9 +148,9 @@ class Mining(commands.Cog):
                 if reaction.emoji != correct_action:
                     raise(asyncio.TimeoutError)
             except asyncio.TimeoutError:
-                await db.set_user_gold(ctx.author.id, int(user['gold'] * 0.9))
+                await self.db.set_user_gold(ctx.author.id, int(user['gold'] * 0.9))
                 exp_lost = (user['exp'] - User.level_to_exp(User.exp_to_level(user['exp']))) * 0.1
-                await db.update_user_exp(ctx.author.id, -exp_lost)
+                await self.db.update_user_exp(ctx.author.id, -exp_lost)
                 message_embed.description = f'''
                     Ouch! You did not react correctly.
                     You lost {int(user["gold"] * 0.9)} gold!
@@ -153,11 +164,11 @@ class Mining(commands.Cog):
                 await message.edit(embed=message_embed)
                 self.monster_failures[ctx.author.id] = 0
 
-    @commands.command(name='drill')
+    @commands.command(name='drill', aliases=['d'])
     async def drill(self, ctx):
         message_embed = discord.Embed(title='Drilling', color=discord.Color.dark_orange())
-        user = await db.get_user(ctx.author.id)
-        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        user = await self.db.get_user(ctx.author.id)
+        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         total_stats = User.get_total_stats(ctx.author.id, equipment_list, user['blessings'])
         level = User.exp_to_level(user['exp'])
         since_last_drill = datetime.now() - user['last_drill']
@@ -172,18 +183,18 @@ class Mining(commands.Cog):
                 f'`{exp_gained} exp ({base_exp} + {total_stats["drill exp"] * num_ten_min})`\n'
                 f'`{gold} gold ({10 * num_ten_min} + {total_stats["drill power"] * num_ten_min})`'
             )
-            await db.update_user_exp(ctx.author.id, exp_gained)
-            await db.update_user_gold(ctx.author.id, gold)
-            await db.set_user_last_drill(ctx.author.id, datetime.now())
+            await self.db.update_user_exp(ctx.author.id, exp_gained)
+            await self.db.update_user_gold(ctx.author.id, gold)
+            await self.db.set_user_last_drill(ctx.author.id, datetime.now())
         else:
             message_embed.description = 'There are no rewards yet, check again later!'
         await ctx.send(embed=message_embed)
         await Mining.indicate_level_up(ctx, user['exp'], user['exp'] + exp_gained)
 
-    @commands.command(name='cave')
+    @commands.command(name='cave', aliases=['c'])
     async def cave(self, ctx, *, cave_name=''):
         cave_name = cave_name.title()
-        user = await db.get_user(ctx.author.id)
+        user = await self.db.get_user(ctx.author.id)
         cave = Cave.from_cave_name(user['cave'])
         cave_quantity = cave.cave['current_quantity']
         user_level = User.exp_to_level(user['exp'])
@@ -192,7 +203,7 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title='Cave', color=discord.Color.dark_orange())
         to_cave = Cave.from_cave_name(cave_name)
         if cave_name and Cave.verify_cave(cave_name) and user_level >= to_cave.cave['level_requirement']:
-            await db.update_user_cave(ctx.author.id, cave_name)
+            await self.db.update_user_cave(ctx.author.id, cave_name)
             message_embed.description = f'You have switched to {cave_name}.'
             await ctx.send(embed=message_embed)
         else:
@@ -211,8 +222,8 @@ class Mining(commands.Cog):
         if not member:
             member = ctx.author
         message_embed = discord.Embed(title=f'{member}\'s Stats', color=discord.Color.dark_teal())
-        user = await db.get_user(member.id)
-        equipment_list = await db.get_equipment_for_user(member.id)
+        user = await self.db.get_user(member.id)
+        equipment_list = await self.db.get_equipment_for_user(member.id)
         user_stats = '\n'.join(
             [f'`{key}`: `{value}`'
                 for key, value
@@ -229,28 +240,28 @@ class Mining(commands.Cog):
         message_embed.description = stats
         await ctx.send(embed=message_embed)
 
-    @commands.command(name='equip')
+    @commands.command(name='equip', aliases=['e'])
     async def equip(self, ctx, *, equipment_name):
         equipment_name = equipment_name.title()
         message_embed = discord.Embed(title='Equip', color=discord.Color.from_rgb(245, 211, 201))  # peachy color
-        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         equipment = User.get_equipment_from_name(equipment_list, equipment_name)
         if equipment:
             type = Equipment.get_equipment_from_name(equipment_name)['type'].value
             current_in_location = User.get_equipment_in_location(equipment_list, type)
             if current_in_location:
-                await db.update_equipment_location(ctx.author.id, current_in_location['equipment_id'], 'inventory')
-            await db.update_equipment_location(ctx.author.id, equipment['equipment_id'], type)
+                await self.db.update_equipment_location(ctx.author.id, current_in_location['equipment_id'], 'inventory')
+            await self.db.update_equipment_location(ctx.author.id, equipment['equipment_id'], type)
             message_embed.description = f'You have equipped your {equipment_name}'
         else:
             message_embed.description = 'You do not have this equipment!'
         await ctx.send(embed=message_embed)
 
-    @commands.command(name='gear')
+    @commands.command(name='gear', aliases=['g'])
     async def gear(self, ctx, *, equipment_name=''):
         equipment_name = equipment_name.title()
         message_embed = discord.Embed(title='Gear', color=discord.Color.from_rgb(245, 211, 201))  # peachy color
-        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         gear_str = User.get_equipment_stats_str(equipment_list, equipment_name)
         if equipment_name and gear_str:
             message_embed.color = Equipment.lines_to_color[User.get_lines_for_equipment(equipment_list, equipment_name)]
@@ -267,11 +278,11 @@ class Mining(commands.Cog):
             message_embed.description = '**__Equipped Gear__**:\n' + User.get_equipped_gear_str(equipment_list)
             await ctx.send(embed=message_embed)
 
-    @commands.command(name='inventory')
+    @commands.command(name='inventory', aliases=['i'])
     async def inventory(self, ctx, *, equipment_name=''):
         equipment_name = equipment_name.title()
         message_embed = discord.Embed(title='Inventory', color=discord.Color.from_rgb(245, 211, 201))  # peachy color
-        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         equipment_str = User.get_equipment_stats_str(equipment_list, equipment_name)
         if equipment_name and equipment_str:
             message_embed.description = equipment_str
@@ -285,7 +296,7 @@ class Mining(commands.Cog):
 
     @commands.command(name='leaderboard')
     async def leaderboard(self, ctx):
-        user_list = await db.get_top_users_for_exp(50)
+        user_list = await self.db.get_top_users_for_exp(50)
         leaderboard_str = ''
         pages = []
         count = 0
@@ -302,11 +313,11 @@ class Mining(commands.Cog):
         menu = PageMenu('Leaderboard', discord.Color.blue(), pages)
         await menu.start(ctx)
 
-    @commands.command(name='bonus')
+    @commands.command(name='bonus', aliases=['b'])
     async def bonus(self, ctx, *, equipment_name):
         equipment_name = equipment_name.title()
-        user = await db.get_user(ctx.author.id)
-        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        user = await self.db.get_user(ctx.author.id)
+        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         equipment = User.get_equipment_from_name(equipment_list, equipment_name)
         message_embed = discord.Embed(title='Equipment Bonusing', color=discord.Color.from_rgb(245, 211, 201))
         if equipment:
@@ -314,11 +325,11 @@ class Mining(commands.Cog):
             result = await ConfirmationMenu(message_embed).prompt(ctx)
             if result:
                 if user['gold'] >= 1000:
-                    await db.update_user_gold(ctx.author.id, -1000)
+                    await self.db.update_user_gold(ctx.author.id, -1000)
                     current_lines = User.get_lines_for_equipment(equipment_list, equipment_name)
                     bonus = Equipment.get_bonus_for_weapon(equipment_name, current_lines)
-                    await db.update_equipment_bonus(ctx.author.id, equipment['equipment_id'], bonus)
-                    equipment_list = await db.get_equipment_for_user(ctx.author.id)
+                    await self.db.update_equipment_bonus(ctx.author.id, equipment['equipment_id'], bonus)
+                    equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
                     message_embed.description = User.get_equipment_stats_str(equipment_list, equipment_name)
                     message_embed.color = Equipment.lines_to_color[User.get_lines_for_equipment(
                         equipment_list,
@@ -341,8 +352,8 @@ class Mining(commands.Cog):
     @commands.command(name='star')
     async def star(self, ctx, *, equipment_name):
         equipment_name = equipment_name.title()
-        user = await db.get_user(ctx.author.id)
-        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+        user = await self.db.get_user(ctx.author.id)
+        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         equipment = User.get_equipment_from_name(equipment_list, equipment_name)
         message_embed = discord.Embed(title='Equipment Bonusing', color=discord.Color.from_rgb(245, 211, 201))
         if equipment:
@@ -361,13 +372,13 @@ class Mining(commands.Cog):
                 result = await ConfirmationMenu(message_embed).prompt(ctx)
                 if result:
                     if user['gold'] >= gold_cost:
-                        await db.update_user_gold(ctx.author.id, -gold_cost)
+                        await self.db.update_user_gold(ctx.author.id, -gold_cost)
                         if random.choices([True, False], [odds, 100 - odds])[0]:
-                            await db.update_equipment_stars(ctx.author.id, equipment['equipment_id'], 1)
+                            await self.db.update_equipment_stars(ctx.author.id, equipment['equipment_id'], 1)
                             message_embed.description = '**SUCCESS!**\n'
                         else:
                             message_embed.description = '**FAILURE!**\n'
-                        equipment_list = await db.get_equipment_for_user(ctx.author.id)
+                        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
                         message_embed.description += User.get_equipment_stats_str(equipment_list, equipment_name)
                         message_embed.color = Equipment.lines_to_color[User.get_lines_for_equipment(
                             equipment_list,
@@ -389,17 +400,17 @@ class Mining(commands.Cog):
 
     @commands.command(name='reset')
     async def reset(self, ctx):
-        user = await db.get_user(ctx.author.id)
+        user = await self.db.get_user(ctx.author.id)
         level = User.exp_to_level(user['exp'])
-        blessings = max(int((level - 50) / 5), 0)
+        blessings = max(int(((level - 50) / 5) ** 1.5), 0)
         message_embed = discord.Embed(title='Resetting', color=discord.Color.from_rgb(245, 211, 201))
         message_embed.description = f'{ctx.author.mention}, you will recieve `{blessings}` blessings if you reset exp. '
         message_embed.description += 'You gain 1% exp stat for each blessing you have.'
         result = await ConfirmationMenu(message_embed).prompt(ctx)
         if result:
-            await db.set_user_exp(ctx.author.id, 0)
-            await db.update_user_blessings(ctx.author.id, blessings)
-            await db.update_user_cave(ctx.author.id, 'Beginner Cave')
+            await self.db.set_user_exp(ctx.author.id, 0)
+            await self.db.update_user_blessings(ctx.author.id, blessings)
+            await self.db.update_user_cave(ctx.author.id, 'Beginner Cave')
 
     @mine.error
     async def mine_error(self, ctx, error):

@@ -5,12 +5,14 @@ from data.shop import Shop as SD
 from data.equipment import Equipment
 from data.caves import Drop
 from data.user import User
-import util.dbutil as db
+from util.dbutil import DBUtil
 
 
 class Shop(commands.Cog):
+
     def __init__(self, client):
         self.client = client
+        self.db = DBUtil(client.pool)
 
     @commands.command(name='shop')
     async def shop(self, ctx, *, item_name: str = None):
@@ -40,7 +42,7 @@ class Shop(commands.Cog):
     @commands.command(name='buy')
     async def buy(self, ctx, *, item_name: str):
         item_name = item_name.title()
-        user = await db.get_user(ctx.author.id)
+        user = await self.db.get_user(ctx.author.id)
         message_embed = discord.Embed(title='Buy Shop Item', color=discord.Color.gold())
         shop_item = SD.get_shop_item_from_name(item_name)
         if shop_item:
@@ -50,25 +52,25 @@ class Shop(commands.Cog):
             if result:
                 if shop_item['cost'][0] == Drop.GOLD:
                     if user['gold'] >= shop_item['cost'][1]:
-                        await db.update_user_gold(ctx.author.id, -shop_item['cost'][1])
+                        await self.db.update_user_gold(ctx.author.id, -shop_item['cost'][1])
                     else:
                         message_embed.description = 'Not enough gold!'
                         await ctx.send(embed=message_embed)
                         return
                 if shop_item['type'] == Drop.EQUIPMENT:
-                    equipment_list = await db.get_equipment_for_user(ctx.author.id)
+                    equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
                     equipment = User.get_equipment_from_id(equipment_list, shop_item['id'])
                     base_equipment = Equipment.get_equipment_from_id(shop_item['id'])
                     if equipment:
                         if equipment['stars'] < base_equipment['max_stars']:
-                            await db.update_equipment_stars(ctx.author.id, shop_item['id'], 1)
+                            await self.db.update_equipment_stars(ctx.author.id, shop_item['id'], 1)
                             message_embed.description = f'{base_equipment["name"]}\'s star level increased!\n'
                         else:
                             message_embed.description = f'{base_equipment["name"]} is already at max star level.\n'
                             message_embed.description += 'You have been refunded.'
-                            await db.update_user_gold(ctx.author.id, shop_item['cost'][1])
+                            await self.db.update_user_gold(ctx.author.id, shop_item['cost'][1])
                     else:
-                        await db.insert_equipment(ctx.author.id, shop_item['id'], 'inventory')
+                        await self.db.insert_equipment(ctx.author.id, shop_item['id'], 'inventory')
                         message_embed.description = f'You have recieved {base_equipment["name"]}'
                     await ctx.send(embed=message_embed)
 
