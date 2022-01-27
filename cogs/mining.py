@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from discord.ext import commands
+from discord.ext import commands, tasks
 import random
 from data.caves import Cave, Drop
 from data.equipment import Equipment
@@ -10,27 +10,27 @@ from util.dbutil import DBUtil
 from collections import Counter
 from data.blacklist import blacklist
 from util.menu import PageMenu, ConfirmationMenu
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 
-class MiningCooldown:
-    def __init__(self, db):
-        self.db = db
-        async def mining_cooldown(message):
-            equipment_list = await self.db.get_equipment_for_user(message.author.id)
-            total_stats = User.get_total_stats(message.author.id, equipment_list)
-            speed = total_stats['speed']
-            cooldown = max(10 - 10 * (speed / 100), 3)
-            return commands.Cooldown(1, cooldown, commands.BucketType.user)
-        self.mapping = CustomCooldownMapping(mining_cooldown)
-
-    async def __call__(self, ctx: commands.Context):
-        bucket = await self.mapping.get_bucket(ctx.message)
-        retry_after = bucket.update_rate_limit()
-        if retry_after:
-            raise commands.CommandOnCooldown(bucket, retry_after)
-        return True
+# class MiningCooldown:
+#     def __init__(self, db):
+#         self.db = db
+#         async def mining_cooldown(message):
+#             equipment_list = await self.db.get_equipment_for_user(message.author.id)
+#             total_stats = User.get_total_stats(message.author.id, equipment_list)
+#             speed = total_stats['speed']
+#             cooldown = max(10 - 10 * (speed / 100), 3)
+#             return commands.Cooldown(1, cooldown, commands.BucketType.user)
+#         self.mapping = CustomCooldownMapping(mining_cooldown)
+#
+#     async def __call__(self, ctx: commands.Context):
+#         bucket = await self.mapping.get_bucket(ctx.message)
+#         retry_after = bucket.update_rate_limit()
+#         if retry_after:
+#             raise commands.CommandOnCooldown(bucket, retry_after)
+#         return True
 
 
 class Mining(commands.Cog):
@@ -38,8 +38,14 @@ class Mining(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.db = DBUtil(client.pool)
+        self.cooldowns = {} # Dynamic cooldowns don't work with db calls, so this is the current sol.
+        self.daily_task.start()
 
     monster_failures = Counter()
+
+    @tasks.loop(hours=24)
+    async def daily_task(self):
+        self.cooldowns = {}
 
     async def indicate_level_up(ctx, exp1: int, exp2: int):
         level1 = User.exp_to_level(exp1)
@@ -55,17 +61,39 @@ class Mining(commands.Cog):
                 message_embed.description += f'\n**__New Caves unlocked:__**\n {cave_str}'
             await ctx.send(embed=message_embed)
 
-    async def mining_cooldown(message):
-        equipment_list = await self.db.get_equipment_for_user(message.author.id)
-        total_stats = User.get_total_stats(message.author.id, equipment_list)
-        speed = total_stats['speed']
-        cooldown = max(10 - 10 * (speed / 100), 3)
-        return commands.Cooldown(1, cooldown, commands.BucketType.user)
+    # async def mining_cooldown(message):
+    #     equipment_list = asyncio.run(self.db.get_equipment_for_user(message.author.id))
+    #     total_stats = User.get_total_stats(message.author.id, equipment_list)
+    #     speed = total_stats['speed']
+    #     cooldown = max(10 - 10 * (speed / 100), 3)
+    #     return commands.Cooldown(1, cooldown)
+
+    async def get_mine_cooldown(self, ctx):
+        if ctx.author.id in self.cooldowns:
+            equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
+            total_stats = User.get_total_stats(ctx.author.id, equipment_list)
+            speed = total_stats['speed']
+            cooldown = max(10 - 10 * (speed / 100), 3)
+            cd_td = timedelta(seconds=cooldown)
+            delta = datetime.now() - self.cooldowns[ctx.author.id]
+            if delta < cd_td:
+                return (cd_td - delta).total_seconds()
+            else:
+                self.cooldowns[ctx.author.id] = datetime.now()
+                return 0
+        else:
+            self.cooldowns[ctx.author.id] = datetime.now()
+            return 0
 
     @commands.command(name='mine', aliases=['m'])
-    @commands.dynamic_cooldown(mining_cooldown)
+    # @commands.dynamic_cooldown(mining_cooldown, commands.BucketType.user)
     async def mine(self, ctx):
         message_embed = discord.Embed(title='Mine!', color=discord.Color.dark_orange())
+        cd = await self.get_mine_cooldown(ctx)
+        if cd:
+            message_embed.description = f'You are too tired to mine. Please wait {round(cd, 2)} seconds!'
+            await ctx.send(embed=message_embed)
+            return
         if ctx.author.id in blacklist:
             message_embed.description = 'You are blacklisted.'
             await ctx.send(embed=message_embed)
