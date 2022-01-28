@@ -4,28 +4,29 @@ import discord
 
 class PageMenu(discord.ui.View):
 
-    def __init__(self, title, color, pages):
+    def __init__(self, pages):
         super().__init__()
-        self.message_embed = discord.Embed(title=title, color=color)
         self.pages = pages
         self.current_page = 0
-        self.msg = await ctx.send(embed=embed, view=self)
 
     @discord.ui.button(label='◀')
     async def back_button(self, button, interaction):
         if self.current_page > 0:
             self.current_page -= 1
-            self.message_embed.description = self.pages[self.current_page]
-            self.message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
-            await msg.edit(embed=self.message_embed, view=self)
+            message_embed = interaction.message.embeds[0]
+            message_embed.description = self.pages[self.current_page]
+            message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
+            msg = await interaction.edit_original_message(embed=message_embed)
 
     @discord.ui.button(label='▶')
     async def next_button(self, button, interaction):
         if self.current_page < len(self.pages) - 1:
             self.current_page += 1
-            self.message_embed.description = self.pages[self.current_page]
-            self.message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
-            await msg.edit(embed=self.message_embed, view=self)
+            message_embed = interaction.message.embeds[0]
+            message_embed.description = self.pages[self.current_page]
+            message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
+            msg = await interaction.edit_original_message(embed=message_embed)
+
 
 
 class ConfirmationMenu(discord.ui.View):
