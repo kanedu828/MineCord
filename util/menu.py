@@ -16,7 +16,7 @@ class PageMenu(discord.ui.View):
             message_embed = interaction.message.embeds[0]
             message_embed.description = self.pages[self.current_page]
             message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
-            msg = await interaction.edit_original_message(embed=self.message_embed)
+            msg = await interaction.edit_original_message(embed=message_embed)
 
     @discord.ui.button(label='▶')
     async def next_button(self, button, interaction):
@@ -25,7 +25,7 @@ class PageMenu(discord.ui.View):
             message_embed = interaction.message.embeds[0]
             message_embed.description = self.pages[self.current_page]
             message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
-            msg = await interaction.edit_original_message(embed=self.message_embed)
+            msg = await interaction.edit_original_message(embed=message_embed)
 
 
 
