@@ -2,59 +2,44 @@ from discord.ext import menus
 import discord
 
 
-class PageMenu(menus.Menu):
+class PageMenu(discord.ui.View):
 
-    def __init__(self, title, color, pages):
-        super().__init__(timeout=60.0, delete_message_after=True)
-        self.message_embed = discord.Embed(title=title, color=color)
+    def __init__(self, pages):
+        super().__init__()
         self.pages = pages
         self.current_page = 0
 
-    async def send_initial_message(self, ctx, channel):
-        self.message_embed.description = self.pages[0]
-        self.message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
-        return await channel.send(embed=self.message_embed)
-
-    @menus.button('◀')
-    async def on_back(self, payload):
+    @discord.ui.button(label='◀')
+    async def back_button(self, button, interaction):
         if self.current_page > 0:
             self.current_page -= 1
-            self.message_embed.description = self.pages[self.current_page]
-            self.message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
-            await self.message.edit(embed=self.message_embed)
+            message_embed = interaction.message.embeds[0]
+            message_embed.description = self.pages[self.current_page]
+            message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
+            msg = await interaction.edit_original_message(embed=self.message_embed)
 
-    @menus.button('▶')
-    async def on_next(self, payload):
+    @discord.ui.button(label='▶')
+    async def next_button(self, button, interaction):
         if self.current_page < len(self.pages) - 1:
             self.current_page += 1
-            self.message_embed.description = self.pages[self.current_page]
-            self.message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
-            await self.message.edit(embed=self.message_embed)
-
-    @menus.button('🛑')
-    async def on_stop(self, payload):
-        self.stop()
+            message_embed = interaction.message.embeds[0]
+            message_embed.description = self.pages[self.current_page]
+            message_embed.set_footer(text=f'page {self.current_page + 1}/{len(self.pages)}')
+            msg = await interaction.edit_original_message(embed=self.message_embed)
 
 
-class ConfirmationMenu(menus.Menu):
-    def __init__(self, message_embed):
-        super().__init__(timeout=30.0, delete_message_after=True)
-        self.message_embed = message_embed
+
+class ConfirmationMenu(discord.ui.View):
+    def __init__(self):
+        super().__init__()
         self.result = None
 
-    async def send_initial_message(self, ctx, channel):
-        return await channel.send(embed=self.message_embed)
-
-    @menus.button('\N{WHITE HEAVY CHECK MARK}')
-    async def do_confirm(self, payload):
+    @discord.ui.button(label='Confirm')
+    async def confirm_button(self, buttom, interaction):
         self.result = True
         self.stop()
 
-    @menus.button('\N{CROSS MARK}')
-    async def do_deny(self, payload):
+    @discord.ui.button(label='Cancel')
+    async def deny_button(self, button, interaction):
         self.result = False
         self.stop()
-
-    async def prompt(self, ctx):
-        await self.start(ctx, wait=True)
-        return self.result
