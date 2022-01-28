@@ -28,7 +28,6 @@ class PageMenu(discord.ui.View):
             msg = await interaction.edit_original_message(embed=message_embed)
 
 
-
 class ConfirmationMenu(discord.ui.View):
     def __init__(self):
         super().__init__()
