@@ -242,8 +242,10 @@ class Mining(commands.Cog):
                 **__Available Caves:__**\n''')
             for cave in Cave.list_caves_by_level(user_level):
                 paginator.add_line(cave)
-            menu = PageMenu('Caves', discord.Color.dark_orange(), paginator.pages)
-            await menu.start(ctx)
+            message_embed = discord.Embed(title='Caves', color=discord.Color.orange(), description=paginator.pages[0])
+            page_menu = PageMenu(paginator.pages)
+            await ctx.send(embed=message_embed, view=page_menu)
+            # await menu.start(ctx)
 
     @commands.command(name='stats')
     async def stats(self, ctx, member: discord.Member = None):
@@ -319,8 +321,9 @@ class Mining(commands.Cog):
             paginator = commands.Paginator('', '', 1800, '\n')
             for item in User.get_inventory_list(equipment_list):
                 paginator.add_line(item)
-            menu = PageMenu('Inventory', discord.Color.from_rgb(245, 211, 201), paginator.pages)
-            await menu.start(ctx)
+            message_embed = discord.Embed(title='Inventory', color=discord.Color.light_gray(), description=paginator.pages[0])
+            page_menu = PageMenu(paginator.pages)
+            await ctx.send(embed=message_embed, view=page_menu)
 
     @commands.command(name='leaderboard')
     async def leaderboard(self, ctx):
@@ -338,8 +341,9 @@ class Mining(commands.Cog):
                 leaderboard_str = ''
                 count = 0
         pages.append(leaderboard_str)
-        menu = PageMenu('Leaderboard', discord.Color.blue(), pages)
-        await menu.start(ctx)
+        message_embed = discord.Embed(title='Leaderboard', color=discord.Color.blue(), description=pages[0])
+        page_menu = PageMenu(pages)
+        await ctx.send(embed=message_embed, view=page_menu)
 
     @commands.command(name='bonus', aliases=['b'])
     async def bonus(self, ctx, *, equipment_name):
@@ -350,7 +354,11 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title='Equipment Bonusing', color=discord.Color.from_rgb(245, 211, 201))
         if equipment:
             message_embed.description = f'Would you like to bonus your {equipment_name} for 1000 gold?'
-            result = await ConfirmationMenu(message_embed).prompt(ctx)
+            confirm_menu = ConfirmationMenu()
+            msg = await ctx.send(embed=message_embed, view=confirm_menu)
+            await confirm_menu.wait()
+            result = confirm_menu.result
+            await msg.delete()
             if result:
                 if user['gold'] >= 1000:
                     await self.db.update_user_gold(ctx.author.id, -1000)
@@ -373,6 +381,8 @@ class Mining(commands.Cog):
                     return
                 else:
                     message_embed.description = 'You do not have enough gold...'
+            else:
+                return
         else:
             message_embed.description = 'You do not own this piece of equipment...'
         await ctx.send(embed=message_embed)
@@ -397,7 +407,11 @@ class Mining(commands.Cog):
                     f'Would you like to star your {equipment_name} for {gold_cost} gold?\n'
                     f'There is a `{odds}% chance to upgrade stars.`'
                 )
-                result = await ConfirmationMenu(message_embed).prompt(ctx)
+                confirm_menu = ConfirmationMenu()
+                msg = await ctx.send(embed=message_embed, view=confirm_menu)
+                await confirm_menu.wait()
+                result = confirm_menu.result
+                await msg.delete()
                 if result:
                     if user['gold'] >= gold_cost:
                         await self.db.update_user_gold(ctx.author.id, -gold_cost)
@@ -422,6 +436,8 @@ class Mining(commands.Cog):
                         return
                     else:
                         message_embed.description = 'You do not have enough gold...'
+                else:
+                    return
         else:
             message_embed.description = 'You do not own this piece of equipment...'
         await ctx.send(embed=message_embed)
@@ -434,11 +450,16 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title='Resetting', color=discord.Color.from_rgb(245, 211, 201))
         message_embed.description = f'{ctx.author.mention}, you will recieve `{blessings}` blessings if you reset exp. '
         message_embed.description += 'You gain 1% exp stat for each blessing you have.'
-        result = await ConfirmationMenu(message_embed).prompt(ctx)
+        confirm_menu = ConfirmationMenu()
+        msg = await ctx.send(embed=message_embed, view=confirm_menu)
+        await confirm_menu.wait()
+        result = confirm_menu.result
+        await msg.delete()
         if result:
             await self.db.set_user_exp(ctx.author.id, 0)
             await self.db.update_user_blessings(ctx.author.id, blessings)
             await self.db.update_user_cave(ctx.author.id, 'Beginner Cave')
+            await ctx.send(f'Your exp has been reset to `0` for `{blessings}` blessings')
 
     @mine.error
     async def mine_error(self, ctx, error):
