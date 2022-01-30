@@ -157,6 +157,9 @@ class Mining(commands.Cog):
                 result = await self.db.update_dungeon_durability(ctx.author.id, dungeon['name'], -power)
                 message_embed.description += f'`Dungeon Durability: {result[0]["durability"]}/{dungeon["durability"]}`\n'
                 message_embed.description += f'You mined and dealt `{power} damage` to the dungeon\'s durability!'
+                odds = random.randrange(100)
+                if odds <= 5:
+                    await self.monster_encounter(ctx)
                 if result[0]['durability'] <= 0:
                     message_embed.description += '\n**Dungeon Cleared!**\n'
                     await self.db.update_user_exp(ctx.author.id, dungeon['exp'])
