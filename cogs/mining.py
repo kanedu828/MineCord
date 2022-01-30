@@ -321,6 +321,7 @@ class Mining(commands.Cog):
                 paginator.add_line(
                     f'''**Current Dungeon**: `{user["dungeon"]}`\n
                     **Durability:**`{current_durability}/{user_dungeon["durability"]}`\n
+                    **Clear Rate:** `{user_dungeon["clear_rate"]}`\n
                     **__Available Dungeons:__**\n''')
             else:
                 paginator.add_line('**Current Dungeon:** None\n**__Available Dungeons:__**\n')

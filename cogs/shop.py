@@ -14,6 +14,23 @@ class Shop(commands.Cog):
         self.client = client
         self.db = DBUtil(client.pool)
 
+    @commands.command(name='lookup')
+    async def look_up(self, ctx, *, item_name):
+        message_embed = discord.Embed(title='Look Up', color=discord.Color.gold())
+        if item_name:
+            item_name = item_name.title()
+            item = Equipment.get_equipment_from_name(item_name)
+            if item:
+                file_name = item_name.replace(' ', '_') + '.png'
+                try:
+                    image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+                except:
+                    file_name = 'Default.png'
+                    image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
+                message_embed.set_thumbnail(url=f'attachment://{file_name}')
+                message_embed.description = Equipment.get_base_equipment_stats_str(item_name)
+                await ctx.send(file=image_file, embed=message_embed)
+
     @commands.command(name='shop')
     async def shop(self, ctx, *, item_name: str = None):
         message_embed = discord.Embed(title='Shop', color=discord.Color.gold())

@@ -19,6 +19,9 @@ class Forging(commands.Cog):
             async with conn.transaction():
                 result = await conn.fetch('SELECT * FROM item WHERE user_id=$1', ctx.author.id)
         message_embed = discord.Embed(title='Fragments', color=discord.Color.from_rgb(245, 211, 201))
+        if not result:
+            message_embed.description = 'You do not have any fragments...'
+            await ctx.send(embed=message_embed)
         paginator = commands.Paginator('', '', 1800, '\n')
         for r in result:
             paginator.add_line(f'`{Item.get_item_from_id(r["item_id"])["name"]} x{r["count"]}`')
@@ -63,7 +66,7 @@ class Forging(commands.Cog):
             paginator = commands.Paginator('', '', 1800, '\n')
             for item in Forge.get_forge_str_list():
                 paginator.add_line(item)
-            menu = PageMenu('Shop', discord.Color.dark_gray(), paginator.pages)
+            menu = PageMenu('Forge', discord.Color.dark_gray(), paginator.pages)
             await menu.start(ctx)
 
 
