@@ -32,10 +32,15 @@ Start bot with `$python3 main.py`
 `;inventory` List your inventory.\
 `;leaderboard` View the leaderboard based off of total exp.\
 `;bonus <equipment name>` Add bonuses to your specified equipment.\
-`;reset` Reset your total exp and gain blessings.
+`;reset` Reset your total exp and gain blessings.\
 `;shop <optional: item name>` View the shop. Provide the item name to view a detailed description of the item.\
 `;buy <item name>` Buy the item. It must be in the shop.\
-`;drill` CLaim your idle rewards.
+`;drill` CLaim your idle rewards.\
+`;dungeon` View details of your current dungeon.\
+`;dungeon <dungeon name>` Switch to the specified dungeon\
+`;dmine` Mine your current dungeon\
+`;fragments` Check your current fragments\
+`;forge <item name>` For an item.\
 
 ## Mining
 By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot. Happy hour is 7 pm EST every day. During happy hour, players gain 2x exp for mining
@@ -53,6 +58,11 @@ Typically, the latter categories will have a lower chance to drop.\
 Additionally, some caves can only be mined a certain amount. For example, if a cave only has 1,000 mines, it can no longer be mined when it is mined a total of 1000 times by all miners. The remaining mines in a cave gets reset periodically. Some caves, however, can be mined an infinite amount of times.\
 If you're interested in viewing all available caves, you can find them [here](https://github.com/kanedu828/Isla-Bot-2.0/blob/master/data/caves.py).
 If you understand the cave list in that file and you would like to help out, feel free to list the caves in a readable format here with a pull request!
+
+## Dungeons
+Dungeons do not give any exp or gold per mine. Dungeons have a set amount of durability, and each mine deals damage to its durability. Once its durability hits 0, you are given rewards. Each dungeon drops exp, gold, and a chance to get an item fragments. You get an aditionally roll to get a fragment per 100 luck. Dungeons can either be cleared daily or weekly.\
+Fragments can then be use to forge powerful pieces of equipment.\
+Currently, the first dungeon is unlocked at level 75.
 
 ## Equipment
 You can find various equipment while mining. There are 6 different types of equipment: Helmet, vest, pants, gloves, pickaxe, and boots.\
