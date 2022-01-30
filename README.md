@@ -41,6 +41,7 @@ Start bot with `$python3 main.py`
 `;dmine` Mine your current dungeon\
 `;fragments` Check your current fragments\
 `;forge <item name>` For an item.\
+`;lookup <item name>` Look up details on an item.\
 
 ## Mining
 By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot. Happy hour is 7 pm EST every day. During happy hour, players gain 2x exp for mining
