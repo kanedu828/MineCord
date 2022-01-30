@@ -21,7 +21,7 @@ class Dungeon:
             'durability': 10000000,
             'exp': 500000,
             'gold': 20000,
-            'drop_rate': 1,
+            'drop_rate': 0.5,
             'fragment_drop': 1,
             'clear_rate': 'weekly',
         },
