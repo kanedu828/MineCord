@@ -3,7 +3,9 @@ import asyncio
 from discord.ext import commands, tasks
 import random
 from data.caves import Cave, Drop
+from data.dungeons import Dungeon
 from data.equipment import Equipment
+from data.items import Item
 from data.user import User
 from util.custom_cooldown_mapping import CustomCooldownMapping
 from util.dbutil import DBUtil
@@ -67,6 +69,8 @@ class Mining(commands.Cog):
     #     speed = total_stats['speed']
     #     cooldown = max(10 - 10 * (speed / 100), 3)
     #     return commands.Cooldown(1, cooldown)
+    def check_blacklist(ctx):
+        return not ctx.author.id in blacklist
 
     async def get_mine_cooldown(self, ctx):
         if ctx.author.id in self.cooldowns:
@@ -85,17 +89,99 @@ class Mining(commands.Cog):
             self.cooldowns[ctx.author.id] = datetime.now()
             return 0
 
+    async def monster_encounter(self, ctx):
+        emoji_list = ['🤡', '👹', '👽', '👾', '🤖', '👻', '💩']
+        action_list = [emoji_list.pop(random.randrange(len(emoji_list))) for i in range(3)]
+        correct_action = random.choice(action_list)
+        message_embed = discord.Embed(title='Monster!', color=discord.Color.red())
+        message_embed.description = f'''
+            {ctx.author.mention} has encountered a monster while mining!
+            React with {correct_action} within a minute to prevent the
+            monster from stealing coin!'''
+        message = await ctx.send(embed=message_embed)
+        for action in action_list:
+            await message.add_reaction(action)
+
+        def check(reaction, user):
+            return user.id == ctx.author.id and reaction.message.id == message.id
+
+        try:
+            reaction, react_user = await self.client.wait_for('reaction_add', check=check, timeout=60.0)
+            if reaction.emoji != correct_action:
+                raise(asyncio.TimeoutError)
+        except asyncio.TimeoutError:
+            await self.db.set_user_gold(ctx.author.id, int(user['gold'] * 0.9))
+            exp_lost = (user['exp'] - User.level_to_exp(User.exp_to_level(user['exp']))) * 0.1
+            await self.db.update_user_exp(ctx.author.id, -exp_lost)
+            message_embed.description = f'''
+                Ouch! You did not react correctly.
+                You lost {int(user["gold"] * 0.9)} gold!
+                You also lost {exp_lost} exp!'''
+            await message.edit(embed=message_embed)
+            self.monster_failures[ctx.author.id] += 1
+            if self.monster_failures[ctx.author.id] >= 5:
+                blacklist[ctx.author.id] = True
+        else:
+            message_embed.description = 'Whew! You defended yourself against the monster!'
+            await message.edit(embed=message_embed)
+            self.monster_failures[ctx.author.id] = 0
+
+    @commands.command(name='dmine', aliases=['dm'])
+    @commands.check(check_blacklist)
+    async def dmine(self, ctx):
+        message_embed = discord.Embed(title='Dungeon Mine!', color=discord.Color.purple())
+        cd = await self.get_mine_cooldown(ctx)
+        if cd:
+            message_embed.description = f'You are too tired to mine. Please wait {round(cd, 2)} seconds!'
+            await ctx.send(embed=message_embed)
+            return
+        user = await self.db.get_user(ctx.author.id)
+        dungeon = Dungeon.from_dungeon_name(user['dungeon'])
+        equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
+        total_stats = User.get_total_stats(ctx.author.id, equipment_list, user['blessings'])
+        if dungeon:
+            result = await self.db.get_dungeon_instance(ctx.author.id, dungeon['name'])
+            if not result:
+                result = await self.db.insert_dungeon_instance(ctx.author.id, dungeon['name'], dungeon['durability'], dungeon['clear_rate'])
+            dungeon_instance = result[0]
+            if dungeon_instance['durability'] > 0:
+                message_embed.description = f'**{dungeon["name"]}**\n'
+                m = 1  # multiplier
+                odds = random.randrange(100)
+                if odds <= total_stats['crit']:
+                    message_embed.description += 'Critical Strike!\n'
+                    overflow = max(total_stats['crit'] - 100, 0)
+                    m *= 2 + (overflow / 100)
+                power = total_stats['power'] * m
+                power = min(power, dungeon_instance['durability'])
+                result = await self.db.update_dungeon_durability(ctx.author.id, dungeon['name'], -power)
+                message_embed.description += f'`Dungeon Durability: {result[0]["durability"]}/{dungeon["durability"]}`\n'
+                message_embed.description += f'You mined and dealt `{power} damage` to the dungeon\'s durability!'
+                if result[0]['durability'] <= 0:
+                    message_embed.description += '\n**Dungeon Cleared!**\n'
+                    await self.db.update_user_exp(ctx.author.id, dungeon['exp'])
+                    await self.db.update_user_gold(ctx.author.id, dungeon['gold'])
+                    await Mining.indicate_level_up(ctx, user['exp'], user['exp'] + dungeon['exp'])
+                    message_embed.description += f'You gained:\n `{dungeon["exp"]} exp`\n`{dungeon["gold"]} gold`\n'
+                    rolls = (total_stats['luck'] // 100) + 1
+                    drop = random.choices([True, False], [dungeon['drop_rate'], 1 - dungeon['drop_rate']], k=rolls)
+                    num_fragments = drop.count(True)
+                    if num_fragments:
+                        message_embed.description += f'`{num_fragments} {Item.get_item_from_id(dungeon["fragment_drop"])["name"]}(s)`'
+                        await self.db.update_item_count(ctx.author.id, dungeon['fragment_drop'], num_fragments)
+            else:
+                message_embed.description = f'You have already cleared {dungeon["name"]}!'
+
+        await ctx.send(embed=message_embed)
+
     @commands.command(name='mine', aliases=['m'])
+    @commands.check(check_blacklist)
     # @commands.dynamic_cooldown(mining_cooldown, commands.BucketType.user)
     async def mine(self, ctx):
         message_embed = discord.Embed(title='Mine!', color=discord.Color.dark_orange())
         cd = await self.get_mine_cooldown(ctx)
         if cd:
             message_embed.description = f'You are too tired to mine. Please wait {round(cd, 2)} seconds!'
-            await ctx.send(embed=message_embed)
-            return
-        if ctx.author.id in blacklist:
-            message_embed.description = 'You are blacklisted.'
             await ctx.send(embed=message_embed)
             return
         user = await self.db.get_user(ctx.author.id)
@@ -156,41 +242,7 @@ class Mining(commands.Cog):
         # Monster attack to prevent automation.
         odds = random.randrange(100)
         if odds <= 5:
-            emoji_list = ['🤡', '👹', '👽', '👾', '🤖', '👻', '💩']
-            action_list = [emoji_list.pop(random.randrange(len(emoji_list))) for i in range(3)]
-            correct_action = random.choice(action_list)
-            message_embed = discord.Embed(title='Monster!', color=discord.Color.red())
-            message_embed.description = f'''
-                {ctx.author.mention} has encountered a monster while mining!
-                React with {correct_action} within a minute to prevent the
-                monster from stealing coin!'''
-            message = await ctx.send(embed=message_embed)
-            for action in action_list:
-                await message.add_reaction(action)
-
-            def check(reaction, user):
-                return user.id == ctx.author.id and reaction.message.id == message.id
-
-            try:
-                reaction, react_user = await self.client.wait_for('reaction_add', check=check, timeout=60.0)
-                if reaction.emoji != correct_action:
-                    raise(asyncio.TimeoutError)
-            except asyncio.TimeoutError:
-                await self.db.set_user_gold(ctx.author.id, int(user['gold'] * 0.9))
-                exp_lost = (user['exp'] - User.level_to_exp(User.exp_to_level(user['exp']))) * 0.1
-                await self.db.update_user_exp(ctx.author.id, -exp_lost)
-                message_embed.description = f'''
-                    Ouch! You did not react correctly.
-                    You lost {int(user["gold"] * 0.9)} gold!
-                    You also lost {exp_lost} exp!'''
-                await message.edit(embed=message_embed)
-                self.monster_failures[ctx.author.id] += 1
-                if self.monster_failures[ctx.author.id] >= 5:
-                    blacklist[ctx.author.id] = True
-            else:
-                message_embed.description = 'Whew! You defended yourself against the monster!'
-                await message.edit(embed=message_embed)
-                self.monster_failures[ctx.author.id] = 0
+            await self.monster_encounter(ctx)
 
     @commands.command(name='drill', aliases=['d'])
     async def drill(self, ctx):
@@ -244,6 +296,39 @@ class Mining(commands.Cog):
                 paginator.add_line(cave)
             menu = PageMenu('Caves', discord.Color.dark_orange(), paginator.pages)
             await menu.start(ctx)
+
+    @commands.command(name='dungeon')
+    async def dungeon(self, ctx, *, dungeon_name=''):
+        dungeon_name = dungeon_name.title()
+        user = await self.db.get_user(ctx.author.id)
+        dungeon = Dungeon.from_dungeon_name(dungeon_name)
+        user_level = User.exp_to_level(user['exp'])
+        message_embed = discord.Embed(title='Dungeon', color=discord.Color.purple())
+        if dungeon and user_level >= dungeon['level_requirement']:
+            durability = dungeon['durability']
+            await self.db.update_user_dungeon(ctx.author.id, dungeon['name'])
+            message_embed.description = f'You have switched to {dungeon["name"]}.'
+            await ctx.send(embed=message_embed)
+        else:
+            paginator = commands.Paginator('', '', 1800, '\n')
+            if user['dungeon']:
+                dungeon_instance = await self.db.get_dungeon_instance(ctx.author.id, user['dungeon'])
+                user_dungeon = Dungeon.from_dungeon_name(user['dungeon'])
+                if dungeon_instance:
+                    current_durability = dungeon_instance[0]['durability']
+                else:
+                    current_durability = user_dungeon['durability']
+                paginator.add_line(
+                    f'''**Current Dungeon**: `{user["dungeon"]}`\n
+                    **Durability:**`{current_durability}/{user_dungeon["durability"]}`\n
+                    **__Available Dungeons:__**\n''')
+            else:
+                paginator.add_line('**Current Dungeon:** None\n**__Available Dungeons:__**\n')
+            for dun in Dungeon.list_dungeons_by_level(user_level):
+                paginator.add_line(dun)
+            menu = PageMenu('Dungeons', discord.Color.purple(), paginator.pages)
+            await menu.start(ctx)
+
 
     @commands.command(name='stats')
     async def stats(self, ctx, member: discord.Member = None):
@@ -312,6 +397,10 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title='Inventory', color=discord.Color.from_rgb(245, 211, 201))  # peachy color
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         equipment_str = User.get_equipment_stats_str(equipment_list, equipment_name)
+        if not equipment_list:
+            message_embed.description = 'You have nothing in your inventory.'
+            await ctx.send(embed=message_embed)
+            return
         if equipment_name and equipment_str:
             message_embed.description = equipment_str
             await ctx.send(embed=message_embed)
