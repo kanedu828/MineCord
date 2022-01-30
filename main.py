@@ -22,6 +22,7 @@ extensions = [
     'cogs.help',
     'cogs.admin',
     'cogs.shop',
+    'cogs.forging'
 ]
 
 
@@ -54,7 +55,7 @@ async def start():
         client.pool = pool
         load_extensions(client)
         await client.start(TOKEN)
-        
+
 
 if __name__ == '__main__':
     asyncio.run(start())

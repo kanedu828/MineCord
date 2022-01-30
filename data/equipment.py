@@ -154,6 +154,38 @@ class Equipment:
             'max_stars': 32
         },
         {
+            'id': 1810,
+            'name': 'Abyssal Pickaxe',
+            'type': EquipmentType.PICKAXE,
+            'stats': {
+                'exp|+': 250,
+                'power|+': 500,
+                'crit|+': 10,
+                'speed|+': 10
+            },
+            'level': 100,
+            'set': 'Abyssal',
+            'value': 50000,
+            'max_stars': 37
+        },
+        {
+            'id': 1820,
+            'name': 'Nami Pickaxe',
+            'type': EquipmentType.PICKAXE,
+            'stats': {
+                'exp|+': 850,
+                'power|+': 1000,
+                'crit|+': 10,
+                'speed|+': 25,
+                'power|%': 25,
+                'exp|%': 25
+            },
+            'level': 150,
+            'set': 'Nami',
+            'value': 100000,
+            'max_stars': 42
+        },
+        {
             'id': 2100,
             'name': 'Dark Helmet',
             'type': EquipmentType.HELMET,
@@ -235,6 +267,33 @@ class Equipment:
             'max_stars': 32
         },
         {
+            'id': 2410,
+            'name': 'Abyssal Helmet',
+            'type': EquipmentType.HELMET,
+            'stats': {
+                'power|+': 250
+            },
+            'level': 100,
+            'set': 'Abyssal',
+            'value': 50000,
+            'max_stars': 37
+        },
+        {
+            'id': 2420,
+            'name': 'Nami Helmet',
+            'type': EquipmentType.HELMET,
+            'stats': {
+                'power|+': 500,
+                'exp|+': 250,
+                'luck|+': 20,
+                'exp|%': 25
+            },
+            'level': 150,
+            'set': 'Nami',
+            'value': 100000,
+            'max_stars': 42
+        },
+        {
             'id': 3100,
             'name': 'Dark Vest',
             'type': EquipmentType.VEST,
@@ -313,6 +372,35 @@ class Equipment:
             'max_stars': 32
         },
         {
+            'id': 3610,
+            'name': 'Abyssal Vest',
+            'type': EquipmentType.VEST,
+            'stats': {
+                'power|+': 150,
+                'exp|+': 150,
+                'power|%': 20
+            },
+            'level': 100,
+            'set': 'Abyssal',
+            'value': 50000,
+            'max_stars': 37
+        },
+        {
+            'id': 3620,
+            'name': 'Nami Vest',
+            'type': EquipmentType.VEST,
+            'stats': {
+                'power|+': 850,
+                'exp|+': 560,
+                'power|%': 25,
+                'exp|%': 25
+            },
+            'level': 150,
+            'set': 'Nami',
+            'value': 100000,
+            'max_stars': 42
+        },
+        {
             'id': 4100,
             'name': 'Dark Pants',
             'type': EquipmentType.PANTS,
@@ -381,6 +469,35 @@ class Equipment:
             'max_stars': 32
         },
         {
+            'id': 4510,
+            'name': 'Abyssal Pants',
+            'type': EquipmentType.PANTS,
+            'stats': {
+                'power|+': 150,
+                'exp|+': 150,
+                'power|%': 20,
+            },
+            'level': 100,
+            'set': 'Abyssal',
+            'value': 50000,
+            'max_stars': 37
+        },
+        {
+            'id': 4520,
+            'name': 'Nami Pants',
+            'type': EquipmentType.PANTS,
+            'stats': {
+                'power|+': 560,
+                'exp|+': 850,
+                'exp|%': 25,
+                'power|%': 25,
+            },
+            'level': 150,
+            'set': 'Nami',
+            'value': 100000,
+            'max_stars': 42
+        },
+        {
             'id': 5100,
             'name': 'Dark Boots',
             'type': EquipmentType.BOOTS,
@@ -445,6 +562,22 @@ class Equipment:
             'set': 'Origin',
             'value': 40000,
             'max_stars': 32
+        },
+        {
+            'id': 5510,
+            'name': 'Nami Boots',
+            'type': EquipmentType.BOOTS,
+            'stats': {
+                'luck|+': 45,
+                'speed|+': 30,
+                'crit|+': 45,
+                'luck|%': 25,
+                'crit|%': 25
+            },
+            'level': 150,
+            'set': 'Nami',
+            'value': 100000,
+            'max_stars': 42
         },
         {
             'id': 6100,
@@ -517,6 +650,24 @@ class Equipment:
             'set': 'Ancient',
             'value': 25000,
             'max_stars': 18
+        },
+        {
+            'id': 6610,
+            'name': 'Nami Gloves',
+            'type': EquipmentType.GLOVES,
+            'stats': {
+                'power|+': 100,
+                'exp|+': 10,
+                'luck|+': 50,
+                'crit|+': 50,
+                'luck|%': 50,
+                'crit|%': 50,
+                'speed|+': 25
+            },
+            'level': 150,
+            'set': 'Nami',
+            'value': 100000,
+            'max_stars': 42
         },
     ]
 
@@ -604,6 +755,42 @@ class Equipment:
             },
             {
                 'power|%': 50,
+            },
+        ],
+        'Abyssal': [
+            {
+            },
+            {
+                'power|+': 250,
+            },
+            {
+                'power|%': 50,
+                'power|+': 250
+            },
+            {
+                'power|%': 50,
+                'power|+': 250
+            },
+        ],
+        'Nami': [
+            {
+            },
+            {
+                'power|+': 200,
+            },
+            {
+                'power|+': 200
+            },
+            {
+                'exp|+': 200
+            },
+            {
+                'exp|+': 200
+            },
+            {
+                'power|%': 50,
+                'luck|+': 50,
+                'crit|+': 50
             },
         ],
     }
