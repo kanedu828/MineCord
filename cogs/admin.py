@@ -104,11 +104,12 @@ class Admin(commands.Cog):
 
     @commands.command(name='reset-dungeons')
     @commands.is_owner()
-    async def reset_dungeons(self, ctx):
+    async def reset_dungeons(self, ctx, clear_rate):
         async with self.db.get_conn() as conn:
             async with conn.transaction():
                 result = await conn.fetch(
-                    '''DELETE FROM dungeon_instance'''
+                    '''DELETE FROM dungeon_instance WHERE clear_rate=$1''',
+                    clear_rate
                 )
         await ctx.send(f'Reset {result} dungeon instances')
 
