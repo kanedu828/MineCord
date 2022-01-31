@@ -568,9 +568,9 @@ class Equipment:
             'name': 'Nami Boots',
             'type': EquipmentType.BOOTS,
             'stats': {
-                'luck|+': 45,
-                'speed|+': 30,
-                'crit|+': 45,
+                'luck|+': 10,
+                'speed|+': 10,
+                'crit|+': 10,
                 'luck|%': 25,
                 'crit|%': 25
             },
@@ -658,11 +658,11 @@ class Equipment:
             'stats': {
                 'power|+': 100,
                 'exp|+': 10,
-                'luck|+': 50,
-                'crit|+': 50,
-                'luck|%': 50,
-                'crit|%': 50,
-                'speed|+': 25
+                'luck|+': 15,
+                'crit|+': 15,
+                'luck|%': 25,
+                'crit|%': 25,
+                'speed|+': 15
             },
             'level': 150,
             'set': 'Nami',
