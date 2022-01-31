@@ -120,7 +120,7 @@ class User:
             in equipment_list
             if gear['location'] == 'inventory'
         ]
-        equipped_gear.sort(key=lambda g: g['level'])
+        equipped_gear.sort(key=lambda g: g['level'], reverse=True)
         inventory_list = [
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
             for gear in equipped_gear]
