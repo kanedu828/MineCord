@@ -116,12 +116,12 @@ class User:
     @staticmethod
     def get_inventory_list(equipment_list):
         gear_order = {
-            'pickaxe': 0,
-            'helmet': 1,
-            'vest': 2,
-            'pants': 3,
-            'boots': 4,
-            'gloves': 5
+            'pickaxe': 5,
+            'helmet': 4,
+            'vest': 3,
+            'pants': 2,
+            'boots': 1,
+            'gloves': 0
         }
         equipped_gear = [
             Equipment.get_equipment_from_id(gear['equipment_id']) for gear
