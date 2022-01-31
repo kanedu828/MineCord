@@ -94,11 +94,20 @@ class User:
 
     @staticmethod
     def get_equipped_gear_str(equipment_list):
+        gear_order = {
+            'pickaxe': 0,
+            'helmet': 1,
+            'vest': 2,
+            'pants': 3,
+            'boots': 4,
+            'gloves': 5
+        }
         equipped_gear = [
             Equipment.get_equipment_from_id(gear['equipment_id']) for gear
             in equipment_list
             if not gear['location'] == 'inventory'
         ]
+        equipped_gear.sort(key=lambda g: gear_order[g['type'].value])
         gear_str = '\n'.join([
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
             for gear in equipped_gear])
@@ -111,6 +120,7 @@ class User:
             in equipment_list
             if gear['location'] == 'inventory'
         ]
+        equipped_gear.sort(key=lambda g: g['level'])
         inventory_list = [
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
             for gear in equipped_gear]
