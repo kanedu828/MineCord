@@ -115,12 +115,20 @@ class User:
 
     @staticmethod
     def get_inventory_list(equipment_list):
+        gear_order = {
+            'pickaxe': 0,
+            'helmet': 1,
+            'vest': 2,
+            'pants': 3,
+            'boots': 4,
+            'gloves': 5
+        }
         equipped_gear = [
             Equipment.get_equipment_from_id(gear['equipment_id']) for gear
             in equipment_list
             if gear['location'] == 'inventory'
         ]
-        equipped_gear.sort(key=lambda g: g['level'], reverse=True)
+        equipped_gear.sort(key=lambda g: (g['level'], g['type'].value), reverse=True)
         inventory_list = [
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
             for gear in equipped_gear]
