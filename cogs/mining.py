@@ -152,7 +152,7 @@ class Mining(commands.Cog):
                     message_embed.description += 'Critical Strike!\n'
                     overflow = max(total_stats['crit'] - 100, 0)
                     m *= 2 + (overflow / 100)
-                power = total_stats['power'] * m
+                power = int(total_stats['power'] * m)
                 power = min(power, dungeon_instance['durability'])
                 result = await self.db.update_dungeon_durability(ctx.author.id, dungeon['name'], -power)
                 message_embed.description += f'`Dungeon Durability: {result[0]["durability"]}/{dungeon["durability"]}`\n'
@@ -341,10 +341,24 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title=f'{member}\'s Stats', color=discord.Color.dark_teal())
         user = await self.db.get_user(member.id)
         equipment_list = await self.db.get_equipment_for_user(member.id)
+        stats_ordering = {
+            'exp': 0,
+            'power': 1,
+            'crit': 2,
+            'speed': 3,
+            'luck': 4,
+            'drill exp': 5,
+            'drill power': 6,
+        }
+        stats_list = [
+            (key, value)
+            for key, value
+            in User.get_total_stats(user, equipment_list, user['blessings']).items()]
+        stats_list.sort(key=lambda s: stats_ordering[s[0]])
         user_stats = '\n'.join(
             [f'`{key}`: `{value}`'
                 for key, value
-                in User.get_total_stats(user, equipment_list, user['blessings']).items()])
+                in stats_list])
         stats = f'''
             `Level: {User.exp_to_level(user["exp"])}` \n
             `{User.get_exp_bar(user["exp"])}`\n
@@ -442,7 +456,16 @@ class Mining(commands.Cog):
         equipment = User.get_equipment_from_name(equipment_list, equipment_name)
         message_embed = discord.Embed(title='Equipment Bonusing', color=discord.Color.from_rgb(245, 211, 201))
         if equipment:
-            message_embed.description = f'Would you like to bonus your {equipment_name} for 1000 gold?'
+            base_equipment = Equipment.get_equipment_from_name(equipment_name)
+            if base_equipment['level'] < 20:
+                cost = 150
+            elif base_equipment['level'] < 40:
+                cost = 500
+            elif base_equipment['level'] < 100:
+                cost = 1000
+            else:
+                cost = 4000
+            message_embed.description = f'Would you like to bonus your {equipment_name} for {cost} gold?'
             result = await ConfirmationMenu(message_embed).prompt(ctx)
             if result:
                 if user['gold'] >= 1000:

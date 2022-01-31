@@ -29,6 +29,7 @@ class Shop(commands.Cog):
                     image_file = discord.File(f'assets/images/{file_name}', f'{file_name}')
                 message_embed.set_thumbnail(url=f'attachment://{file_name}')
                 message_embed.description = Equipment.get_base_equipment_stats_str(item_name)
+                message_embed.set_footer(text=f'ID: {item["id"]}')
                 await ctx.send(file=image_file, embed=message_embed)
 
     @commands.command(name='shop')
