@@ -859,7 +859,7 @@ class Equipment:
     # Rollable stat types from bonuses. Does not represent all available stats in game.
     stat_types = ['power', 'speed', 'luck', 'exp', 'crit']
 
-    drill_stat_types = ['drill power', 'drill exp']
+    drill_stat_types = ['power', 'speed', 'luck', 'exp', 'crit', 'drill power', 'drill exp']
 
     def __init__(self):
         pass
