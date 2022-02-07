@@ -257,14 +257,13 @@ class Mining(commands.Cog):
         since_last_drill = datetime.now() - user['last_drill']
         num_ten_min = int(since_last_drill.total_seconds()) // 600
         num_ten_min = min(num_ten_min, 6 * 24) # set max of 24 hours worth of idle mining
-        base_exp = int((level ** 1.3)) * num_ten_min
-        exp_gained = base_exp + total_stats["drill exp"] * num_ten_min
-        gold = int(10 + total_stats["drill power"]) * num_ten_min
+        exp_gained = total_stats["drill exp"] * num_ten_min
+        gold = total_stats["drill power"] * num_ten_min
         if num_ten_min > 0:
             message_embed.description = (
                 f'`Time Since Last Successful Drill: {str(since_last_drill).split(".")[0]}`\n'
-                f'`{exp_gained} exp ({base_exp} + {total_stats["drill exp"] * num_ten_min})`\n'
-                f'`{gold} gold ({10 * num_ten_min} + {total_stats["drill power"] * num_ten_min})`'
+                f'`{exp_gained} exp`\n'
+                f'`{gold} gold`'
             )
             await self.db.update_user_exp(ctx.author.id, exp_gained)
             await self.db.update_user_gold(ctx.author.id, gold)

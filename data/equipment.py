@@ -10,6 +10,7 @@ class EquipmentType(Enum):
     PANTS = 'pants'
     BOOTS = 'boots'
     GLOVES = 'gloves'
+    DRILL = 'drill'
 
 
 class Equipment:
@@ -669,6 +670,59 @@ class Equipment:
             'value': 100000,
             'max_stars': 42
         },
+        {
+            'id': 7000,
+            'name': 'Beginner Drill',
+            'type': EquipmentType.DRILL,
+            'stats': {
+                'drill power|+': 10,
+                'drill exp|+': 10,
+            },
+            'level': 10,
+            'set': None,
+            'value': 1000,
+            'max_stars': 7
+        },
+        {
+            'id': 7001,
+            'name': 'Expert Drill',
+            'type': EquipmentType.DRILL,
+            'stats': {
+                'drill power|+': 20,
+                'drill exp|+': 20,
+            },
+            'level': 15,
+            'set': None,
+            'value': 1000,
+            'max_stars': 7
+        },
+        {
+            'id': 7010,
+            'name': 'Ancient Drill',
+            'type': EquipmentType.DRILL,
+            'stats': {
+                'drill power|+': 25,
+                'drill exp|+': 150,
+            },
+            'level': 40,
+            'set': 'Ancient',
+            'value': 25000,
+            'max_stars': 18
+        },
+        {
+            'id': 7020,
+            'name': 'Volcanic Drill',
+            'type': EquipmentType.DRILL,
+            'stats': {
+                'drill power|+': 40,
+                'drill exp|+': 250,
+            },
+            'level': 60,
+            'set': None,
+            'value': 25000,
+            'max_stars': 24
+        },
+
     ]
 
     sets = {
@@ -688,6 +742,9 @@ class Equipment:
         ],
         'Ancient': [
             {
+            },
+            {
+                'power|+': 15
             },
             {
                 'power|+': 20,
@@ -761,13 +818,17 @@ class Equipment:
             {
             },
             {
+                'exp|+': 100,
                 'power|+': 250,
             },
             {
+                'exp|+': 150,
                 'power|%': 50,
                 'power|+': 250
             },
             {
+                'exp|+': 150,
+                'exp|%': 10,
                 'power|%': 50,
                 'power|+': 250
             },
@@ -796,7 +857,9 @@ class Equipment:
     }
 
     # Rollable stat types from bonuses. Does not represent all available stats in game.
-    stat_types = ['power', 'speed', 'luck', 'exp', 'crit', 'drill power', 'drill exp']
+    stat_types = ['power', 'speed', 'luck', 'exp', 'crit']
+
+    drill_stat_types = ['drill power', 'drill exp']
 
     def __init__(self):
         pass
@@ -888,7 +951,10 @@ class Equipment:
             [1 - upgrade_odds[current_lines + 1], upgrade_odds[current_lines + 1]])
         bonus = ''
         for i in range(lines[0]):
-            stat = random.choice(Equipment.stat_types)
+            if base_equipment.type.value == 'drill':
+                stat = random.choice(Equipment.drill_stat_types)
+            else:
+                stat = random.choice(Equipment.stat_types)
             modifier = random.choices(['+', '%'], [.75, .25])[0]
             if modifier == '+':
                 if stat == 'crit' or stat == 'speed' or stat == 'luck':
