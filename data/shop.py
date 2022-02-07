@@ -13,27 +13,32 @@ class Shop:
         {
             'type': Drop.EQUIPMENT,
             'id': 1700,
-            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(2150)['value'])
+            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(1700)['value'])
         },
         {
             'type': Drop.EQUIPMENT,
             'id': 3400,
-            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(2150)['value'])
+            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(3400)['value'])
         },
         {
             'type': Drop.EQUIPMENT,
             'id': 4300,
-            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(2150)['value'])
+            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(4300)['value'])
         },
         {
             'type': Drop.EQUIPMENT,
             'id': 5300,
-            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(2150)['value'])
+            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(5300)['value'])
         },
         {
             'type': Drop.EQUIPMENT,
             'id': 6600,
-            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(2150)['value'])
+            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(6600)['value'])
+        },
+        {
+            'type': Drop.EQUIPMENT,
+            'id': 7010,
+            'cost': (Drop.GOLD, Equipment.get_equipment_from_id(7010)['value'])
         },
     ]
 

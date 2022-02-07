@@ -100,7 +100,8 @@ class User:
             'vest': 2,
             'pants': 3,
             'boots': 4,
-            'gloves': 5
+            'gloves': 5,
+            'drill': 6
         }
         equipped_gear = [
             Equipment.get_equipment_from_id(gear['equipment_id']) for gear
