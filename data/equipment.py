@@ -951,7 +951,7 @@ class Equipment:
             [1 - upgrade_odds[current_lines + 1], upgrade_odds[current_lines + 1]])
         bonus = ''
         for i in range(lines[0]):
-            if base_equipment.type.value == 'drill':
+            if base_equipment['type'].value == 'drill':
                 stat = random.choice(Equipment.drill_stat_types)
             else:
                 stat = random.choice(Equipment.stat_types)
