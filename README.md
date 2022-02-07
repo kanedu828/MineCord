@@ -40,6 +40,7 @@ Start bot with `$python3 main.py`
 `;dungeon <dungeon name>` Switch to the specified dungeon\
 `;dmine` Mine your current dungeon\
 `;fragments` Check your current fragments\
+`;forge` Look at the available items to forge with fragments\
 `;forge <item name>` For an item.\
 `;lookup <item name>` Look up details on an item.
 
