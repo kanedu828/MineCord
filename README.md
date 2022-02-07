@@ -41,16 +41,14 @@ Start bot with `$python3 main.py`
 `;dmine` Mine your current dungeon\
 `;fragments` Check your current fragments\
 `;forge <item name>` For an item.\
-`;lookup <item name>` Look up details on an item.\
+`;lookup <item name>` Look up details on an item.
 
 ## Mining
 By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot. Happy hour is 7 pm EST every day. During happy hour, players gain 2x exp for mining
 
 ## Drilling
 Drilling is basically idle mining. Every 10 minutes, you passively get exp and gold. You can use `;drill` to check your drill for any idle rewards. This is capped at 24 hours worth of rewards.\
-Exp and Gold Rates:\
-Exp: (level ^ 1.3 + drill exp) * (num intervals of 10 minutes since last drill)\
-Gold: (10 + drill power) * (num intervals of 10 minutes since last drill)
+Exp and gold rates depend on how much drill exp and drill power you have.
 
 ## Caves
 Each cave has a level requirement that is needed for someone to enter it. Every cave drops a set amount of exp. For example, the Beginner cave drops 1 exp per mine while the Dark Cave drops 10 exp per mine.\
