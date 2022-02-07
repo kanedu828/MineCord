@@ -292,6 +292,7 @@ class Mining(commands.Cog):
             paginator = commands.Paginator('', '', 1800, '\n')
             paginator.add_line(
                 f'''**Current Cave**: `{user["cave"]}`\n
+                **Equipment Drops:** `{", ".join(cave.get_equipment_drops())}`\n
                 **Remaining Mines:**`{cave_quantity}`\n
                 **__Available Caves:__**\n''')
             for cave in Cave.list_caves_by_level(user_level):

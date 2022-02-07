@@ -2,6 +2,8 @@ import random
 from enum import Enum
 from copy import copy
 
+from data.equipment import Equipment
+
 
 class Drop(Enum):
     GOLD = 'gold'
@@ -321,6 +323,15 @@ class Cave:
             return drop
         else:
             return (None, None)
+
+    def get_equipment_drops(self):
+        eqp_drops = []
+        rarities = [Rarity.COMMON, Rarity.RARE, Rarity.EPIC, Rarity.LEGENDARY]
+        for r in rarities:
+            for drop in self.cave[r]:
+                if drop[0] == Drop.EQUIPMENT:
+                    eqp_drops.append(Equipment.get_equipment_from_id(drop[1])['name'])
+        return eqp_drops
 
     @staticmethod
     def populate_caves():
