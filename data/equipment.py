@@ -44,6 +44,7 @@ class Equipment:
             'type': EquipmentType.PICKAXE,
             'stats': {
                 'power|+': 1,
+                'exp|+': 2,
             },
             'level': 0,
             'set': None,
@@ -55,7 +56,8 @@ class Equipment:
             'name': 'Amateur Pickaxe',
             'type': EquipmentType.PICKAXE,
             'stats': {
-                'power|+': 3
+                'power|+': 3,
+                'exp|+':5,
             },
             'level': 3,
             'set': None,
@@ -68,7 +70,7 @@ class Equipment:
             'type': EquipmentType.PICKAXE,
             'stats': {
                 'power|+': 10,
-                'exp|+': 5,
+                'exp|+': 10,
                 'crit|+': 5,
             },
             'level': 10,
@@ -82,6 +84,7 @@ class Equipment:
             'type': EquipmentType.PICKAXE,
             'stats': {
                 'power|+': 15,
+                'exp|+': 20,
                 'speed|+': 5,
             },
             'level': 20,
@@ -96,6 +99,7 @@ class Equipment:
             'stats': {
                 'speed|+': 30,
                 'speed|%': 7,
+                'exp|+': 15
             },
             'level': 30,
             'set': None,
@@ -122,6 +126,7 @@ class Equipment:
             'type': EquipmentType.PICKAXE,
             'stats': {
                 'power|+': 30,
+                'exp|+': 30
             },
             'level': 40,
             'set': 'Damian',
