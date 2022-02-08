@@ -196,7 +196,7 @@ class Equipment:
             'name': 'Dark Helmet',
             'type': EquipmentType.HELMET,
             'stats': {
-                'power|+': 1,
+                'power|+': 5,
             },
             'level': 10,
             'set': 'Dark',
@@ -250,7 +250,7 @@ class Equipment:
             'name': 'Damian Helmet',
             'type': EquipmentType.HELMET,
             'stats': {
-                'power|+': 10,
+                'power|+': 22,
                 'power|%': 5,
             },
             'level': 40,
@@ -304,8 +304,8 @@ class Equipment:
             'name': 'Dark Vest',
             'type': EquipmentType.VEST,
             'stats': {
-                'power|+': 3,
-                'exp|+': 2,
+                'power|+': 5,
+                'exp|+': 5,
             },
             'level': 10,
             'set': 'Dark',
@@ -317,8 +317,8 @@ class Equipment:
             'name': 'Beetle Armor Vest',
             'type': EquipmentType.VEST,
             'stats': {
-                'power|+': 20,
-                'exp|+': 4,
+                'power|+': 12,
+                'exp|+': 20,
             },
             'level': 30,
             'set': None,
@@ -331,6 +331,7 @@ class Equipment:
             'type': EquipmentType.VEST,
             'stats': {
                 'power|+': 25,
+                'exp|+': 28
             },
             'level': 40,
             'set': 'Damian',
@@ -411,8 +412,8 @@ class Equipment:
             'name': 'Dark Pants',
             'type': EquipmentType.PANTS,
             'stats': {
-                'power|+': 2,
-                'exp|+': 3,
+                'power|+': 7,
+                'exp|+': 8,
             },
             'level': 10,
             'set': 'Dark',
@@ -508,7 +509,7 @@ class Equipment:
             'name': 'Dark Boots',
             'type': EquipmentType.BOOTS,
             'stats': {
-                'exp|+': 1,
+                'exp|+': 5,
             },
             'level': 10,
             'set': 'Dark',
@@ -590,6 +591,8 @@ class Equipment:
             'name': 'Dark Gloves',
             'type': EquipmentType.GLOVES,
             'stats': {
+                'exp|+': 5,
+                'exp|%': 5,
                 'power|%': 5,
                 'crit|+': 5,
             },
@@ -636,7 +639,7 @@ class Equipment:
             'name': 'Damian Gloves',
             'type': EquipmentType.GLOVES,
             'stats': {
-                'power|+': 15,
+                'exp|+': 20,
                 'speed|+': 5,
             },
             'level': 40,
@@ -761,9 +764,11 @@ class Equipment:
                 'power|%': 5,
             },
             {
+                'exp|+': 20,
                 'luck|+': 5,
             },
             {
+                'exp|+': 25,
                 'power|%': 10,
                 'luck|+': 50,
             }
@@ -781,10 +786,11 @@ class Equipment:
                 'power|%': 5,
             },
             {
-                'exp|+': 10,
+                'exp|+': 25,
                 'power|%': 5,
             },
             {
+                'exp|+': 25,
                 'power|%': 10,
                 'exp|%': 10,
             }
@@ -842,18 +848,21 @@ class Equipment:
             {
             },
             {
-                'power|+': 200,
+                'exp|+': 100,
             },
             {
+                'exp|+': 100,
+            },
+            {
+                'exp|+': 200,
                 'power|+': 200
             },
             {
-                'exp|+': 200
+                'exp|+': 200,
+                'power|+': 200
             },
             {
-                'exp|+': 200
-            },
-            {
+                'exp|+': 250,
                 'power|%': 50,
                 'luck|+': 50,
                 'crit|+': 50
