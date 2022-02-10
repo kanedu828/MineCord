@@ -107,4 +107,7 @@ If you have a good understanding of mining and you don't like how things are exp
   
 ## Terms of Service
   Don't cheat
+  
+## Privacy Policy
+  I don't use your data
 
