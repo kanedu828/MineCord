@@ -255,21 +255,19 @@ class Mining(commands.Cog):
         total_stats = User.get_total_stats(ctx.author.id, equipment_list, user['blessings'])
         level = User.exp_to_level(user['exp'])
         since_last_drill = datetime.now() - user['last_drill']
-        num_ten_min = int(since_last_drill.total_seconds()) // 600
+        num_ten_min = since_last_drill.total_seconds() / 600
         num_ten_min = min(num_ten_min, 6 * 24) # set max of 24 hours worth of idle mining
-        exp_gained = total_stats["drill exp"] * num_ten_min
-        gold = total_stats["drill power"] * num_ten_min
-        if num_ten_min > 0:
-            message_embed.description = (
-                f'`Time Since Last Successful Drill: {str(since_last_drill).split(".")[0]}`\n'
-                f'`{exp_gained} exp`\n'
-                f'`{gold} gold`'
-            )
-            await self.db.update_user_exp(ctx.author.id, exp_gained)
-            await self.db.update_user_gold(ctx.author.id, gold)
+        exp_gained = int(total_stats["drill exp"] * num_ten_min)
+        gold = int(total_stats["drill power"] * num_ten_min)
+        message_embed.description = (
+            f'`Time Since Last Successful Drill: {str(since_last_drill).split(".")[0]}`\n'
+            f'`{exp_gained} exp`\n'
+            f'`{gold} gold`'
+        )
+        await self.db.update_user_exp(ctx.author.id, exp_gained)
+        await self.db.update_user_gold(ctx.author.id, gold)
+        if exp_gained != 0 and gold != 0:
             await self.db.set_user_last_drill(ctx.author.id, datetime.now())
-        else:
-            message_embed.description = 'There are no rewards yet, check again later!'
         await ctx.send(embed=message_embed)
         await Mining.indicate_level_up(ctx, user['exp'], user['exp'] + exp_gained)
 
@@ -436,7 +434,7 @@ class Mining(commands.Cog):
         pages = []
         count = 0
         for i in range(len(user_list)):
-            leaderboard_str += f'**{i + 1}.** `{self.client.get_user(user_list[i]["user_id"])}` '
+            leaderboard_str += f'**{i + 1}.** `{self.client.get_user(user_list[i]["user_id"]).name}` '
             leaderboard_str += f'**Level**: `{User.exp_to_level(user_list[i]["exp"])}` '
             leaderboard_str += f'**EXP:** `{user_list[i]["exp"]}`\n'
             count += 1
