@@ -1,8 +1,8 @@
-# Isla-Bot-2.0
+# MineCord
 
 ## Overview
 
-Isla-Bot-2.0 is an idle clicker Discord game. You mine to gain exp and gold to climb the leaderboards or to upgrade your equipment.
+MineCord is an idle clicker Discord game. You mine to gain exp and gold to climb the leaderboards or to upgrade your equipment.
 
 You can invite the bot to your server through here: https://discord.com/api/oauth2/authorize?client_id=708417621334163537&permissions=0&scope=bot
 
