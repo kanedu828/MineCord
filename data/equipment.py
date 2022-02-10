@@ -549,8 +549,9 @@ class Equipment:
             'name': 'Void Walker Boots',
             'type': EquipmentType.BOOTS,
             'stats': {
-                'exp|+': 300,
+                'exp|+': 850,
                 'exp|%': 25,
+                'crit|+': 35
             },
             'level': 100,
             'set': None,
