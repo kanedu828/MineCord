@@ -433,6 +433,7 @@ class Mining(commands.Cog):
         leaderboard_str = ''
         pages = []
         count = 0
+        user_list = [u for u in user_list if self.client.get_user(u["user_id"])]
         for i in range(len(user_list)):
             leaderboard_str += f'**{i + 1}.** `{self.client.get_user(user_list[i]["user_id"]).name}` '
             leaderboard_str += f'**Level**: `{User.exp_to_level(user_list[i]["exp"])}` '
