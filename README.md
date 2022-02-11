@@ -104,4 +104,10 @@ After you reach level 50, you have the opportunity to reset your exp to gain ble
 For example, if you have level 65, you will gain 3 blessings. If you are level 100, you will gain 10 blessings.
 
 If you have a good understanding of mining and you don't like how things are explained, feel free to create a pull request and edit this README.
+  
+## Terms of Service
+  Don't cheat
+  
+## Privacy Policy
+  I don't use your data
 
