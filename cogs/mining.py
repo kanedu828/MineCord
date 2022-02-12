@@ -1,6 +1,7 @@
 import discord
 import asyncio
 from discord.ext import commands, tasks
+from discord.commands import SlashCommandGroup
 import random
 from data.caves import Cave, Drop
 from data.dungeons import Dungeon
@@ -266,7 +267,7 @@ class Mining(commands.Cog):
         )
         await self.db.update_user_exp(ctx.author.id, exp_gained)
         await self.db.update_user_gold(ctx.author.id, gold)
-        if exp_gained != 0 and gold != 0:
+        if exp_gained != 0 or gold != 0:
             await self.db.set_user_last_drill(ctx.author.id, datetime.now())
         await ctx.send(embed=message_embed)
         await Mining.indicate_level_up(ctx, user['exp'], user['exp'] + exp_gained)
