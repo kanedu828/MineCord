@@ -36,7 +36,7 @@ class DBUtil:
                 stmt = await conn.prepare("SELECT * FROM users WHERE user_id=$1")
                 result = await stmt.fetch(id)
                 if not result:
-                    result = await insert_user(id)
+                    result = await self.insert_user(id)
                 user_data = {}
                 for field, value in result[0].items():
                     user_data[field] = value
