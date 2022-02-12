@@ -1,7 +1,6 @@
 import discord
 import asyncio
 from discord.ext import commands, tasks
-from discord.commands import SlashCommandGroup
 import random
 from data.caves import Cave, Drop
 from data.dungeons import Dungeon
