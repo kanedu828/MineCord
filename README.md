@@ -44,7 +44,7 @@ Start bot with `$python3 main.py`
 `;lookup <item name>` Look up details on an item.
 
 ## Mining
-By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot. Happy hour is 7 pm EST every day. During happy hour, players gain 2x exp for mining.
+By using the `;mine` command, you mine your cave in the chance to recieve gold, equipment, or exp. Each cave drops different loot and has different odds to drop loot. Happy hour is 7 pm EST every day. During happy hour, players gain 2x exp for mining.\
 ![Mining Example](https://cdn.discordapp.com/attachments/708483256332320788/942244378024476694/unknown.png)
 ## Drilling
 Drilling is basically idle mining. Every 10 minutes, you passively get exp and gold. You can use `;drill` to check your drill for any idle rewards. This is capped at 24 hours worth of rewards.\
