@@ -102,7 +102,7 @@ Additionally, the higher level your equipment, the better bonuses it will get.
 You can also add stars to your equipment with `;star <equipment name>`. The cost of starring depends on your equipment's level. It gets more expensive the higher star level it is.
   
 ## Blessings
-After you reach level 50, you have the opportunity to reset your exp to gain blessings. The higher level you are, the more blessings you will get. Each blessing will permanently give you 1% exp to your stats.\
+After you reach level 50, you have the opportunity to reset your exp to gain blessings. The higher level you are, the more blessings you will get. Each blessing will permanently give you 1% exp to your stats.
   
 ## Terms of Service
   Don't cheat
