@@ -413,6 +413,7 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title='Inventory', color=discord.Color.from_rgb(245, 211, 201))  # peachy color
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         equipment_str = User.get_equipment_stats_str(equipment_list, equipment_name)
+        equipment_list = [e for e in equipment_list if e['location'] == 'inventory']
         if not equipment_list:
             message_embed.description = 'You have nothing in your inventory.'
             await ctx.send(embed=message_embed)
