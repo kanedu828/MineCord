@@ -468,8 +468,8 @@ class Mining(commands.Cog):
             message_embed.description = f'Would you like to bonus your {equipment_name} for {cost} gold?'
             result = await ConfirmationMenu(message_embed).prompt(ctx)
             if result:
-                if user['gold'] >= 1000:
-                    await self.db.update_user_gold(ctx.author.id, -1000)
+                if user['gold'] >= cost:
+                    await self.db.update_user_gold(ctx.author.id, -cost)
                     current_lines = User.get_lines_for_equipment(equipment_list, equipment_name)
                     bonus = Equipment.get_bonus_for_weapon(equipment_name, current_lines)
                     await self.db.update_equipment_bonus(ctx.author.id, equipment['equipment_id'], bonus)
@@ -499,7 +499,7 @@ class Mining(commands.Cog):
         user = await self.db.get_user(ctx.author.id)
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
         equipment = User.get_equipment_from_name(equipment_list, equipment_name)
-        message_embed = discord.Embed(title='Equipment Bonusing', color=discord.Color.from_rgb(245, 211, 201))
+        message_embed = discord.Embed(title='Equipment Stars', color=discord.Color.from_rgb(245, 211, 201))
         if equipment:
             base_equipment = Equipment.get_equipment_from_name(equipment_name)
             if equipment['stars'] >= base_equipment['max_stars']:

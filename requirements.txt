@@ -4,11 +4,13 @@ asyncpg==0.22.0
 attrs==20.3.0
 chardet==3.0.4
 discord-ext-menus==1.0.0a31+gfbb8803
-discord.py==2.0.0a3575+g45d498c1
+discord-ext-menus-views==0.1.0
 flake8==3.9.2
 idna==3.1
 mccabe==0.6.1
 multidict==5.1.0
+pkg_resources==0.0.0
+py-cord==2.0.0b4
 pycodestyle==2.7.0
 pyflakes==2.3.1
 python-dotenv==0.15.0
