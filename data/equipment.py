@@ -633,7 +633,7 @@ class Equipment:
             'level': 100,
             'set': None,
             'value': 20000,
-            'max_stars': 32
+            'max_stars': 0
         },
         {
             'id': 6500,

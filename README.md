@@ -6,7 +6,7 @@ MineCord is an idle clicker Discord game. You mine to gain exp and gold to climb
 
 You can invite the bot to your server through here: https://discord.com/api/oauth2/authorize?client_id=708417621334163537&permissions=0&scope=bot
 
-Join the official Discord server here! https://discord.gg/GHEhKR3 
+Join the official Discord server here! https://discord.gg/d2g6p33
 
 ## Community Contribution
 Commit into the development branch and make a PR. I'll be happy to review them.
