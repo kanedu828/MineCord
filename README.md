@@ -129,7 +129,7 @@ Feel free to fix bugs, add anything from Projects, or add more caves and equipme
 ### Setup
 Create a virtual environment with `$python3 -m venv venv`.\
 Activate the venv with `$source venv/bin/activate`.\
-Install dependencies with `pip install -r requirements.txt`. (You may need an extra dependency not correctly listed in requirements.txt. Install here: https://github.com/Rapptz/discord-ext-menus) \
+Install dependencies with `pip install -r requirements.txt`.\
 Create a `.env` file and populate the fields with the proper values.\
 Start bot with `$python3 main.py`
 
