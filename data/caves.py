@@ -280,6 +280,22 @@ class Cave:
             'max_quantity': 10000,
         },
         {
+            'name': 'Artisan Cave',
+            'level_requirement': 80,
+            'exp': 1000,
+            'drop_odds': [0.4, 0.3, 0.25, 0.04, 0.01],
+            Rarity.COMMON: [(Drop.EXP, 500)],
+            Rarity.RARE: [(Drop.EXP, 1000), (Drop.GOLD, 25)],
+            Rarity.EPIC: [(Drop.EXP, 2500), (Drop.GOLD, 100)],
+            Rarity.LEGENDARY: [
+                (Drop.EXP, 50000),
+                (Drop.GOLD, 25000),
+                (Drop.EQUIPMENT, 6400)
+            ],
+            'current_quantity': 10000,
+            'max_quantity': 10000,
+        },
+        {
             'name': 'Ender Cave',
             'level_requirement': 100,
             'exp': 1200,
