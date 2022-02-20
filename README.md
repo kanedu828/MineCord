@@ -8,17 +8,6 @@ You can invite the bot to your server through here: https://discord.com/api/oaut
 
 Join the official Discord server here! https://discord.gg/d2g6p33
 
-## Community Contribution
-Commit into the development branch and make a PR. I'll be happy to review them.
-Feel free to fix bugs, add anything from Projects, or add more caves and equipment!
-
-### Setup
-Create a virtual environment with `$python3 -m venv venv`.\
-Activate the venv with `$source venv/bin/activate`.\
-Install dependencies with `pip install -r requirements.txt`. (You may need an extra dependency not correctly listed in requirements.txt. Install here: https://github.com/Rapptz/discord-ext-menus) \
-Create a `.env` file and populate the fields with the proper values.\
-Start bot with `$python3 main.py`
-
 ## Commands
 
 `;mine` Mine in the current cave you are in.\
@@ -105,8 +94,77 @@ You can also add stars to your equipment with `;star <equipment name>`. The cost
 After you reach level 50, you have the opportunity to reset your exp to gain blessings. The higher level you are, the more blessings you will get. Each blessing will permanently give you 1% exp to your stats.
   
 ## Terms of Service
-  Don't cheat
+  1. Use of scripts to automate miining is not allowed. You may be blacklisted if you are scripting.
+  2. Abuse of bugs are not allowed, please report bugs as soon as you can.
   
 ## Privacy Policy
-  I don't use your data
+  #### What information does MineCord collect?
+  The only data MineCord collects from users is the user's Discord ID.
+  #### How does MineCord use your data?
+  Minecord uses a user's Discord ID to save save user progress in the game. It is also used to display users on the leaderboard. Only the user's name is displayed on the leaderboard. User tags are omitted.
+  #### Will your information be shared with anyone?
+  No, anything stored in the database will not be shown to anyone.
+  #### How long do we keep your information?
+  A user's Discord ID will be stored indefinitely. A user may request to be removed from the database by messaging `kane#6661` on Discord.
+  
+## Community Contribution
+Commit into the development branch and make a PR. I'll be happy to review them.
+Feel free to fix bugs, add anything from Projects, or add more caves and equipment!
+
+### Setup
+Create a virtual environment with `$python3 -m venv venv`.\
+Activate the venv with `$source venv/bin/activate`.\
+Install dependencies with `pip install -r requirements.txt`. (You may need an extra dependency not correctly listed in requirements.txt. Install here: https://github.com/Rapptz/discord-ext-menus) \
+Create a `.env` file and populate the fields with the proper values.\
+Start bot with `$python3 main.py`
+
+#### Database Schema
+In order to setup the bot, you need to create a PostgreSQL database with the following tables:
+```sql
+CREATE TABLE users(
+user_id BIGINT PRIMARY KEY NOT NULL,
+cave VARCHAR(255) NOT NULL DEFAULT 'Beginner Cave',
+dungeon VARCHAR(255) DEFAULT '',
+gold INT NOT NULL DEFAULT 0,
+exp INT NOT NULL DEFAULT 0,
+blessings INT NOT NULL DEFAULT 0,
+last_drill TIMESTAMP NOT NULL DEFAULT NOW()
+);
+```
+```sql
+CREATE TABLE equipment(
+equipment_instance_id SERIAL PRIMARY KEY,
+equipment_id INT NOT NULL,
+user_id BIGINT NOT NULL,
+location VARCHAR(255) NOT NULL,
+bonus VARCHAR NOT NULL DEFAULT '',
+stars INT NOT NULL DEFAULT 0,
+
+CONSTRAINT fk_user
+FOREIGN KEY(user_id)
+REFERENCES users(user_id));
+```
+```sql
+CREATE TABLE item(
+item_id INT NOT NULL,
+user_id BIGINT NOT NULL,
+count INT NOT NULL DEFAULT 0,
+UNIQUE (item_id, user_id),
+
+CONSTRAINT fk_user
+FOREIGN KEY(user_id)
+REFERENCES users(user_id));
+```
+```sql
+CREATE TABLE dungeon_instance(
+dungeon_name VARCHAR(255),
+user_id BIGINT NOT NULL,
+durability INT,
+clear_rate VARCHAR(255),
+UNIQUE (dungeon_name, user_id),
+
+CONSTRAINT fk_user
+FOREIGN KEY(user_id)
+REFERENCES users(user_id));
+```
 
