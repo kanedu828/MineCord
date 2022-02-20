@@ -99,7 +99,7 @@ After you reach level 50, you have the opportunity to reset your exp to gain ble
   
 ## Privacy Policy
   #### What information does MineCord collect?
-  The only data MineCord collects from users is the user's Discord ID.
+  The only data MineCord collects from users is the user's Discord ID. You may view the bot's (database scheme)[https://github.com/kanedu828/MineCord#database-schema] for a more detailed look on what data MineCord stores.
   #### How does MineCord use your data?
   Minecord uses a user's Discord ID to save save user progress in the game. It is also used to display users on the leaderboard. Only the user's name is displayed on the leaderboard. User tags are omitted.
   #### Will your information be shared with anyone?
