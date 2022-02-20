@@ -8,6 +8,21 @@ You can invite the bot to your server through here: https://discord.com/api/oaut
 
 Join the official Discord server here! https://discord.gg/d2g6p33
 
+## Table of Contents
+1. [Commands](https://github.com/kanedu828/MineCord#commands)
+2. [Mining](https://github.com/kanedu828/MineCord#mining)
+3. [Drilling](https://github.com/kanedu828/MineCord#drilling)
+4. [Caves](https://github.com/kanedu828/MineCord#caves)
+5. [Dungeons](https://github.com/kanedu828/MineCord#dungeons)
+6. [Equipment](https://github.com/kanedu828/MineCord#equipment)
+7. [Stats](https://github.com/kanedu828/MineCord#equipment)
+8. [Equipment Bonusing](https://github.com/kanedu828/MineCord#bonus)
+9. [Equipment Stars](https://github.com/kanedu828/MineCord#stars)
+10. [Blessings](https://github.com/kanedu828/MineCord#blessings)
+11. [Terms of Service](https://github.com/kanedu828/MineCord#terms-of-service)
+12. [Privacy Policy](https://github.com/kanedu828/MineCord#privacy-policy)
+13. [Community Contribution](https://github.com/kanedu828/MineCord#community-contribution)
+
 ## Commands
 
 `;mine` Mine in the current cave you are in.\
