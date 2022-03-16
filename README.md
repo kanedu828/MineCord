@@ -35,6 +35,7 @@ Join the official Discord server here! https://discord.gg/d2g6p33
 `;inventory` List your inventory.\
 `;leaderboard` View the leaderboard based off of total exp.\
 `;bonus <equipment name>` Add bonuses to your specified equipment.\
+`;star <equipment name>` Add stars to your specified equipment.\
 `;reset` Reset your total exp and gain blessings.\
 `;shop <optional: item name>` View the shop. Provide the item name to view a detailed description of the item.\
 `;buy <item name>` Buy the item. It must be in the shop.\
