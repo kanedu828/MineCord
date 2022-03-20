@@ -1,22 +1,9 @@
-aiohttp==3.7.3
-async-timeout==3.0.1
 asyncpg==0.22.0
 attrs==20.3.0
 chardet==3.0.4
-<<<<<<< HEAD
-=======
-discord-ext-menus==1.0.0a31+gfbb8803
-discord-ext-menus-views==0.1.0
->>>>>>> 98c6c15bf1b4a20c88d9b69656b1988dfe0ede3e
+git+https://github.com/Rapptz/discord-ext-menus
+git+https://github.com/oliver-ni/discord-ext-menus-views
 flake8==3.9.2
-idna==3.1
-mccabe==0.6.1
-multidict==5.1.0
-pkg_resources==0.0.0
 py-cord==2.0.0b4
-pycodestyle==2.7.0
-pyflakes==2.3.1
-python-dotenv==0.15.0
 pytz==2021.1
-typing-extensions==3.7.4.3
-yarl==1.6.3
+python-dotenv==0.15.0
