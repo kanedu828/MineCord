@@ -26,13 +26,13 @@ class Dungeon:
             'clear_rate': 'weekly',
         },
         {
-            'name': 'Hornet Dungeon',
+            'name': 'Peachtree Dungeon',
             'level_requirement': 80,
             'durability': 2000000,
             'exp': 2000000,
             'gold': 20000,
             'drop_rate': 0.25,
-            'fragment_drop': 1,
+            'fragment_drop': 2,
             'clear_rate': 'daily',
         },
     ]
