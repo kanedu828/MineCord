@@ -1111,7 +1111,7 @@ class Equipment:
                     adder += 4 * (i // 10 + 1)
                 else:
                     adder += 1 * (i // 10 + 1)
-            star_bonus += int((adder + adder * multiplier * 0.25))
+            star_bonus += int((adder + adder * (multiplier - 1) * 0.25))
         return star_bonus
 
     @staticmethod
