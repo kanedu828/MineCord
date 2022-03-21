@@ -11,6 +11,8 @@ class EquipmentType(Enum):
     BOOTS = 'boots'
     GLOVES = 'gloves'
     DRILL = 'drill'
+    BELT = 'belt'
+    CAPE = 'cape'
 
 
 class Equipment:
@@ -556,7 +558,7 @@ class Equipment:
             'level': 100,
             'set': None,
             'value': 50000,
-            'max_stars': 32
+            'max_stars': 37
         },
         {
             'id': 5500,
@@ -586,6 +588,19 @@ class Equipment:
             'set': 'Nami',
             'value': 100000,
             'max_stars': 42
+        },
+        {
+            'id': 5520,
+            'name': 'Peachtree Boots',
+            'type': EquipmentType.Boots,
+            'stats': {
+                'exp|+': 60,
+                'crit|+': 10,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
         },
         {
             'id': 6100,
@@ -680,6 +695,19 @@ class Equipment:
             'max_stars': 42
         },
         {
+            'id': 6620,
+            'name': 'Peachtree Gloves',
+            'type': EquipmentType.GLOVES,
+            'stats': {
+                'exp|+': 60,
+                'luck|+': 10,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
             'id': 7000,
             'name': 'Beginner Drill',
             'type': EquipmentType.DRILL,
@@ -731,7 +759,45 @@ class Equipment:
             'value': 25000,
             'max_stars': 24
         },
-
+        {
+            'id': 7030,
+            'name': 'Peachtree Drill',
+            'type': EquipmentType.DRILL,
+            'stats': {
+                'drill power|+': 40,
+                'drill exp|+': 2000,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
+            'id': 8000,
+            'name': 'Peachtree Belt',
+            'type': EquipmentType.BELT,
+            'stats': {
+                'exp|+': 100,
+                'luck|+': 10,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
+            'id': 9000,
+            'name': 'Peachtree Cape',
+            'type': EquipmentType.BELT,
+            'stats': {
+                'exp|+': 150,
+                'crit|+': 15,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
     ]
 
     sets = {

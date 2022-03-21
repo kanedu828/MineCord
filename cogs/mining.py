@@ -348,6 +348,7 @@ class Mining(commands.Cog):
             'drill exp': 5,
             'drill power': 6,
         }
+        stats_ordering = Counter(stats_ordering)
         stats_list = [
             (key, value)
             for key, value

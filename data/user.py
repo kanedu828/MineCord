@@ -4,6 +4,19 @@ from collections import Counter
 
 
 class User:
+
+    GEAR_ORDER = Counter({
+        'pickaxe': 0,
+        'helmet': 1,
+        'vest': 2,
+        'pants': 3,
+        'boots': 4,
+        'gloves': 5,
+        'drill': 6,
+        'belt': 7,
+        'cape': 8,
+    })
+
     def __init__(self, user, equipment, items):
         pass
 
@@ -94,21 +107,12 @@ class User:
 
     @staticmethod
     def get_equipped_gear_str(equipment_list):
-        gear_order = {
-            'pickaxe': 0,
-            'helmet': 1,
-            'vest': 2,
-            'pants': 3,
-            'boots': 4,
-            'gloves': 5,
-            'drill': 6
-        }
         equipped_gear = [
             Equipment.get_equipment_from_id(gear['equipment_id']) for gear
             in equipment_list
             if not gear['location'] == 'inventory'
         ]
-        equipped_gear.sort(key=lambda g: gear_order[g['type'].value])
+        equipped_gear.sort(key=lambda g: self.GEAR_ORDER[g['type'].value])
         gear_str = '\n'.join([
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
             for gear in equipped_gear])
@@ -116,21 +120,12 @@ class User:
 
     @staticmethod
     def get_inventory_list(equipment_list):
-        gear_order = {
-            'pickaxe': 6,
-            'helmet': 5,
-            'vest': 4,
-            'pants': 3,
-            'boots': 2,
-            'gloves': 1,
-            'drill': 0
-        }
         equipped_gear = [
             Equipment.get_equipment_from_id(gear['equipment_id']) for gear
             in equipment_list
             if gear['location'] == 'inventory'
         ]
-        equipped_gear.sort(key=lambda g: (g['level'], gear_order[g['type'].value]), reverse=True)
+        equipped_gear.sort(key=lambda g: (g['level'], self.GEAR_ORDER[g['type'].value]), reverse=True)
         inventory_list = [
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
             for gear in equipped_gear]
