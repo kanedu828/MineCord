@@ -593,7 +593,7 @@ class Equipment:
         {
             'id': 5520,
             'name': 'Peachtree Boots',
-            'type': EquipmentType.Boots,
+            'type': EquipmentType.BOOTS,
             'stats': {
                 'exp|+': 60,
                 'crit|+': 10,
