@@ -238,14 +238,15 @@ class Equipment:
             'name': 'Absolute Helmet',
             'type': EquipmentType.HELMET,
             'stats': {
-                'power|+': 200,
-                'exp|+': 500,
-                'power|%': 5,
+                'power|+': 1000,
+                'exp|+': 1000,
+                'crit|+': 100,
+                'power|%': 25,
             },
             'level': 100,
             'set': 'Absolute',
             'value': 25000,
-            'max_stars': 24
+            'max_stars': 48
         },
         {
             'id': 2300,
@@ -786,15 +787,79 @@ class Equipment:
             'max_stars': 32
         },
         {
+            'id': 8010,
+            'name': 'Fallen Angelic Belt',
+            'type': EquipmentType.BELT,
+            'stats': {
+                'exp|+': 50,
+                'power|+': 50,
+                'exp|%': 5,
+                'power|%': 5,
+                'crit|+': 5,
+            },
+            'level': 50,
+            'set': 'Fallen Angelic',
+            'value': 25000,
+            'max_stars': 24
+        },
+        {
+            'id': 8020,
+            'name': 'Angelic Belt',
+            'type': EquipmentType.BELT,
+            'stats': {
+                'exp|+': 500,
+                'power|+': 500,
+                'exp|%': 20,
+                'power|%': 20,
+                'crit|+': 50,
+            },
+            'level': 50,
+            'set': 'Angelic',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
             'id': 9000,
             'name': 'Peachtree Cape',
-            'type': EquipmentType.BELT,
+            'type': EquipmentType.CAPE,
             'stats': {
                 'exp|+': 150,
                 'crit|+': 15,
             },
             'level': 100,
             'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
+            'id': 9010,
+            'name': 'Fallen Angelic Cape',
+            'type': EquipmentType.CAPE,
+            'stats': {
+                'exp|+': 50,
+                'power|+': 50,
+                'exp|%': 5,
+                'power|%': 5,
+                'crit|+': 5,
+            },
+            'level': 50,
+            'set': 'Fallen Angelic',
+            'value': 25000,
+            'max_stars': 24
+        },
+        {
+            'id': 9020,
+            'name': 'Angelic Cape',
+            'type': EquipmentType.CAPE,
+            'stats': {
+                'exp|+': 500,
+                'power|+': 500,
+                'exp|%': 20,
+                'power|%': 20,
+                'crit|+': 50,
+            },
+            'level': 50,
+            'set': 'Angelic',
             'value': 25000,
             'max_stars': 32
         },
@@ -915,24 +980,63 @@ class Equipment:
             {
             },
             {
-                'exp|+': 100,
+                'exp|+': 500,
             },
             {
-                'exp|+': 100,
+                'exp|+': 500,
             },
             {
-                'exp|+': 200,
-                'power|+': 200
+                'exp|+': 500,
+                'power|+': 500
             },
             {
-                'exp|+': 200,
-                'power|+': 200
+                'exp|+': 500,
+                'power|+': 500
             },
             {
-                'exp|+': 250,
+                'exp|+': 500,
                 'power|%': 50,
                 'luck|+': 50,
-                'crit|+': 50
+                'crit|+': 100
+            },
+        ],
+        'Peachtree': [
+            {
+            },
+            {
+                'exp|+': 100,
+                'crit|+': 20,
+            },
+            {
+                'exp|+': 100,
+                'crit|+': 20,
+            },
+            {
+                'exp|+': 200,
+                'power|+': 200,
+                'crit|+': 20
+            },
+            {
+                'crit|+': 100,
+                'crit|%': 10
+            },
+        ],
+        'Fallen Angelic': [
+            {
+            },
+            {
+                'exp|%': 10,
+                'power|%': 10,
+                'crit|%': 10,
+            },
+        ],
+        'Angelic': [
+            {
+            },
+            {
+                'exp|%': 50,
+                'power|%': 50,
+                'crit|%': 50,
             },
         ],
     }

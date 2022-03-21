@@ -25,6 +25,16 @@ class Dungeon:
             'fragment_drop': 1,
             'clear_rate': 'weekly',
         },
+        {
+            'name': 'Hornet Dungeon',
+            'level_requirement': 80,
+            'durability': 2000000,
+            'exp': 2000000,
+            'gold': 20000,
+            'drop_rate': 0.25,
+            'fragment_drop': 1,
+            'clear_rate': 'daily',
+        },
     ]
 
     @classmethod

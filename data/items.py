@@ -13,7 +13,7 @@ class Item:
         },
         {
             'id': 2,
-            'name': 'Hornet Fragment',
+            'name': 'Peachtree Fragment',
             'type': 'fragment',
         },
         {
