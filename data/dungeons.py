@@ -10,7 +10,7 @@ class Dungeon:
             'level_requirement': 75,
             'durability': 50000,
             'exp': 150000,
-            'gold': 20000,
+            'gold': 10000,
             'drop_rate': 0.35,
             'fragment_drop': 0,
             'clear_rate': 'daily',
@@ -24,6 +24,16 @@ class Dungeon:
             'drop_rate': 0.5,
             'fragment_drop': 1,
             'clear_rate': 'weekly',
+        },
+        {
+            'name': 'Peachtree Dungeon',
+            'level_requirement': 80,
+            'durability': 2000000,
+            'exp': 2000000,
+            'gold': 20000,
+            'drop_rate': 0.25,
+            'fragment_drop': 2,
+            'clear_rate': 'daily',
         },
     ]
 

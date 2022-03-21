@@ -11,6 +11,8 @@ class EquipmentType(Enum):
     BOOTS = 'boots'
     GLOVES = 'gloves'
     DRILL = 'drill'
+    BELT = 'belt'
+    CAPE = 'cape'
 
 
 class Equipment:
@@ -236,14 +238,15 @@ class Equipment:
             'name': 'Absolute Helmet',
             'type': EquipmentType.HELMET,
             'stats': {
-                'power|+': 200,
-                'exp|+': 500,
-                'power|%': 5,
+                'power|+': 1000,
+                'exp|+': 1000,
+                'crit|+': 100,
+                'power|%': 25,
             },
             'level': 100,
             'set': 'Absolute',
             'value': 25000,
-            'max_stars': 24
+            'max_stars': 48
         },
         {
             'id': 2300,
@@ -556,7 +559,7 @@ class Equipment:
             'level': 100,
             'set': None,
             'value': 50000,
-            'max_stars': 32
+            'max_stars': 37
         },
         {
             'id': 5500,
@@ -586,6 +589,19 @@ class Equipment:
             'set': 'Nami',
             'value': 100000,
             'max_stars': 42
+        },
+        {
+            'id': 5520,
+            'name': 'Peachtree Boots',
+            'type': EquipmentType.BOOTS,
+            'stats': {
+                'exp|+': 60,
+                'crit|+': 10,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
         },
         {
             'id': 6100,
@@ -680,6 +696,19 @@ class Equipment:
             'max_stars': 42
         },
         {
+            'id': 6620,
+            'name': 'Peachtree Gloves',
+            'type': EquipmentType.GLOVES,
+            'stats': {
+                'exp|+': 60,
+                'luck|+': 10,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
             'id': 7000,
             'name': 'Beginner Drill',
             'type': EquipmentType.DRILL,
@@ -731,7 +760,109 @@ class Equipment:
             'value': 25000,
             'max_stars': 24
         },
-
+        {
+            'id': 7030,
+            'name': 'Peachtree Drill',
+            'type': EquipmentType.DRILL,
+            'stats': {
+                'drill power|+': 40,
+                'drill exp|+': 2000,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
+            'id': 8000,
+            'name': 'Peachtree Belt',
+            'type': EquipmentType.BELT,
+            'stats': {
+                'exp|+': 100,
+                'luck|+': 10,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
+            'id': 8010,
+            'name': 'Fallen Angelic Belt',
+            'type': EquipmentType.BELT,
+            'stats': {
+                'exp|+': 50,
+                'power|+': 50,
+                'exp|%': 5,
+                'power|%': 5,
+                'crit|+': 5,
+            },
+            'level': 50,
+            'set': 'Fallen Angelic',
+            'value': 25000,
+            'max_stars': 24
+        },
+        {
+            'id': 8020,
+            'name': 'Angelic Belt',
+            'type': EquipmentType.BELT,
+            'stats': {
+                'exp|+': 500,
+                'power|+': 500,
+                'exp|%': 20,
+                'power|%': 20,
+                'crit|+': 50,
+            },
+            'level': 50,
+            'set': 'Angelic',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
+            'id': 9000,
+            'name': 'Peachtree Cape',
+            'type': EquipmentType.CAPE,
+            'stats': {
+                'exp|+': 150,
+                'crit|+': 15,
+            },
+            'level': 100,
+            'set': 'Peachtree',
+            'value': 25000,
+            'max_stars': 32
+        },
+        {
+            'id': 9010,
+            'name': 'Fallen Angelic Cape',
+            'type': EquipmentType.CAPE,
+            'stats': {
+                'exp|+': 50,
+                'power|+': 50,
+                'exp|%': 5,
+                'power|%': 5,
+                'crit|+': 5,
+            },
+            'level': 50,
+            'set': 'Fallen Angelic',
+            'value': 25000,
+            'max_stars': 24
+        },
+        {
+            'id': 9020,
+            'name': 'Angelic Cape',
+            'type': EquipmentType.CAPE,
+            'stats': {
+                'exp|+': 500,
+                'power|+': 500,
+                'exp|%': 20,
+                'power|%': 20,
+                'crit|+': 50,
+            },
+            'level': 50,
+            'set': 'Angelic',
+            'value': 25000,
+            'max_stars': 32
+        },
     ]
 
     sets = {
@@ -849,24 +980,63 @@ class Equipment:
             {
             },
             {
-                'exp|+': 100,
+                'exp|+': 500,
             },
             {
-                'exp|+': 100,
+                'exp|+': 500,
             },
             {
-                'exp|+': 200,
-                'power|+': 200
+                'exp|+': 500,
+                'power|+': 500
             },
             {
-                'exp|+': 200,
-                'power|+': 200
+                'exp|+': 500,
+                'power|+': 500
             },
             {
-                'exp|+': 250,
+                'exp|+': 500,
                 'power|%': 50,
                 'luck|+': 50,
-                'crit|+': 50
+                'crit|+': 100
+            },
+        ],
+        'Peachtree': [
+            {
+            },
+            {
+                'exp|+': 100,
+                'crit|+': 20,
+            },
+            {
+                'exp|+': 100,
+                'crit|+': 20,
+            },
+            {
+                'exp|+': 200,
+                'power|+': 200,
+                'crit|+': 20
+            },
+            {
+                'crit|+': 100,
+                'crit|%': 10
+            },
+        ],
+        'Fallen Angelic': [
+            {
+            },
+            {
+                'exp|%': 10,
+                'power|%': 10,
+                'crit|%': 10,
+            },
+        ],
+        'Angelic': [
+            {
+            },
+            {
+                'exp|%': 50,
+                'power|%': 50,
+                'crit|%': 50,
             },
         ],
     }
@@ -932,7 +1102,7 @@ class Equipment:
         return None
 
     @staticmethod
-    def get_star_bonus(stars: int):
+    def get_star_bonus(stars: int, multiplier=1):
         adder = 0
         star_bonus = 0
         for i in range(stars):
@@ -941,7 +1111,7 @@ class Equipment:
                     adder += 4 * (i // 10 + 1)
                 else:
                     adder += 1 * (i // 10 + 1)
-            star_bonus += adder
+            star_bonus += int((adder * multiplier))
         return star_bonus
 
     @staticmethod

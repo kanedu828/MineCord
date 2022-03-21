@@ -11,6 +11,18 @@ class Forge:
         {
             'set': 'Nami',
             'equipment': [1820, 2420, 3620, 4520, 5510, 6610]
+        },
+        {
+            'set': 'Hornet',
+            'equipment': [5520, 6620, 7030, 8000, 9000]
+        },
+        {
+            'set': 'Angelic',
+            'equipment': []
+        },
+        {
+            'set': 'Fallen Angelic',
+            'equipment': []
         }
     ]
 

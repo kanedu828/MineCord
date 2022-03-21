@@ -10,7 +10,22 @@ class Item:
             'id': 1,
             'name': 'Nami Fragment',
             'type': 'fragment',
-        }
+        },
+        {
+            'id': 2,
+            'name': 'Peachtree Fragment',
+            'type': 'fragment',
+        },
+        {
+            'id': 3,
+            'name': 'Fallen Angelic Fragment',
+            'type': 'fragment',
+        },
+        {
+            'id': 4,
+            'name': 'Angelic Fragment',
+            'type': 'fragment',
+        },
     ]
 
     @staticmethod
