@@ -10,7 +10,7 @@ class Dungeon:
             'level_requirement': 75,
             'durability': 50000,
             'exp': 150000,
-            'gold': 20000,
+            'gold': 10000,
             'drop_rate': 0.35,
             'fragment_drop': 0,
             'clear_rate': 'daily',

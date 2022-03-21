@@ -553,9 +553,17 @@ class Mining(commands.Cog):
         message_embed.description += 'You gain 1% exp stat for each blessing you have.'
         result = await ConfirmationMenu(message_embed).prompt(ctx)
         if result:
+            message_embed.description = 'You have reset your level!\n'
+            if level >= 100:
+                await self.db.update_item_count(ctx.author.id, 4, 1)
+                message_embed.description += 'You have gained `1 Angelic Fragment`!'
+            elif level >= 80:
+                await self.db.update_item_count(ctx.author.id, 3, 1)
+                message_embed.description += 'You have gained `1 Fallen Angelic Fragment`!'
             await self.db.set_user_exp(ctx.author.id, 0)
             await self.db.update_user_blessings(ctx.author.id, blessings)
             await self.db.update_user_cave(ctx.author.id, 'Beginner Cave')
+            await ctx.send(embed=message_embed)
 
     @mine.error
     async def mine_error(self, ctx, error):

@@ -71,9 +71,9 @@ class User:
                 stat, modifier = key.split('|')
                 if modifier == '+':
                     if stat == 'speed' or stat == 'crit' or stat == 'luck':
-                        stats[stat] += value + Equipment.get_star_bonus(e['stars']) // 4
+                        stats[stat] += value + Equipment.get_star_bonus(e['stars'], max(1, base_equipment['level'] // 50)) // 4
                     else:
-                        stats[stat] += value + Equipment.get_star_bonus(e['stars'])
+                        stats[stat] += value + Equipment.get_star_bonus(e['stars'], max(1, base_equipment['level'] // 50))
                 elif modifier == '%':
                     bonus_percentages[stat] += value
             for bonus in e['bonus'].split(','):
@@ -112,7 +112,7 @@ class User:
             in equipment_list
             if not gear['location'] == 'inventory'
         ]
-        equipped_gear.sort(key=lambda g: self.GEAR_ORDER[g['type'].value])
+        equipped_gear.sort(key=lambda g: User.GEAR_ORDER[g['type'].value])
         gear_str = '\n'.join([
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
             for gear in equipped_gear])
@@ -125,7 +125,7 @@ class User:
             in equipment_list
             if gear['location'] == 'inventory'
         ]
-        equipped_gear.sort(key=lambda g: (g['level'], self.GEAR_ORDER[g['type'].value]), reverse=True)
+        equipped_gear.sort(key=lambda g: (g['level'], User.GEAR_ORDER[g['type'].value]), reverse=True)
         inventory_list = [
             f'`{gear["type"].value.title()}:` `Lv: {gear["level"]}` `{gear["name"]}`'
             for gear in equipped_gear]
@@ -157,11 +157,11 @@ class User:
                 stat, modifier = key.split('|')
                 if modifier == '+':
                     if stat == 'speed' or stat == 'crit' or stat == 'luck':
-                        stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"]) // 4}'
-                        stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"]) // 4})`\n'
+                        stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50)) // 4}'
+                        stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50)) // 4})`\n'
                     else:
-                        stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"])}'
-                        stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"])})`\n'
+                        stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50))}'
+                        stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50))})`\n'
                 elif modifier == '%':
                     stats_str += f'`{stat}: {value}{modifier}`\n'
             stats_str += '----------Bonuses----------\n'

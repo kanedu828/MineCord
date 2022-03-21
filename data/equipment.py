@@ -1102,7 +1102,7 @@ class Equipment:
         return None
 
     @staticmethod
-    def get_star_bonus(stars: int):
+    def get_star_bonus(stars: int, multiplier=1):
         adder = 0
         star_bonus = 0
         for i in range(stars):
@@ -1111,7 +1111,7 @@ class Equipment:
                     adder += 4 * (i // 10 + 1)
                 else:
                     adder += 1 * (i // 10 + 1)
-            star_bonus += adder
+            star_bonus += int((adder * multiplier))
         return star_bonus
 
     @staticmethod
