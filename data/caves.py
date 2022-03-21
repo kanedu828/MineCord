@@ -347,6 +347,7 @@ class Cave:
             for drop in self.cave[r]:
                 if drop[0] == Drop.EQUIPMENT:
                     eqp_drops.append(Equipment.get_equipment_from_id(drop[1])['name'])
+        eqp_drops = list(set(eqp_drops))
         return eqp_drops
 
     @staticmethod
