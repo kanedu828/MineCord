@@ -813,7 +813,7 @@ class Equipment:
                 'power|%': 20,
                 'crit|+': 50,
             },
-            'level': 50,
+            'level': 100,
             'set': 'Angelic',
             'value': 25000,
             'max_stars': 32
@@ -858,7 +858,7 @@ class Equipment:
                 'power|%': 20,
                 'crit|+': 50,
             },
-            'level': 50,
+            'level': 100,
             'set': 'Angelic',
             'value': 25000,
             'max_stars': 32
