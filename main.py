@@ -15,7 +15,6 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 intents = discord.Intents.default()  # All but the two privileged ones
 intents.members = True  # Subscribe to the Members intent
-intents.message_content = True
 
 
 extensions = [
@@ -43,6 +42,7 @@ async def load_extensions(client):
 async def start():
     PRODUCTION = os.getenv('PRODUCTION')
     if PRODUCTION == 'False':
+        intents.message_content = True
         TOKEN = os.getenv('TOKEN_DEVELOPMENT')
         game = discord.Game('<3!')
         client = commands.Bot(command_prefix='-', intents=intents, activity=game)
