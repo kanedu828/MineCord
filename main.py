@@ -15,6 +15,7 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 intents = discord.Intents.default()  # All but the two privileged ones
 intents.members = True  # Subscribe to the Members intent
+intents.message_content = True
 
 
 extensions = [
@@ -30,10 +31,10 @@ def check_if_me(ctx):
     return ctx.message.author.id == 124668192948748288
 
 
-def load_extensions(client):
+async def load_extensions(client):
     for extension in extensions:
         try:
-            client.load_extension(extension)
+            await client.load_extension(extension)
             print(f'{extension} successfully loaded')
         except Exception as exception:
             print(f'{extension} cannot be loaded. [{exception}]')
@@ -53,7 +54,7 @@ async def start():
     PSQL_CONNECTION_URL = os.getenv('PSQL_CONNECTION_URL')
     async with asyncpg.create_pool(dsn=PSQL_CONNECTION_URL) as pool:
         client.pool = pool
-        load_extensions(client)
+        await load_extensions(client)
         await client.start(TOKEN)
 
 
