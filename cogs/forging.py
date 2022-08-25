@@ -13,7 +13,7 @@ class Forging(commands.Cog):
         self.client = client
         self.db = DBUtil(client.pool)
 
-    @commands.command(name='fragments')
+    @commands.hybrid_command(name='fragments')
     async def fragments(self, ctx):
         async with self.db.get_conn() as conn:
             async with conn.transaction():
@@ -28,8 +28,8 @@ class Forging(commands.Cog):
         menu = PageMenu('Fragments', discord.Color.from_rgb(245, 211, 201), paginator.pages)
         await menu.start(ctx)
 
-    @commands.command(name='forge')
-    async def forge(self, ctx, *, equipment_name=None):
+    @commands.hybrid_command(name='forge')
+    async def forge(self, ctx: commands.Context, *, equipment_name: str = None):
         if equipment_name:
             equipment_name = equipment_name.title()
             user = await self.db.get_user(ctx.author.id)
@@ -70,5 +70,5 @@ class Forging(commands.Cog):
             await menu.start(ctx)
 
 
-def setup(client):
-    client.add_cog(Forging(client))
+async def setup(client):
+    await client.add_cog(Forging(client))

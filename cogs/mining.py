@@ -126,9 +126,9 @@ class Mining(commands.Cog):
             await message.edit(embed=message_embed)
             self.monster_failures[ctx.author.id] = 0
 
-    @commands.command(name='dmine', aliases=['dm'])
+    @commands.hybrid_command(name='dmine', aliases=['dm'])
     @commands.check(check_blacklist)
-    async def dmine(self, ctx):
+    async def dmine(self, ctx: commands.Context):
         message_embed = discord.Embed(title='Dungeon Mine!', color=discord.Color.purple())
         cd = await self.get_mine_cooldown(ctx)
         if cd:
@@ -177,10 +177,11 @@ class Mining(commands.Cog):
 
         await ctx.send(embed=message_embed)
 
-    @commands.command(name='mine', aliases=['m'])
+    @commands.hybrid_command(name='mine', aliases=['m'])
     @commands.check(check_blacklist)
     # @commands.dynamic_cooldown(mining_cooldown, commands.BucketType.user)
-    async def mine(self, ctx):
+    async def mine(self, ctx: commands.Context):
+        print('called')
         message_embed = discord.Embed(title='Mine!', color=discord.Color.dark_orange())
         cd = await self.get_mine_cooldown(ctx)
         if cd:
@@ -247,8 +248,8 @@ class Mining(commands.Cog):
         if odds <= 5:
             await self.monster_encounter(ctx)
 
-    @commands.command(name='drill', aliases=['d'])
-    async def drill(self, ctx):
+    @commands.hybrid_command(name='drill', aliases=['d'])
+    async def drill(self, ctx: commands.Context):
         message_embed = discord.Embed(title='Drilling', color=discord.Color.dark_orange())
         user = await self.db.get_user(ctx.author.id)
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
@@ -271,8 +272,8 @@ class Mining(commands.Cog):
         await ctx.send(embed=message_embed)
         await Mining.indicate_level_up(ctx, user['exp'], user['exp'] + exp_gained)
 
-    @commands.command(name='cave', aliases=['c'])
-    async def cave(self, ctx, *, cave_name=''):
+    @commands.hybrid_command(name='cave', aliases=['c'])
+    async def cave(self, ctx: commands.Context, *, cave_name: str = ''):
         cave_name = cave_name.title()
         user = await self.db.get_user(ctx.author.id)
         cave = Cave.from_cave_name(user['cave'])
@@ -298,8 +299,8 @@ class Mining(commands.Cog):
             menu = PageMenu('Caves', discord.Color.dark_orange(), paginator.pages)
             await menu.start(ctx)
 
-    @commands.command(name='dungeon')
-    async def dungeon(self, ctx, *, dungeon_name=''):
+    @commands.hybrid_command(name='dungeon')
+    async def dungeon(self, ctx: commands.Context, *, dungeon_name: str =''):
         dungeon_name = dungeon_name.title()
         user = await self.db.get_user(ctx.author.id)
         dungeon = Dungeon.from_dungeon_name(dungeon_name)
@@ -332,8 +333,8 @@ class Mining(commands.Cog):
             await menu.start(ctx)
 
 
-    @commands.command(name='stats')
-    async def stats(self, ctx, member: discord.Member = None):
+    @commands.hybrid_command(name='stats')
+    async def stats(self, ctx: commands.Context, member: discord.Member = None):
         if not member:
             member = ctx.author
         message_embed = discord.Embed(title=f'{member}\'s Stats', color=discord.Color.dark_teal())
@@ -370,8 +371,8 @@ class Mining(commands.Cog):
         message_embed.description = stats
         await ctx.send(embed=message_embed)
 
-    @commands.command(name='equip', aliases=['e'])
-    async def equip(self, ctx, *, equipment_name):
+    @commands.hybrid_command(name='equip', aliases=['e'])
+    async def equip(self, ctx: commands.Context, *, equipment_name: str):
         equipment_name = equipment_name.title()
         message_embed = discord.Embed(title='Equip', color=discord.Color.from_rgb(245, 211, 201))  # peachy color
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
@@ -387,8 +388,8 @@ class Mining(commands.Cog):
             message_embed.description = 'You do not have this equipment!'
         await ctx.send(embed=message_embed)
 
-    @commands.command(name='gear', aliases=['g'])
-    async def gear(self, ctx, *, equipment_name=''):
+    @commands.hybrid_command(name='gear', aliases=['g'])
+    async def gear(self, ctx: commands.Context, *, equipment_name: str=''):
         equipment_name = equipment_name.title()
         message_embed = discord.Embed(title='Gear', color=discord.Color.from_rgb(245, 211, 201))  # peachy color
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
@@ -408,8 +409,8 @@ class Mining(commands.Cog):
             message_embed.description = '**__Equipped Gear__**:\n' + User.get_equipped_gear_str(equipment_list)
             await ctx.send(embed=message_embed)
 
-    @commands.command(name='inventory', aliases=['i'])
-    async def inventory(self, ctx, *, equipment_name=''):
+    @commands.hybrid_command(name='inventory', aliases=['i'])
+    async def inventory(self, ctx: commands.Context, *, equipment_name: str =''):
         equipment_name = equipment_name.title()
         message_embed = discord.Embed(title='Inventory', color=discord.Color.from_rgb(245, 211, 201))  # peachy color
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
@@ -429,8 +430,8 @@ class Mining(commands.Cog):
             menu = PageMenu('Inventory', discord.Color.from_rgb(245, 211, 201), paginator.pages)
             await menu.start(ctx)
 
-    @commands.command(name='leaderboard')
-    async def leaderboard(self, ctx):
+    @commands.hybrid_command(name='leaderboard')
+    async def leaderboard(self, ctx: commands.Context):
         user_list = await self.db.get_top_users_for_exp(50)
         leaderboard_str = ''
         pages = []
@@ -449,8 +450,8 @@ class Mining(commands.Cog):
         menu = PageMenu('Leaderboard', discord.Color.blue(), pages)
         await menu.start(ctx)
 
-    @commands.command(name='bonus', aliases=['b'])
-    async def bonus(self, ctx, *, equipment_name):
+    @commands.hybrid_command(name='bonus', aliases=['b'])
+    async def bonus(self, ctx: commands.Context, *, equipment_name: str):
         equipment_name = equipment_name.title()
         user = await self.db.get_user(ctx.author.id)
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
@@ -494,8 +495,8 @@ class Mining(commands.Cog):
             message_embed.description = 'You do not own this piece of equipment...'
         await ctx.send(embed=message_embed)
 
-    @commands.command(name='star')
-    async def star(self, ctx, *, equipment_name):
+    @commands.hybrid_command(name='star')
+    async def star(self, ctx: commands.Context, *, equipment_name: str):
         equipment_name = equipment_name.title()
         user = await self.db.get_user(ctx.author.id)
         equipment_list = await self.db.get_equipment_for_user(ctx.author.id)
@@ -543,8 +544,8 @@ class Mining(commands.Cog):
             message_embed.description = 'You do not own this piece of equipment...'
         await ctx.send(embed=message_embed)
 
-    @commands.command(name='reset')
-    async def reset(self, ctx):
+    @commands.hybrid_command(name='reset')
+    async def reset(self, ctx: commands.Context):
         user = await self.db.get_user(ctx.author.id)
         level = User.exp_to_level(user['exp'])
         blessings = max(int(((level - 50) / 5) ** 1.5), 0)
@@ -588,5 +589,5 @@ class Mining(commands.Cog):
             print(error)
 
 
-def setup(client):
-    client.add_cog(Mining(client))
+async def setup(client):
+    await client.add_cog(Mining(client))

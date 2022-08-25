@@ -14,8 +14,8 @@ class Shop(commands.Cog):
         self.client = client
         self.db = DBUtil(client.pool)
 
-    @commands.command(name='lookup')
-    async def look_up(self, ctx, *, item_name):
+    @commands.hybrid_command(name='lookup')
+    async def look_up(self, ctx: commands.Context, *, item_name: str):
         message_embed = discord.Embed(title='Look Up', color=discord.Color.gold())
         if item_name:
             item_name = item_name.title()
@@ -32,8 +32,8 @@ class Shop(commands.Cog):
                 message_embed.set_footer(text=f'ID: {item["id"]}')
                 await ctx.send(file=image_file, embed=message_embed)
 
-    @commands.command(name='shop')
-    async def shop(self, ctx, *, item_name: str = None):
+    @commands.hybrid_command(name='shop')
+    async def shop(self, ctx: commands.Context, *, item_name: str = None):
         message_embed = discord.Embed(title='Shop', color=discord.Color.gold())
         if item_name:
             item_name = item_name.title()
@@ -57,8 +57,8 @@ class Shop(commands.Cog):
             menu = PageMenu('Shop', discord.Color.gold(), paginator.pages)
             await menu.start(ctx)
 
-    @commands.command(name='buy')
-    async def buy(self, ctx, *, item_name: str):
+    @commands.hybrid_command(name='buy')
+    async def buy(self, ctx: commands.Context, *, item_name: str):
         item_name = item_name.title()
         user = await self.db.get_user(ctx.author.id)
         message_embed = discord.Embed(title='Buy Shop Item', color=discord.Color.gold())
@@ -93,5 +93,5 @@ class Shop(commands.Cog):
                     await ctx.send(embed=message_embed)
 
 
-def setup(client):
-    client.add_cog(Shop(client))
+async def setup(client):
+    await client.add_cog(Shop(client))
