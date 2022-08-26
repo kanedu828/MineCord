@@ -181,7 +181,6 @@ class Mining(commands.Cog):
     @commands.check(check_blacklist)
     # @commands.dynamic_cooldown(mining_cooldown, commands.BucketType.user)
     async def mine(self, ctx: commands.Context):
-        print('called')
         message_embed = discord.Embed(title='Mine!', color=discord.Color.dark_orange())
         cd = await self.get_mine_cooldown(ctx)
         if cd:
