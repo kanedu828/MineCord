@@ -255,7 +255,7 @@ class Mining(commands.Cog):
         total_stats = User.get_total_stats(ctx.author.id, equipment_list, user['blessings'])
         level = User.exp_to_level(user['exp'])
         since_last_drill = datetime.now() - user['last_drill']
-        num_ten_min = since_last_drill.total_seconds() / 600
+        num_ten_min = since_last_drill.total_seconds() / random.randint(250, 800)
         num_ten_min = min(num_ten_min, 6 * 24) # set max of 24 hours worth of idle mining
         exp_gained = int(total_stats["drill exp"] * num_ten_min)
         gold = int(total_stats["drill power"] * num_ten_min)
