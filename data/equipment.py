@@ -77,7 +77,7 @@ class Equipment:
             },
             'level': 10,
             'set': 'Dark',
-            'value': 400,
+            'value': 250,
             'max_stars': 12
         },
         {
@@ -91,7 +91,7 @@ class Equipment:
             },
             'level': 20,
             'set': None,
-            'value': 1000,
+            'value': 600,
             'max_stars': 18
         },
         {
@@ -105,7 +105,7 @@ class Equipment:
             },
             'level': 30,
             'set': None,
-            'value': 1250,
+            'value': 800,
             'max_stars': 18
         },
         {
@@ -119,7 +119,7 @@ class Equipment:
             },
             'level': 50,
             'set': None,
-            'value': 1500,
+            'value': 1000,
             'max_stars': 24
         },
         {
@@ -132,7 +132,7 @@ class Equipment:
             },
             'level': 40,
             'set': 'Damian',
-            'value': 2000,
+            'value': 1000,
             'max_stars': 24
         },
         {
@@ -202,7 +202,7 @@ class Equipment:
             },
             'level': 10,
             'set': 'Dark',
-            'value': 400,
+            'value': 250,
             'max_stars': 12
         },
         {
@@ -312,7 +312,7 @@ class Equipment:
             },
             'level': 10,
             'set': 'Dark',
-            'value': 400,
+            'value': 250,
             'max_stars': 12
         },
         {
@@ -325,7 +325,7 @@ class Equipment:
             },
             'level': 30,
             'set': None,
-            'value': 400,
+            'value': 300,
             'max_stars': 18
         },
         {
@@ -420,7 +420,7 @@ class Equipment:
             },
             'level': 10,
             'set': 'Dark',
-            'value': 400,
+            'value': 250,
             'max_stars': 12
         },
         {
@@ -516,7 +516,7 @@ class Equipment:
             },
             'level': 10,
             'set': 'Dark',
-            'value': 400,
+            'value': 250,
             'max_stars': 12
         },
         {
@@ -615,7 +615,7 @@ class Equipment:
             },
             'level': 10,
             'set': 'Dark',
-            'value': 400,
+            'value': 250,
             'max_stars': 12
         },
         {
@@ -718,7 +718,7 @@ class Equipment:
             },
             'level': 10,
             'set': None,
-            'value': 1000,
+            'value': 100,
             'max_stars': 7
         },
         {
@@ -731,7 +731,7 @@ class Equipment:
             },
             'level': 15,
             'set': None,
-            'value': 1000,
+            'value': 250,
             'max_stars': 7
         },
         {
