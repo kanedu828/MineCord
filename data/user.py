@@ -157,8 +157,9 @@ class User:
                 stat, modifier = key.split('|')
                 if modifier == '+':
                     if stat == 'speed' or stat == 'crit' or stat == 'luck':
-                        stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50)) // 4}'
-                        stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50)) // 4})`\n'
+                        max_special_stat = min(Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50)) // 4, 15)
+                        stats_str += f'`{stat}: {modifier}{value + max_special_stat}'
+                        stats_str += f' ({value} + {max_special_stat})`\n'
                     else:
                         stats_str += f'`{stat}: {modifier}{value + Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50))}'
                         stats_str += f' ({value} + {Equipment.get_star_bonus(equipment["stars"], max(1, base_equipment["level"] // 50))})`\n'
