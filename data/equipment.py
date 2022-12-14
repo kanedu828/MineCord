@@ -212,8 +212,8 @@ class Equipment:
             'stats': {
                 'power|+': 30,
                 'exp|+': 30,
-                'crit|+': 30,
-                'luck|+': 30,
+                'crit|+': 10,
+                'luck|+': 20,
                 'luck|%': 20,
             },
             'level': 40,
@@ -240,7 +240,7 @@ class Equipment:
             'stats': {
                 'power|+': 1000,
                 'exp|+': 1000,
-                'crit|+': 100,
+                'crit|+': 15,
                 'power|%': 25,
             },
             'level': 100,
@@ -267,7 +267,7 @@ class Equipment:
             'type': EquipmentType.HELMET,
             'stats': {
                 'power|+': 250,
-                'luck|+': 50,
+                'luck|+': 35,
                 'power|%': 20,
             },
             'level': 60,
@@ -294,7 +294,7 @@ class Equipment:
             'stats': {
                 'power|+': 500,
                 'exp|+': 250,
-                'luck|+': 20,
+                'luck|+': 5,
                 'exp|%': 25
             },
             'level': 150,
@@ -361,7 +361,7 @@ class Equipment:
             'type': EquipmentType.VEST,
             'stats': {
                 'power|+': 300,
-                'luck|+': 20,
+                'luck|+': 10,
                 'power|%': 10
             },
             'level': 60,
@@ -443,7 +443,7 @@ class Equipment:
             'type': EquipmentType.PANTS,
             'stats': {
                 'power|+': 50,
-                'luck|+': 30,
+                'luck|+': 20,
                 'power|%': 10,
             },
             'level': 40,
@@ -457,7 +457,7 @@ class Equipment:
             'type': EquipmentType.PANTS,
             'stats': {
                 'power|+': 100,
-                'luck|+': 40,
+                'luck|+': 15,
                 'luck|%': 10
             },
             'level': 60,
@@ -471,7 +471,7 @@ class Equipment:
             'type': EquipmentType.PANTS,
             'stats': {
                 'exp|+': 50,
-                'speed|+': 25,
+                'speed|+': 10,
             },
             'level': 50,
             'set': 'Origin',
@@ -554,7 +554,7 @@ class Equipment:
             'stats': {
                 'exp|+': 850,
                 'exp|%': 25,
-                'crit|+': 35
+                'crit|+': 30
             },
             'level': 100,
             'set': None,
@@ -579,7 +579,7 @@ class Equipment:
             'name': 'Nami Boots',
             'type': EquipmentType.BOOTS,
             'stats': {
-                'luck|+': 10,
+                'luck|+': 5,
                 'speed|+': 10,
                 'crit|+': 10,
                 'luck|%': 25,
@@ -684,11 +684,11 @@ class Equipment:
             'stats': {
                 'power|+': 100,
                 'exp|+': 10,
-                'luck|+': 15,
+                'luck|+': 5,
                 'crit|+': 15,
                 'luck|%': 25,
                 'crit|%': 25,
-                'speed|+': 15
+                'speed|+': 10
             },
             'level': 150,
             'set': 'Nami',
@@ -701,7 +701,7 @@ class Equipment:
             'type': EquipmentType.GLOVES,
             'stats': {
                 'exp|+': 60,
-                'luck|+': 10,
+                'luck|+': 7,
             },
             'level': 100,
             'set': 'Peachtree',
@@ -779,7 +779,7 @@ class Equipment:
             'type': EquipmentType.BELT,
             'stats': {
                 'exp|+': 100,
-                'luck|+': 10,
+                'luck|+': 5,
             },
             'level': 100,
             'set': 'Peachtree',
@@ -811,7 +811,7 @@ class Equipment:
                 'power|+': 500,
                 'exp|%': 20,
                 'power|%': 20,
-                'crit|+': 50,
+                'crit|+': 10,
             },
             'level': 100,
             'set': 'Angelic',
@@ -824,7 +824,7 @@ class Equipment:
             'type': EquipmentType.CAPE,
             'stats': {
                 'exp|+': 150,
-                'crit|+': 15,
+                'crit|+': 5,
             },
             'level': 100,
             'set': 'Peachtree',
@@ -856,7 +856,7 @@ class Equipment:
                 'power|+': 500,
                 'exp|%': 20,
                 'power|%': 20,
-                'crit|+': 50,
+                'crit|+': 10,
             },
             'level': 100,
             'set': 'Angelic',
@@ -902,7 +902,7 @@ class Equipment:
             {
                 'exp|+': 25,
                 'power|%': 10,
-                'luck|+': 50,
+                'luck|+': 25,
             }
         ],
         'Damian': [
@@ -996,8 +996,8 @@ class Equipment:
             {
                 'exp|+': 500,
                 'power|%': 50,
-                'luck|+': 50,
-                'crit|+': 100
+                'luck|+': 10,
+                'crit|+': 5
             },
         ],
         'Peachtree': [
@@ -1005,19 +1005,19 @@ class Equipment:
             },
             {
                 'exp|+': 100,
-                'crit|+': 20,
+                'crit|+': 3,
             },
             {
                 'exp|+': 100,
-                'crit|+': 20,
+                'crit|+': 2,
             },
             {
                 'exp|+': 200,
                 'power|+': 200,
-                'crit|+': 20
+                'crit|+': 3
             },
             {
-                'crit|+': 100,
+                'crit|+': 2,
                 'crit|%': 10
             },
         ],
@@ -1036,7 +1036,7 @@ class Equipment:
             {
                 'exp|%': 50,
                 'power|%': 50,
-                'crit|%': 50,
+                'crit|%': 25,
             },
         ],
     }
@@ -1142,7 +1142,14 @@ class Equipment:
                 stat = random.choice(Equipment.stat_types)
             modifier = random.choices(['+', '%'], [.75, .25])[0]
             if modifier == '+':
-                if stat == 'crit' or stat == 'speed' or stat == 'luck':
+                if stat == 'crit':
+                    max_crit = min(base_equipment['level'], 100) // 8
+                    value = random.randint(1, max_crit)
+                    print(value)
+                elif stat == 'speed':
+                    max_speed = min(base_equipment['level'], 100) // 10
+                    value = random.randint(1, max_speed)
+                elif stat == 'luck':
                     value = random.randint(max(int(base_equipment['level'] / 8), 1), max(int(base_equipment['level'] / 4), 1))
                 else:
                     value = random.randint(int(base_equipment['level'] / 2), int(base_equipment['level']))

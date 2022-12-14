@@ -458,14 +458,11 @@ class Mining(commands.Cog):
         message_embed = discord.Embed(title='Equipment Bonusing', color=discord.Color.from_rgb(245, 211, 201))
         if equipment:
             base_equipment = Equipment.get_equipment_from_name(equipment_name)
-            if base_equipment['level'] < 20:
-                cost = 150
-            elif base_equipment['level'] < 40:
-                cost = 500
-            elif base_equipment['level'] < 100:
-                cost = 1000
+            if base_equipment['level'] < 100:
+                cost = base_equipment['level'] / 10 ** 1.15 * 100
             else:
-                cost = 4000
+                cost = base_equipment['level'] / 10 ** 1.15 * 500
+            cost = int(cost)
             message_embed.description = f'Would you like to bonus your {equipment_name} for {cost} gold?'
             result = await ConfirmationMenu(message_embed).prompt(ctx)
             if result:
