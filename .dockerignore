@@ -1,0 +1,7 @@
+.env
+venv
+discord.log
+cogs/__pycache__
+data/__pycache__
+util/__pycache__
+.flake8
