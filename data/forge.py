@@ -18,11 +18,11 @@ class Forge:
         },
         {
             'set': 'Angelic',
-            'equipment': []
+            'equipment': [8020, 9020]
         },
         {
             'set': 'Fallen Angelic',
-            'equipment': []
+            'equipment': [8010, 9010]
         }
     ]
 
